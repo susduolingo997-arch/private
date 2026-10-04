@@ -1,0 +1,16 @@
+import { createRequire } from 'module';
+const require = createRequire('/node-tools/node_modules/');
+const { chromium } = require('playwright');
+const code = process.argv[2];
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
+const page = await browser.newPage({ viewport: { width: 800, height: 450 } });
+const logs = [];
+page.on('console', (m) => { if (m.type() === 'error') logs.push(m.text()); });
+page.on('pageerror', (e) => logs.push('PAGEERROR ' + e.message));
+await page.addInitScript(() => { localStorage.setItem('tlwh_settings_v1', JSON.stringify({ quality: 'medium', timeScale: 24 })); });
+await page.goto('http://localhost:5173/');
+await page.waitForFunction(() => window.__game && window.__game.ui && window.__game.ui.ready, null, { timeout: 60000 }).catch(() => { console.log('INIT TIMEOUT'); console.log(logs.join('\n')); process.exit(1); });
+const r = await page.evaluate(code);
+console.log(typeof r === 'string' ? r : JSON.stringify(r, null, 1));
+if (logs.length) console.log(logs.join('\n'));
+await browser.close();
