@@ -92,7 +92,7 @@ export class Player {
     const slow = (inp.down('ShiftLeft') || inp.down('ShiftRight')) ? 0.5 : 1;   // stroll
     const depthHere = w.waterDepthAt(this.x, this.z);
     const wade = depthHere > 0.12 && this.surface === 'water' ? 0.72 : 1;
-    const targetSpeed = want * WALK_SPEED * factor * slow * wade;
+    const targetSpeed = want * WALK_SPEED * S.walkPace * factor * slow * wade;
     const tvx = dx * targetSpeed, tvz = dz * targetSpeed;
     const accel = (want ? 5.2 : 7.5) * S.movementSensitivity;
     this.vx = damp(this.vx, tvx, accel, dt);
@@ -124,11 +124,11 @@ export class Player {
     // --- footsteps ---
     this.surface = w.surfaceAt(this.x, this.z, this.y + 0.6);
     this.indoors = this.surface === 'floor';
-    const stride = 0.74 * (slow < 1 ? 0.8 : 1);
+    const stride = 0.74 * (slow < 1 ? 0.8 : 1) * (0.7 + 0.3 * S.walkPace);
     if (this.stepDist >= stride) {
       this.stepDist -= stride;
       this.stepSide ^= 1;
-      if (this.onStep) this.onStep(this.surface, this.stepSide, Math.min(1, sp / WALK_SPEED));
+      if (this.onStep) this.onStep(this.surface, this.stepSide, Math.min(1, sp / (WALK_SPEED * S.walkPace)));
     }
     this._apply(dt);
   }
@@ -136,7 +136,7 @@ export class Player {
   _apply(dt) {
     const cam = this.camera;
     const S = Settings.values;
-    const moving = clamp(this.speed / WALK_SPEED, 0, 1.2);
+    const moving = clamp(this.speed / (WALK_SPEED * Settings.values.walkPace), 0, 1.2);
     this.bobAmp = damp(this.bobAmp, moving, 7, dt);
     const ph = this.bobPhase;
     const bobY = Math.sin(ph * 2) * 0.026 * this.bobAmp;

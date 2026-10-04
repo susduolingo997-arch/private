@@ -2,6 +2,7 @@ import { Settings, DEFAULTS } from '../core/Settings.js';
 
 const SLIDERS = [
   ['mouseSensitivity', 'Mouse sensitivity', 0.2, 3, 0.05, (v) => v.toFixed(2) + '×'],
+  ['walkPace', 'Walking speed', 0.6, 3, 0.05, (v) => (v * 1.5).toFixed(1) + ' m/s'],
   ['fov', 'Field of view', 50, 100, 1, (v) => v.toFixed(0) + '°'],
   ['movementSensitivity', 'Movement sensitivity', 0.4, 1.8, 0.05, (v) => v.toFixed(2) + '×'],
   ['masterVolume', 'Master volume', 0, 1, 0.01, (v) => Math.round(v * 100) + '%'],

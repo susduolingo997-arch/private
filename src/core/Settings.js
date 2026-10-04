@@ -12,6 +12,7 @@ export const DEFAULTS = {
   movementSensitivity: 1.0, // how snappy acceleration/deceleration feels
   timeScale: 24,           // game seconds per real second (1 = real time)
   invertY: false,
+  walkPace: 1.6,           // walking speed multiplier (1 = 1.5 m/s)
 };
 
 export const Settings = {
