@@ -8,7 +8,7 @@ await new Promise(res => srv.listen(0, res)); const port = srv.address().port;
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
 page.on('console', m => { if (m.type() === 'error') console.error('PAGE:', m.text()); }); page.on('pageerror', e => console.error('PAGEERR:', e.message));
-await page.goto(`http://localhost:${port}/letsplay/index.html`); await page.waitForFunction('window.ready === true', null, { timeout: 120000 });
+await page.goto(`http://localhost:${port}/${process.env.PAGE || 'letsplay/index.html'}`); await page.waitForFunction('window.ready === true', null, { timeout: 120000 });
 const args = process.argv.slice(2);
 if (args[0] === '--stills') {
   fs.mkdirSync('build/stills', { recursive: true });
