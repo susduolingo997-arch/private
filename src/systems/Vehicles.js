@@ -70,7 +70,6 @@ export class Vehicles {
     const on = (k) => Mats.sig[k].color.setScalar(1);
     Mats.sig.forEach((m, k) => m.color.setHex([0xff2a1a, 0xffa31a, 0x2aff55][k]).multiplyScalar(((st === 'red' && k === 0) || (st === 'amber' && k === 1) || (st === 'green' && k === 2)) ? 1.4 : 0.07));
     void on;
-    const sorted = this.cars.slice().sort((a, b) => a.s - b.s);
     for (const c of this.cars) {
       // find the nearest car ahead in the same lane
       let gap = 1e9, ahead = null;
@@ -92,6 +91,16 @@ export class Vehicles {
       if (toStop > 0 && toStop < 45 + c.v * 3 && (st === 'red' || (st === 'amber' && toStop > c.v * 1.2 + 4))) {
         target = Math.min(target, clamp((toStop - 1) * 0.5, 0, c.vMax));
         if (toStop < 1.2) target = 0;
+      }
+      // pedestrians (the player) on or beside the road ahead: brake early and wait
+      if (c.visible && c.x !== 0) {
+        const fx = Math.sin(c.yaw), fz = Math.cos(c.yaw);
+        const rx = g.player.x - c.x, rz = g.player.z - c.z;
+        const ahead = rx * fx + rz * fz, lat = Math.abs(rx * fz - rz * fx);
+        if (ahead > 0 && ahead < 28 + c.v * 1.5 && lat < 2.3) {
+          target = Math.min(target, clamp((ahead - 6) * 0.7, 0, c.vMax));
+          if (ahead < 6.5) target = 0;
+        }
       }
       // level crossing: wait while a train is approaching or passing
       if (g.trains && g.trains.crossingActive()) {

@@ -74,8 +74,9 @@ export class Game {
     this.input.onLockChange = (locked) => {
       if (!this.began) return;
       if (locked) { this.paused = false; this.ui.hideMenu(); this.audio && this.audio.resume(); }
-      else if (this.running) { this.paused = true; this.ui.showPause(); this.save(); }
+      else if (this.running) { this.paused = true; this.ui.showPause(); this.save(); if (this.audio && this.audio.ctx) this.audio.ctx.suspend().catch(() => {}); }
     };
+    this.canvas.addEventListener('click', () => { if (this.began && !this.input.locked && !this.ui.showingMenu()) this.input.lock(); });
     window.addEventListener('resize', () => this.resize());
     document.addEventListener('visibilitychange', () => { if (document.hidden) this.save(); });
     window.addEventListener('beforeunload', () => this.save());
