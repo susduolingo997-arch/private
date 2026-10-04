@@ -1,8 +1,8 @@
-name: Release video
+name: Release videos
 on:
   push:
     branches: ['claude/voxel-survival-letsplay-k76okk']
-    paths: ['.github/workflows/release.yml', 'letsplay/shardwild_letsplay_web.mp4']
+    paths: ['.github/workflows/release.yml', 'letsplay/**/*_web.mp4']
 permissions:
   contents: write
 jobs:
@@ -10,11 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Create release with video
+      - name: Create one release per episode video
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release view v1.0 >/dev/null 2>&1 && exit 0
-          gh release create v1.0 --target "$GITHUB_SHA" letsplay/shardwild_letsplay_web.mp4 \
-            --title "SHARDWILD — Completely Normal Survival Playthrough" \
-            --notes "5-minute animated Let's Play of the fictional voxel survival game Shardwild (720p, H.264/AAC). Generated entirely from code in \`letsplay/\`."
+          rel() { [ -f "$2" ] || return 0; gh release view "$1" >/dev/null 2>&1 && return 0
+            gh release create "$1" --target "$GITHUB_SHA" "$2" --title "SHARDWILD $3" \
+              --notes "5-minute animated Let's Play of the fictional voxel survival game Shardwild (720p, H.264/AAC). Generated entirely from code in \`letsplay/\`."; }
+          rel v1.0 letsplay/shardwild_letsplay_web.mp4 "Ep 1 — Completely Normal Survival Playthrough"
+          rel v2.0 letsplay/ep2/shardwild_ep2_web.mp4 "Ep 2 — I Rebuild the House (it goes worse)"
+          rel v3.0 letsplay/ep3/shardwild_ep3_web.mp4 "Ep 3 — I Live in a Boat (it sinks)"
+          rel v4.0 letsplay/ep4/shardwild_ep4_web.mp4 "Ep 4 — I Live in the Sky (it falls)"
