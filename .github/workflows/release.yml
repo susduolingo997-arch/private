@@ -1,0 +1,18 @@
+name: Release video
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create release with video
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" letsplay/shardwild_letsplay_web.mp4 \
+            --title "SHARDWILD — Completely Normal Survival Playthrough" \
+            --notes "5-minute animated Let's Play of the fictional voxel survival game Shardwild (720p, H.264/AAC). Generated entirely from code in \`letsplay/\`."
