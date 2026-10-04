@@ -197,9 +197,7 @@ export class Structures {
     const ex = p.x + p.nx * side * (road.width / 2 - 0.2), ez = p.z + p.nz * side * (road.width / 2 - 0.2);
     const sx = door[0] + fx * 1.2, sz = door[1] + fz * 1.2;
     this.add('drives', (sx + ex) / 2, (sz + ez) / 2, { pts: [[sx, sz], [ex, ez]], width: 2.6 });
-    // mailbox at the roadside
-    const mx = ex - fx * -0.0 + (-fx) * -3.2 * 0 + rx * 2.6 - fx * 3.1 * -1, mz = ez + rz * 2.6 - fz * 3.1 * -1;
-    void mx; void mz;
+    // mailbox at the roadside, a little beside the drive
     this.add('mailboxes', ex - fx * 2.4 + rx * 2.6, ez - fz * 2.4 + rz * 2.6, { x: ex - fx * 2.4 + rx * 2.6, z: ez - fz * 2.4 + rz * 2.6, rot: b.rot });
     // plot boundary
     const Pw = Math.max(18, b.w + 9);
@@ -238,9 +236,8 @@ export class Structures {
     // parked car
     if (opts.car ?? rr.chance(0.4)) {
       const cx = sx + fx * 5.2 + rx * 3.4, cz = sz + fz * 5.2 + rz * 3.4;
-      const car = { x: cx, z: cz, rot: Math.atan2(rx * (rr.chance(0.5) ? 1 : -1), rz * (rr.chance(0.5) ? 1 : -1)), color: rr.int(0, 7), seed: rr.int(0, 99999) };
-      // Park parallel to the facade
-      car.rot = Math.atan2(fx, fz) + Math.PI / 2;
+      // park parallel to the facade
+      const car = { x: cx, z: cz, rot: Math.atan2(fx, fz) + Math.PI / 2, color: rr.int(0, 7), seed: rr.int(0, 99999) };
       this.add('cars', cx, cz, car);
     }
   }
@@ -417,11 +414,8 @@ export class Structures {
       if (this.rivers.influence(x, z, this._rv) && this._rv.d < this._rv.half + 9) { poles.push(null); continue; }
       if (this.blocked(x, z, 0.5) || this.nearOtherRoad(x, z, county)) { poles.push(null); continue; }
       const y = this.t.heightNoPads(x, z);
-      const rot = Math.atan2(-p.nz, p.nx) * 0 + Math.atan2(-p.tx, p.tz) * 0 + Math.atan2(-p.nz * 0 - 0, 1) * 0;
-      // crossarm along the road normal: local x axis must point along (nx,nz)
-      const pr = Math.atan2(-p.nz, p.nx);
-      void rot;
-      const pole = { x, z, y, rot: pr, nx: p.nx, nz: p.nz };
+      // crossarm along the road normal: the pole's local x axis must point along (nx, nz)
+      const pole = { x, z, y, rot: Math.atan2(-p.nz, p.nx), nx: p.nx, nz: p.nz };
       poles.push(pole);
       this.add('poles', x, z, pole);
     }
@@ -588,11 +582,7 @@ export class Structures {
     this.add('benches', pc[0] + p.tx * 8, pc[1] + p.tz * 8, { x: pc[0] + p.tx * 8 + p.nx * 0.9, z: pc[1] + p.tz * 8 + p.nz * 0.9, rot: Math.atan2(-p.nx, -p.nz) });
     const lampAt = (k) => { const x = pc[0] + p.tx * k + p.nx * 1.6, z = pc[1] + p.tz * k + p.nz * 1.6; const y = this.t.heightNoPads(x, z) + 0.3; this.add('lamps', x, z, { x, z, y, rot: Math.atan2(-(-p.nz), -p.nx) }); this.lampList.push({ x: x + (-p.nx) * 0.9, y: y + 4.7, z: z + (-p.nz) * 0.9, color: 0xffe2b0, intensity: 7, dist: 20 }); };
     lampAt(-12); lampAt(12);
-    // crossing warning signs and a bell post either side of the road
-    for (const side of [-1, 1]) {
-      const q = this.roadAt(county, county.s[0] + 0);
-      void q;
-    }
+    // crossing warning signs either side of the road
     for (const side of [-1, 1]) {
       const cp = this.roadAt(county, this.nearestS(county, cr.x, cr.z) + side * 12);
       const x = cp.x + cp.nx * (county.width / 2 + 1.8) * 1, z = cp.z + cp.nz * (county.width / 2 + 1.8) * 1;

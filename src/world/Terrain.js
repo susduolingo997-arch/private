@@ -212,6 +212,7 @@ export class Terrain {
     out.lerp(PAL.rock, clamp(rockW, 0, 1));
     const snowW = smoothstep(640, 800, h) * 0.9;
     out.lerp(PAL.snow, snowW);
+    out.multiplyScalar(0.82);
     return out;
   }
 }

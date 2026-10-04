@@ -199,7 +199,7 @@ export function initMaterials() {
 
   // Rivers: dark, glossy, gently rippling
   Mats.water = new THREE.MeshStandardMaterial({
-    color: 0x2f4f55, roughness: 0.04, metalness: 0.0, transparent: true, opacity: 0.86, depthWrite: false,
+    color: 0xffffff, vertexColors: true, roughness: 0.05, metalness: 0.0, transparent: true, opacity: 1.0, depthWrite: false,
   });
   Mats.water.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = G.uTime;

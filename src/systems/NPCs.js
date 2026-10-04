@@ -221,6 +221,16 @@ export class NPCs {
       const a = mkAgent(farm, { role: 'farmer', shelters: true, speed: 1.4, look: { hat: 0x4a3a22, shirt: 0x3a5a7a, pants: 0x4a4a52 }, sched: [homeEntry(0), { h: hr(7.8, 0.6), kind: 'go', from: 'door', path: out, end: 'stay', pose: 'work', face: 0.6 }, { h: hr(12.0, 0.5), kind: 'go', from: 'current', path: out.slice().reverse(), end: 'hide' }, { h: hr(14.0, 0.5), kind: 'go', from: 'door', path: out, end: 'stay', pose: 'work', face: 2.2 }, { h: hr(18.0, 0.5), kind: 'go', from: 'current', path: out.slice().reverse(), end: 'hide' }] });
       void a;
     }
+    // Station staff on the platform during the day
+    if (S.station) {
+      const pc = S.station.platform;
+      const hh = farm || houses[0];
+      for (let i = 0; i < 2; i++) {
+        const spot = [pc[0] + (i ? 7 : -6), pc[1] - 0.3];
+        const a = mkAgent(hh, { role: 'station', look: { hat: 0x203a5a, shirt: i ? 0x5a7a9a : 0x2a3f5a, pants: 0x20242c }, sched: [{ h: 0, kind: 'go', from: 'current', path: null, end: 'away' }, { h: hr(i ? 7.0 : 6.3, 0.4), kind: 'go', from: [pc[0] - 40, pc[1]], path: [spot], end: 'stay', pose: 'wait', face: Math.PI }, { h: hr(i ? 19.0 : 20.2, 0.4), kind: 'go', from: 'current', path: null, end: 'away' }] });
+        a.state = 'away';
+      }
+    }
     // Road workers
     if (S.roadwork) {
       const rw = S.roadwork;

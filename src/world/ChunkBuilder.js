@@ -219,18 +219,41 @@ export class ChunkBuilder {
       const g = this._ribGeo(acc);
       if (g) { const m = new THREE.Mesh(g, Mats.road.drive); m.receiveShadow = true; m.matrixAutoUpdate = false; fg.add(m); }
     }
-    // ---- river water ----
+    // ---- river water (soft shoreline: alpha fades toward both banks) ----
     const rsegs = w.riverSegs.get(key);
     if (rsegs) {
-      const acc = { pos: [], nor: [], uv: [], idx: [] };
+      const pos = [], nor = [], uv = [], col = [], idx = [];
       for (let q = 0; q < rsegs.length; q += 2) {
         const r = rsegs[q], i = rsegs[q + 1];
-        const pts = [];
-        for (let k = Math.max(0, i - 1); k <= Math.min(r.n - 1, i + 2); k++) pts.push({ x: r.x[k] - ox, y: r.level[k] - 0.18, z: r.z[k] - oz });
-        this._ribbon(acc, pts, r.half * 1.35, 1, r.s[Math.max(0, i - 1)]);
+        const k0 = Math.max(0, i - 1), k1 = Math.min(r.n - 1, i + 2);
+        const base = pos.length / 3;
+        let vv = r.s[k0];
+        for (let k = k0; k <= k1; k++) {
+          const a = r.n > 1 ? Math.max(0, k - 1) : k, b = Math.min(r.n - 1, k + 1);
+          let tx = r.x[b] - r.x[a], tz = r.z[b] - r.z[a]; const l = Math.hypot(tx, tz) || 1; tx /= l; tz /= l;
+          const nx = -tz, nz = tx, y = r.level[k] - 0.16, hw = r.half * 1.5;
+          const cx = r.x[k] - ox, cz = r.z[k] - oz;
+          for (const [side, al, cr, cg, cb] of [[-1, 0.0, 0.22, 0.32, 0.28], [0, 0.97, 0.05, 0.12, 0.14], [1, 0.0, 0.22, 0.32, 0.28]]) {
+            pos.push(cx + nx * hw * side, y, cz + nz * hw * side); nor.push(0, 1, 0);
+            uv.push((side + 1) * 0.5, vv); col.push(cr, cg, cb, al);
+          }
+          if (k < k1) vv += Math.hypot(r.x[k + 1] - r.x[k], r.z[k + 1] - r.z[k]);
+        }
+        for (let k = 0; k < k1 - k0; k++) {
+          const a = base + k * 3;
+          idx.push(a, a + 1, a + 3, a + 1, a + 4, a + 3, a + 1, a + 2, a + 4, a + 2, a + 5, a + 4);
+        }
       }
-      const g = this._ribGeo(acc);
-      if (g) { const m = new THREE.Mesh(g, Mats.water); m.renderOrder = 2; m.matrixAutoUpdate = false; fg.add(m); }
+      if (pos.length) {
+        const g = new THREE.BufferGeometry();
+        g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+        g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+        g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+        g.setAttribute('color', new THREE.Float32BufferAttribute(col, 4));
+        g.setIndex(idx);
+        g.computeBoundingSphere();
+        const m = new THREE.Mesh(g, Mats.water); m.renderOrder = 2; m.matrixAutoUpdate = false; fg.add(m);
+      }
     }
 
     // ---- structures ----
@@ -523,7 +546,7 @@ export class ChunkBuilder {
     const rng = new Rng((hash2(chunk.cx, chunk.cz, WORLD_SEED + 7) * 4294967296) >>> 0);
     const cell = 1.05;
     const n = Math.ceil(CHUNK / cell);
-    const grass = [], crop = [];
+    const grass = [], crop = [], flowers = [];
     const ri = this._ri, rv = {};
     // coarse 4 m classification grid: cheap per-tuft lookups, exact tests only near roads/water/buildings
     const CG = 4, cn = CHUNK / CG + 1;
@@ -567,6 +590,7 @@ export class ChunkBuilder {
       const hc = hash2(Math.round(x * 3), Math.round(z * 3), 77);
       const item = { x: lx, y, z: lz, rot: r4 * 6.283, h: 0.8 + r1 * 0.5, fk, fd, hc, wx: x, wz: z, small: kind === 'g' && fd > 0.4 };
       (kind === 'c' ? crop : grass).push(item);
+      if (kind === 'g' && fk !== 'plowed' && fd < 0.5 && hc > 0.9 && r3 < 0.55) flowers.push({ x: lx, y, z: lz, rot: r4 * 6.283, s: 0.6 + r1 * 0.7, hc });
     }
     const grp = new THREE.Group();
     const col = new THREE.Color();
@@ -587,7 +611,6 @@ export class ChunkBuilder {
         else {
           col.setHex(0x557a2c).lerp(_c.setHex(0x7f9440), g.hc).lerp(_c.setHex(0xa39b55), clamp(fbm(g.wx * 0.0021 + 7, g.wz * 0.0021 + 2, 2, 19) * 1.2 - 0.25, 0, 0.5));
           if (g.small) col.multiplyScalar(0.6);
-          if (g.hc > 0.985) col.setHex(0xe8e0a0);
         }
         mesh.setColorAt(i, col);
       }
@@ -597,6 +620,18 @@ export class ChunkBuilder {
     };
     mk(grass, this.veg.grass[0], Mats.grass, false);
     mk(crop, this.veg.crop, Mats.crop, true);
+    if (flowers.length) {
+      const FC = [0xf4efe0, 0xf2d230, 0xb06ad0, 0xe86a8a, 0xf4efe0, 0xf2d230];
+      const fm = new THREE.InstancedMesh(this.veg.flower, Mats.grass, flowers.length);
+      flowers.forEach((f, i) => {
+        _q.setFromAxisAngle(UP, f.rot); _p.set(f.x, f.y - 0.01, f.z); _s.set(f.s * 0.8, f.s * 0.55, f.s * 0.8);
+        _m.compose(_p, _q, _s); fm.setMatrixAt(i, _m);
+        col.setHex(FC[Math.floor(f.hc * 977) % FC.length]);
+        fm.setColorAt(i, col);
+      });
+      fm.instanceMatrix.needsUpdate = true;
+      grp.add(fm);
+    }
     chunk.grassGroup = grp;
     chunk.group.add(grp);
     chunk.hasGrass = true;

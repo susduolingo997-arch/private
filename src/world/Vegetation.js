@@ -16,10 +16,11 @@ function oak(detail) {
   b.cyl(0, 0, 0, 0.3, 0.14, 3.4, seg, trunk, lin(0x3a2c1f), false);
   const bd = detail === 0 ? 1 : 0;
   const blobs = [
-    [0, 5.0, 0, 2.9, 2.4, 2.9], [1.7, 4.2, 0.6, 2.1, 1.8, 2.1], [-1.5, 4.3, -0.9, 2.2, 1.9, 2.2],
-    [0.3, 6.1, -0.4, 1.9, 1.6, 1.9], [-0.3, 4.3, 1.7, 2.0, 1.7, 2.0],
+    [0, 5.0, 0, 2.6, 2.2, 2.6], [1.9, 4.3, 0.6, 1.9, 1.6, 1.9], [-1.7, 4.4, -0.9, 2.0, 1.7, 2.0],
+    [0.3, 6.2, -0.4, 1.8, 1.5, 1.8], [-0.3, 4.3, 1.9, 1.8, 1.5, 1.8], [1.0, 5.6, -1.7, 1.6, 1.4, 1.6],
+    [-1.2, 5.7, 1.2, 1.5, 1.3, 1.5], [2.5, 5.2, -0.9, 1.3, 1.2, 1.3], [-2.6, 5.1, 0.6, 1.3, 1.2, 1.3],
   ];
-  const n = [5, 3, 2][detail];
+  const n = [9, 4, 2][detail];
   for (let i = 0; i < n; i++) { const [x, y, z, rx, ry, rz] = blobs[i]; b.blob(x, y, z, rx, ry, rz, bd, la, lb, rng, 0.2); }
   return b.build();
 }
@@ -83,12 +84,38 @@ function tuft(blades, seed) {
   return g;
 }
 
+function flower() {
+  const pos = [], nor = [], col = [];
+  const stem = [0.2, 0.45, 0.15], head = [1, 1, 1];
+  const push = (x, y, z, c) => { pos.push(x, y, z); nor.push(0, 1, 0); col.push(c[0], c[1], c[2]); };
+  // thin stem (two crossed slivers)
+  for (const a of [0, Math.PI / 2]) {
+    const ox = Math.cos(a) * 0.012, oz = Math.sin(a) * 0.012;
+    push(-ox, 0, -oz, stem); push(ox, 0, oz, stem); push(0, 0.85, 0, stem);
+  }
+  // petal disc: octagon fan facing up, slightly cupped
+  const cy = 0.9, R = 0.11;
+  for (let i = 0; i < 8; i++) {
+    const a0 = (i / 8) * Math.PI * 2, a1 = ((i + 1) / 8) * Math.PI * 2;
+    push(0, cy + 0.03, 0, [1, 0.9, 0.5]);
+    push(Math.cos(a0) * R, cy, Math.sin(a0) * R, head); push(Math.cos(a1) * R, cy, Math.sin(a1) * R, head);
+    // underside so it is visible from below
+    push(0, cy + 0.03, 0, [1, 0.9, 0.5]); push(Math.cos(a1) * R, cy, Math.sin(a1) * R, head); push(Math.cos(a0) * R, cy, Math.sin(a0) * R, head);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(nor, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  g.computeBoundingSphere();
+  return g;
+}
+
 export function buildVegLib() {
   const mk = (fn) => [fn(0), fn(1), fn(2)];
-  const lib = { trees: [mk(oak), mk(birch), mk(spruce), mk(bush)], grass: [tuft(9, 1), tuft(5, 2)], crop: tuft(8, 3) };
+  const lib = { trees: [mk(oak), mk(birch), mk(spruce), mk(bush)], grass: [tuft(9, 1), tuft(5, 2)], crop: tuft(8, 3), flower: flower() };
   for (const v of lib.trees) for (const g of v) g.userData.shared = true;
   for (const g of lib.grass) g.userData.shared = true;
-  lib.crop.userData.shared = true;
+  lib.crop.userData.shared = true; lib.flower.userData.shared = true;
   // bounding spheres for frustum culling of instanced meshes are computed per mesh
   return lib;
 }
