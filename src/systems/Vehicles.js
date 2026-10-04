@@ -54,7 +54,7 @@ export class Vehicles {
   // phase of the traffic signal for the main road (derived from world time → persistent)
   signalState() {
     const sg = this.signal;
-    const t = (this.g.time.total * 3600) % sg.cycle;   // game seconds
+    const t = (this.g.time.elapsedReal + 20) % sg.cycle;   // real seconds: lights keep a human rhythm at any time scale
     if (t < sg.greenMain) return 'green';
     if (t < sg.greenMain + sg.amber) return 'amber';
     return 'red';

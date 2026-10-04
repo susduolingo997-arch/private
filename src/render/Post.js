@@ -101,7 +101,7 @@ export class Post {
 
   render(scene, camera, exposure, time, night) {
     const r = this.renderer;
-    if (!this.enabled) { r.setRenderTarget(null); r.render(scene, camera); return; }
+    if (!this.enabled) { r.toneMappingExposure = exposure; r.setRenderTarget(null); r.render(scene, camera); return; }
     this._ensure();
     r.setRenderTarget(this.rt);
     r.clear();

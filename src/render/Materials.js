@@ -14,6 +14,7 @@ export const G = {
   uNight: { value: 0 },
   uSeason: { value: new THREE.Vector3(1, 1, 1) }, // foliage tint (seasons hook)
   uPlayer: { value: new THREE.Vector3() },
+  uFar: { value: 320 },     // distance at which streamed trees finish fading in
 };
 
 const NOISE_GLSL = /* glsl */`
@@ -33,13 +34,13 @@ function patch(mat, o = {}) {
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = G.uTime; shader.uniforms.uWet = G.uWet; shader.uniforms.uRain = G.uRain;
     shader.uniforms.uWind = G.uWind; shader.uniforms.uSeason = G.uSeason; shader.uniforms.uGlow = G.uGlow;
-    shader.uniforms.uPlayer = G.uPlayer;
+    shader.uniforms.uPlayer = G.uPlayer; shader.uniforms.uFar = G.uFar;
     if (o.detail) shader.uniforms.uDetail = { value: o.detail };
 
     let vs = shader.vertexShader;
     vs = vs.replace('#include <common>', `#include <common>
       varying vec3 vWPos; varying float vWUp;
-      uniform float uTime; uniform float uWind; uniform vec3 uPlayer;
+      uniform float uTime; uniform float uWind; uniform vec3 uPlayer; uniform float uFar;
       ${o.terrain ? 'attribute vec4 aSurf; varying vec4 vSurf;' : ''}
       ${o.lit ? 'attribute float aLit; varying float vLit;' : ''}
     `);
@@ -64,6 +65,7 @@ function patch(mat, o = {}) {
         float tl_d = distance(tl_iw.xz, uPlayer.xz);
         float tl_s = 1.0 - smoothstep(${o.fade[0].toFixed(1)}, ${o.fade[1].toFixed(1)}, tl_d);
         transformed.y *= tl_s; transformed.x *= tl_s; transformed.z *= tl_s;` : ''}
+        ${o.farFade ? `float tl_s2 = 1.0 - smoothstep(uFar - 55.0, uFar, distance(tl_iw.xz, uPlayer.xz)); transformed *= tl_s2;` : ''}
       }` : ''}
       {
         vec4 tl_wp = vec4(transformed, 1.0);
@@ -163,7 +165,7 @@ export function initMaterials() {
   Mats.metal = patch(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.45, metalness: 0.7 }), {});
   Mats.glass = patch(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.06, metalness: 0.0, side: THREE.DoubleSide }), { lit: true, glass: true });
   Mats.foliage = patch(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92, metalness: 0 }),
-    { sway: true, leaf: true, swayK: '0.0105', swayH: '1.0', detail: detailTex(), dapple: true });
+    { sway: true, leaf: true, swayK: '0.0105', swayH: '1.0', detail: detailTex(), dapple: true, farFade: true });
   Mats.grass = patch(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide }),
     { sway: true, leaf: true, swayK: '0.16', swayH: '1.0', fade: [38, 76] });
   Mats.crop = patch(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide }),

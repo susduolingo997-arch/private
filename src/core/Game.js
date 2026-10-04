@@ -11,9 +11,11 @@ import { Post } from '../render/Post.js';
 import { Rain } from '../render/Rain.js';
 import { DistantTerrain } from '../render/DistantTerrain.js';
 import { LightPool } from '../render/LightPool.js';
+import { FarField } from '../render/FarField.js';
 import { GameTime } from '../systems/GameTime.js';
 import { Weather } from '../systems/Weather.js';
 import { Player } from '../player/Player.js';
+import { Seasons } from '../systems/Seasons.js';
 import { UI } from '../ui/UI.js';
 import { smoothstep, lerp } from './MathUtil.js';
 
@@ -57,6 +59,8 @@ export class Game {
     this.sky = new SkySystem(this.scene, renderer, this.camera);
     this.chunks = new ChunkManager(this.world, this.scene);
     this.distant = new DistantTerrain(this.scene, this.world.terrain);
+    this.farField = new FarField(this.scene, this.world);
+    this.chunks.onFeaturesChanged = (ch, loaded) => this.farField.setChunkLoaded(ch.cx, ch.cz, loaded);
     this.rain = new Rain(this.scene);
     this.post = new Post(renderer);
     this.lights = new LightPool(this.scene, 6);
@@ -209,7 +213,9 @@ export class Game {
     this.sky.update(dt, T, W, this.player.camera.position);
     G.uTime.value += dt;
     G.uWet.value = W.wet; G.uRain.value = W.rain; G.uWind.value = W.wind;
+    Seasons.foliageTint(T, G.uSeason.value);
     G.uPlayer.value.copy(this.camera.position);
+    G.uFar.value = (this.chunks.params.featureRadius + 0.3) * 64 - 8;
     // fraction of windows lit: rises through the evening, falls in the small hours
     const x = T.hours < 12 ? T.hours + 24 : T.hours;
     const on = smoothstep(17.2, 21.2, x), off = smoothstep(24.6, 29.4, x);
@@ -224,12 +230,29 @@ export class Game {
     this.rain.update(this.camera, W.rain, W.windDir[0] * W.wind * 3, W.windDir[1] * W.wind * 3, this.sky.fogColor);
   }
 
+  /** If the machine clearly cannot keep up, quietly drop one quality step (once per step). */
+  watchPerformance(t) {
+    if (!this.began || this.paused || document.hidden) { this._slowSince = 0; return; }
+    const realDt = this._rawDt || 0.016;
+    this._rawDt = realDt;
+    if (this.fpsAvg < 24) {
+      if (!this._slowSince) this._slowSince = t;
+      if (t - this._slowSince > 9000) {
+        const order = ['high', 'medium', 'low'];
+        const i = order.indexOf(Settings.values.quality);
+        if (i >= 0 && i < 2) { Settings.set('quality', order[i + 1]); this.ui.whisper('Graphics eased down for a smoother walk.', 4000); }
+        this._slowSince = 0;
+      }
+    } else this._slowSince = 0;
+  }
+
   loop(t) {
     requestAnimationFrame((tt) => this.loop(tt));
     let dt = (t - this.lastT) / 1000; this.lastT = t;
     if (dt > 0.1) dt = 0.1;
     if (dt <= 0) dt = 0.0001;
     this.fpsAvg = lerp(this.fpsAvg, 1 / dt, 0.05);
+    this.watchPerformance(t);
     const active = this.began && !this.paused;
     this.frame++;
     if (active) {

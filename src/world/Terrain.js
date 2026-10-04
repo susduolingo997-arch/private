@@ -38,7 +38,7 @@ export class PadIndex {
 const col = (hex) => new THREE.Color(hex);
 const PAL = {
   meadowA: col(0x5b7a30), meadowB: col(0x7b8d3a), meadowDry: col(0xa39b55),
-  forestFloor: col(0x3a4c22), forestDark: col(0x2a3a18),
+  forestFloor: col(0x45552a), forestDark: col(0x34441f),
   dirt: col(0x7b6446), gravel: col(0x8a8478), mud: col(0x5b4630),
   rock: col(0x77746c), rockDark: col(0x55524c), snow: col(0xe8eef2), sand: col(0xb2a780),
   wheat: col(0xc8a845), barley: col(0x93a43e), plowed: col(0x6b4a30), hay: col(0xb9aa52), pasture: col(0x6c9535),
@@ -180,7 +180,7 @@ export class Terrain {
       if (ri.road) {
         const r = ri.road;
         const flat = r.width / 2 + r.shoulder;
-        const verge = 1 - smoothstep(r.width / 2 - 0.3, flat + 1.2, ri.d);
+        const verge = 1 - smoothstep(r.width / 2 - 0.3, flat + (r.surface === 'dirt' ? 0.2 : 1.2), ri.d);
         if (verge > 0) {
           c.lerp(r.surface === 'dirt' ? PAL.dirt : PAL.gravel, verge * (r.surface === 'dirt' ? 0.95 : 0.75));
           aux.dirt = verge;

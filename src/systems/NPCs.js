@@ -306,13 +306,20 @@ export class NPCs {
       const dx = tgt[0] - a.x, dz = tgt[1] - a.z, d = Math.hypot(dx, dz);
       const pdx = g.player.x - a.x, pdz = g.player.z - a.z, pd = Math.hypot(pdx, pdz);
       let want = a.walkSpeed;
-      if (pd < 2.2 && (pdx * dx + pdz * dz) > 0) want = pd < 1.2 ? 0 : want * 0.4;
+      let sideX = 0, sideZ = 0;
+      if (pd < 2.4 && (pdx * dx + pdz * dz) > 0) {
+        // someone (the player) is in the way: slow down and step around them
+        want *= 0.55;
+        const cross = dx * pdz - dz * pdx;
+        const sg = cross > 0 ? -1 : 1;
+        sideX = (-dz / (d || 1)) * sg * 1.1; sideZ = (dx / (d || 1)) * sg * 1.1;
+      }
       a.speed = damp(a.speed, want, 5, dt);
       if (d < 0.5) { a.pi++; if (a.pi >= a.path.length) this._finish(a); return; }
       const want_yaw = Math.atan2(dx, dz);
       a.yaw += wrapAngle(want_yaw - a.yaw) * Math.min(1, dt * 6);
       const step = Math.min(d, a.speed * dt);
-      a.x += (dx / d) * step; a.z += (dz / d) * step;
+      a.x += (dx / d) * step + sideX * dt; a.z += (dz / d) * step + sideZ * dt;
       // far from the player and not rendered: skip ahead to keep daily schedules honest
       if (dist > 220 && a.speed > 0.5) {
         a.x += (dx / d) * Math.min(d, a.speed * dt * 6); a.z += (dz / d) * Math.min(d, a.speed * dt * 6);

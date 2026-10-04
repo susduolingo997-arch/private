@@ -3,6 +3,7 @@ import { Rng } from '../core/Noise.js';
 import { smoothstep, lerp, clamp, DEG } from '../core/MathUtil.js';
 import { makeMoonTexture } from './Textures.js';
 import { CLIMATE } from '../world/WorldDef.js';
+import { Seasons } from '../systems/Seasons.js';
 
 // Colour keyframes by sun altitude (degrees): [alt, horizonHex, zenithHex]
 const KEYS = [
@@ -142,7 +143,6 @@ export class SkySystem {
     this.starsOuter = new THREE.Group();
     this.starsOuter.add(this.starsInner);
     this.starsOuter.rotation.x = CLIMATE.latitude * DEG - Math.PI / 2;
-    this.starsOuter.renderOrder = -9;
     this.starsInner.renderOrder = -9;
     scene.add(this.starsOuter);
 
@@ -219,7 +219,7 @@ export class SkySystem {
   update(dt, time, weather, playerPos) {
     const cam = this.camera;
     const hours = time.hours;
-    const doy = CLIMATE.dayOfYear;
+    const doy = Seasons.dayOfYear(time);
     const dec = 23.44 * Math.sin(2 * Math.PI * (doy - 81) / 365);
     const H = (hours - 12) * 15;
     const alt = SkySystem.bodyDir(H, dec, CLIMATE.latitude, this.sunDir);
@@ -295,12 +295,12 @@ export class SkySystem {
 
     // --- key light: sun by day, moon by night (one shadow-casting light) ---
     const sinAlt = Math.sin(alt);
-    const sunI = 3.0 * smoothstep(-0.015, 0.2, sinAlt) * (1 - overcast * 0.78) * (1 - fogW * 0.45);
+    const sunI = 7.5 * smoothstep(-0.015, 0.2, sinAlt) * (1 - overcast * 0.78) * (1 - fogW * 0.45);
     const moonI = 0.42 * this.moonLight * smoothstep(0.5 * DEG * -1, -6, altDeg * 1) ;
     void moonI;
     const useSun = altDeg > -0.8;
     const moonFactor = this.moonLight * (1 - smoothstep(-6, -0.8, altDeg));
-    const keyI = useSun ? sunI : 0.55 * moonFactor;
+    const keyI = useSun ? sunI : 1.1 * moonFactor;
     const dir = useSun ? this.sunDir : this.moonDir;
     this.sun.intensity = keyI;
     // sun colour warms near the horizon
@@ -319,10 +319,10 @@ export class SkySystem {
     this.hemi.color.copy(this._z).lerp(this._h, 0.35).multiplyScalar(1.0);
     this.hemi.groundColor.setRGB(0.20, 0.18, 0.14).multiplyScalar(0.3 + 0.7 * dayLight);
     const ambDay = 0.55 * dayLight;
-    const ambNight = 0.045 + 0.1 * moonFactor;
-    this.hemi.intensity = (this.scene.environment ? 0.18 : 0.75) * ambDay + ambNight * (this.scene.environment ? 0.7 : 1.0) * 3.0;
+    const ambNight = 0.06 + 0.1 * moonFactor;
+    this.hemi.intensity = (this.scene.environment ? 0.12 : 1.5) * ambDay + ambNight * (this.scene.environment ? 0.7 : 1.0) * 3.0;
     this.daylight = dayLight;
-    if (this.scene.environment !== undefined) this.scene.environmentIntensity = 0.1 + 0.95 * dayLight * (1 - overcast * 0.2);
+    if (this.scene.environment !== undefined) this.scene.environmentIntensity = 0.1 + 0.62 * dayLight * (1 - overcast * 0.1);
 
     // periodic environment refresh
     this.envTimer += dt;
@@ -334,7 +334,7 @@ export class SkySystem {
       if (old) old.dispose();
     }
     // exposure curve (applied by Post): bright day ~1, deep night much higher
-    this.exposure = lerp(3.2, 0.82, dayLight) * lerp(1, 1.12, overcast) * (1 + sunsetAmt * 0.2);
+    this.exposure = lerp(4.4, 0.78, dayLight) * lerp(1, 1.12, overcast) * (1 + sunsetAmt * 0.2);
     this.exposure *= lerp(1.0, 1.0, 1);
   }
 }
