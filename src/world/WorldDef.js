@@ -61,6 +61,10 @@ export const ROAD_DEFS = [
     joinStart: 'county',
   },
   {
+    id: 'railway', type: 'rail', name: 'Aln Valley Line',
+    pts: [[-1100, -1930], [-600, -1830], [-100, -1770], [150, -1752], [330, -1768], [620, -1850], [1100, -1980]],
+  },
+  {
     id: 'hamlet', type: 'lane', name: 'Wren Lane',
     pts: [[-300, -588], [-318, -650], [-345, -720]],
     joinStart: 'county',
@@ -73,6 +77,7 @@ export const ROAD_TYPES = {
   lane:   { width: 4.4, shoulder: 0.8, falloff: 7,  ditch: true,  surface: 'asphalt', smooth: 10 },
   dirt:   { width: 3.4, shoulder: 0.6, falloff: 5,  ditch: false, surface: 'dirt',    smooth: 6 },
   trail:  { width: 1.3, shoulder: 0.5, falloff: 3,  ditch: false, surface: 'dirt',    smooth: 3 },
+  rail:   { width: 3.4, shoulder: 1.4, falloff: 9,  ditch: false, surface: 'gravel',  smooth: 22 },
 };
 
 export const RIVER_DEFS = [
@@ -120,4 +125,13 @@ export const SIGNS = [
   { x: 38, z: -176, rot: 0.6, lines: ['Forest Trail  ➜', 'Farm Track  ↑'], kind: 'wood' },
   { x: -52, z: -566, rot: 0, lines: ['Millbrook  1.0 km ↗', 'Wren End  0.3 km ←'], kind: 'road' },
   { x: 315, z: -1180, rot: Math.PI, lines: ['Millbrook', 'Please drive carefully'], kind: 'road' },
+];
+
+// Gentle landmark hills (smooth bumps added to the natural landform) so the journey has
+// crests to climb and views to earn.
+export const HILLS = [
+  { x: 70, z: -250, r: 120, h: 26 },     // the first rise after the farm track bends: first big view
+  { x: 430, z: -860, r: 170, h: 34 },    // wooded hill east of the county road
+  { x: 640, z: -1700, r: 190, h: 30 },   // the ridge behind home
+  { x: -250, z: -900, r: 200, h: 28 },
 ];

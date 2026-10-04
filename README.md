@@ -52,6 +52,7 @@ walkers; by default time and weather simply follow the world clock.
   surface-dependent footsteps (grass, dirt, gravel, asphalt, wood, field stubble, leaves, water,
   wet variants), door creaks, interior muffling. No background music: a quiet piano phrase
   appears only twice in the whole journey (the bridge, and arriving home).
+* **Railway** – a single-track line crosses the county road at a level crossing beyond the village, with a small halt (platform, building, benches, lamps). A passenger train passes every few minutes in alternating directions, sounds its horn, and the crossing bell rings while traffic waits.
 * **Life** – villagers on daily routines (commuting to the bus stop, dog walking, gardening,
   shopping, bench sitting, jogging, children playing, farming, road works), background traffic
   that keeps lanes, gaps and obeys the signal, cattle, horses, deer, rabbits, birds, a cat.

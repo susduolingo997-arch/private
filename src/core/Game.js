@@ -38,7 +38,12 @@ export class Game {
   async init() {
     Settings.load();
     const q = QUALITY[Settings.values.quality] || QUALITY.medium;
-    const renderer = this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, powerPreference: 'high-performance' });
+    let renderer;
+    try { renderer = this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, powerPreference: 'high-performance' }); }
+    catch (e) {
+      document.getElementById('menu').innerHTML = '<div class="card"><h1>The Long Way Home</h1><p class="sub">This game needs WebGL.</p><p>Your browser or graphics driver could not start a WebGL context. Try a current version of Chrome, Edge or Firefox with hardware acceleration enabled.</p></div>';
+      throw e;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, q.pixelRatio));
     renderer.setSize(window.innerWidth, window.innerHeight, false);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -106,10 +111,12 @@ export class Game {
       import('../systems/NPCs.js'),
       import('../systems/Vehicles.js'),
       import('../systems/Animals.js'),
+      import('../systems/Trains.js'),
     ]);
-    const [inter, aud, npc, veh, ani] = mods;
+    const [inter, aud, npc, veh, ani, trn] = mods;
     const log = (m) => { if (m.status === 'rejected') console.warn('system failed to load', m.reason); return m.status === 'fulfilled' ? m.value : null; };
-    const I = log(inter), A = log(aud), N = log(npc), V = log(veh), An = log(ani);
+    const I = log(inter), A = log(aud), N = log(npc), V = log(veh), An = log(ani), Tr = log(trn);
+    if (Tr) { this.trains = new Tr.Trains(this); this.systems.push(this.trains); }
     if (V) { this.vehicles = new V.Vehicles(this); this.systems.push(this.vehicles); }
     if (N) { this.npcs = new N.NPCs(this); this.systems.push(this.npcs); }
     if (An) { this.animals = new An.Animals(this); this.systems.push(this.animals); }

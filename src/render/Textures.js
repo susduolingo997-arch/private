@@ -234,3 +234,32 @@ export function makeGlowTexture() {
   ctx.fillStyle = g; ctx.fillRect(0, 0, S, S);
   return tile(c, { repeat: false });
 }
+
+/** Railway ballast bed with sleepers and two steel rails (the rails also get real geometry). */
+export function makeRailTexture({ width = 4.2, seed = 21 }) {
+  const PXM = 48;
+  const W = Math.round(width * PXM), H = 512;
+  const c = canvas(W, H), ctx = c.getContext('2d', { willReadFrequently: true });
+  const r = new Rng(seed);
+  const img = ctx.createImageData(W, H);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const u = (x / W - 0.5) * width, au = Math.abs(u);
+    const n = 105 + r.next() * 60;
+    const edge = Math.max(0, Math.min(1, (width / 2 - 0.12 - au) / 0.5));
+    const i = (y * W + x) * 4;
+    img.data[i] = n * 0.95; img.data[i + 1] = n * 0.93; img.data[i + 2] = n * 0.9;
+    img.data[i + 3] = au < width / 2 - 0.1 - (r.next() * 0.25) ? 255 : 0;
+    void edge;
+  }
+  ctx.putImageData(img, 0, 0);
+  // sleepers every 0.6 m (6 m tile -> 10 sleepers)
+  ctx.fillStyle = 'rgba(70,52,38,0.95)';
+  for (let k = 0; k < 10; k++) {
+    const y0 = (k / 10) * H + 6;
+    ctx.fillRect(W / 2 - 1.3 * PXM, y0, 2.6 * PXM, 0.24 * PXM);
+  }
+  const t = tile(c, { aniso: 16 });
+  t.wrapS = THREE.ClampToEdgeWrapping;
+  t.userData.width = width;
+  return t;
+}

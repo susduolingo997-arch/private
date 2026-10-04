@@ -159,6 +159,7 @@ export class ChunkBuilder {
     if (r.type === 'street') return 'street';
     if (r.type === 'lane') return 'lane';
     if (r.type === 'trail') return 'trail';
+    if (r.type === 'rail') return 'rail';
     return r.id === 'farmlane' ? 'farm' : 'dirt';
   }
 
@@ -177,12 +178,14 @@ export class ChunkBuilder {
 
     // ---- road ribbons ----
     const segs = w.roadSegs.get(key);
+    const railSegs = [];
     if (segs) {
       const groups = {};
       for (let q = 0; q < segs.length; q += 2) {
         const r = segs[q], i = segs[q + 1];
         if (r.s[i + 1] < r.trim0 || r.s[i] > r.length - r.trim1) continue;
         const mk = this._roadMatKey(r);
+        if (r.type === 'rail') railSegs.push(r, i);
         const tex = Mats.roadTex[mk];
         const acc = groups[mk] || (groups[mk] = { pos: [], nor: [], uv: [], idx: [] });
         // a short run of 2-3 points keeps ribbon continuous across chunk boundaries
@@ -237,6 +240,13 @@ export class ChunkBuilder {
     const lampHead = new GeoBuilder();
     const metalB = new GeoBuilder();
     const sigB = [new GeoBuilder(), new GeoBuilder(), new GeoBuilder()];
+    for (let q = 0; q < railSegs.length; q += 2) {
+      const r = railSegs[q], i = railSegs[q + 1];
+      const dx = r.x[i + 1] - r.x[i], dz = r.z[i + 1] - r.z[i], L = Math.hypot(dx, dz);
+      const nx = -dz / L, nz = dx / L, rot = B.rotFromDir(dx, dz);
+      const mx = (r.x[i] + r.x[i + 1]) / 2, mz = (r.z[i] + r.z[i + 1]) / 2, my = (r.elev[i] + r.elev[i + 1]) / 2;
+      for (const side of [-1, 1]) pB.box(mx + nx * side * 0.7175 - ox, my + 0.135, mz + nz * side * 0.7175 - oz, L + 0.06, 0.15, 0.075, rot, B.COL.metal);
+    }
     const wireVerts = [];
     const carList = [];
     const signMeshes = [];
@@ -266,7 +276,7 @@ export class ChunkBuilder {
           const sg = B.signPost(new GeoBuilder(), null, 0, 0, 0, 0, 0, 0); void sg;
           // painted fascia sign
           const P = (lx, ly) => [xf.wx(lx, b.d / 2 + 0.2) - ox, y + ly, xf.wz(lx, b.d / 2 + 0.2) - oz];
-          signMeshes.push({ quads: { front: [P(-b.w * 0.34, 3.45), P(b.w * 0.34, 3.45), P(b.w * 0.34, 4.05), P(-b.w * 0.34, 4.05)], back: null }, lines: ['MILLBROOK STORES'], kind: 'shop', size: [1024, 128] });
+          signMeshes.push({ quads: { front: [P(-b.w * 0.34, 3.45), P(b.w * 0.34, 3.45), P(b.w * 0.34, 4.05), P(-b.w * 0.34, 4.05)], back: null }, lines: [(b.label || 'SHOP').toUpperCase()], kind: 'shop', size: [1024, 128] });
         } else if (b.kind === 'church') {
           B.buildChurch(bB, gB, b, ox, oz);
           for (const c of B.churchColliders(b)) own(c);
@@ -327,6 +337,13 @@ export class ChunkBuilder {
       for (const c of sc.cones) B.cone(pB, c.x, c.y, c.z, ox, oz);
       for (const bl of sc.bales) { const y = t.heightAt(bl.x, bl.z); B.hayBale(pB, bl.x, y, bl.z, ox, oz); own(circle(bl.x, bl.z, 0.85)); }
       for (const m of sc.misc) {
+        if (m.type === 'platform') {
+          const y = t.heightAt(m.x, m.z);
+          pB.box(m.x - ox, y + 0.02, m.z - oz, m.len, 0.12, m.wid, m.rot, B.COL.concrete, { top: lin(0xb4b2a8) });
+          const ex = Math.cos(m.rot), ez = -Math.sin(m.rot);
+          pB.box(m.x - ox - ez * (m.wid / 2 - 0.1) * 0, y + 0.1, m.z - oz, m.len, 0.04, 0.16, m.rot, lin(0xe8e1b0));
+          void ex;
+        }
         if (m.type === 'tractor') { B.tractor(pB, m.x, t.heightAt(m.x, m.z), m.z, m.rot, ox, oz); own(obbCollider(m.x, m.z, 1.1, 1.8, m.rot)); }
       }
       for (const s of sc.signals) {

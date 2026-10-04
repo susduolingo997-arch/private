@@ -12,7 +12,8 @@ await page.addInitScript((q) => { localStorage.setItem('tlwh_settings_v1', JSON.
 await page.goto('http://localhost:5173/');
 await page.waitForFunction(() => window.__game && window.__game.ui && window.__game.ui.ready, null, { timeout: 90000 });
 for (const sc of scenes) {
-  const [name, hour, weather, x, z, yaw, pitch] = sc.split(',');
+  const [name, hour, weather, x, z, yaw, pitch, trainT] = sc.split(',');
+  await page.evaluate((tt) => { window.__trainT = tt === undefined || tt === '' ? undefined : parseFloat(tt); }, trainT);
   await page.evaluate(([hour, weather, x, z, yaw, pitch]) => {
     const g = window.__game;
     g.began = true; g.paused = false; g.player.enabled = true; g.ui.hideMenu();
@@ -27,6 +28,7 @@ for (const sc of scenes) {
     g.distant.prewarm(g.player.x, g.player.z);
     if (g.npcs) g.npcs.prewarm();
     g.refreshSkyNow();
+    if (window.__trainT !== undefined) g.time.elapsedReal = window.__trainT;
   }, [hour, weather, x, z, yaw, pitch]);
   await page.waitForTimeout(1200);
   await page.screenshot({ path: `/tmp/sc_${name}.png` });

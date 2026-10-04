@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { fbm, noise2, ridged } from '../core/Noise.js';
 import { smoothstep, lerp, clamp } from '../core/MathUtil.js';
-import { FORESTS, FIELDS, VALLEY, START } from './WorldDef.js';
+import { FORESTS, FIELDS, VALLEY, START, HILLS } from './WorldDef.js';
 
 const CELL = 40;
 const ck = (cx, cz) => (cx + 32768) * 65536 + (cz + 32768);
@@ -67,6 +67,12 @@ export class Terrain {
     const hills = fbm(x * 0.0013, z * 0.0013, far ? 3 : 4, 23);
     let h = 52 + cont * 26 + hills * 20 + fbm(x * 0.0042 + 31, z * 0.0042 - 17, 3, 29) * 8;
     if (detail) h += fbm(x * 0.011, z * 0.011, 3, 41) * 1.3 + noise2(x * 0.08, z * 0.08, 5) * 0.14;
+    for (let i = 0; i < HILLS.length; i++) {
+      const hl = HILLS[i];
+      const ex = x - hl.x, ez = z - hl.z;
+      const q = (ex * ex + ez * ez) / (hl.r * hl.r);
+      if (q < 9) h += hl.h * Math.exp(-q) * (1 + 0.12 * noise2(x * 0.01, z * 0.01, 71));
+    }
     const dx = x - VALLEY.x, dz = z - VALLEY.z;
     const dist = Math.sqrt(dx * dx + dz * dz);
     const m = smoothstep(1900, 5200, dist) * smoothstep(-0.3, 0.3, fbm(x * 0.00035 + 3, z * 0.00035 + 9, 2, 77));

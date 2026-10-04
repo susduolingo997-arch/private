@@ -167,6 +167,13 @@ export class AudioSystem {
     const mg = c.createGain(); mg.gain.value = 0; mfl.connect(mg); mg.connect(mp); mp.connect(this.posBus); mo.start(); mo2.start();
     const mlfo = c.createOscillator(); mlfo.frequency.value = 7.5; const mlg = c.createGain(); mlg.gain.value = 0.0; mlfo.connect(mlg); mlg.connect(mg.gain); mlfo.start();
     B.machine = { g: mg, p: mp, lfo: mlg };
+    // train: rolling rumble + wheel hiss, positional on the locomotive
+    const tp = c.createPanner(); tp.panningModel = 'HRTF'; tp.distanceModel = 'inverse'; tp.refDistance = 25; tp.rolloffFactor = 1.25; tp.maxDistance = 1500;
+    const tr1 = this.loopSrc(this.brown, 0.8), tf1 = filt('lowpass', 260, 0.7); tr1.connect(tf1);
+    const tr2 = this.loopSrc(this.white, 1.0), tf2 = filt('bandpass', 2300, 0.5); tr2.connect(tf2);
+    const tg = c.createGain(); tg.gain.value = 0; tf1.connect(tg); const tg2 = c.createGain(); tg2.gain.value = 0.16; tf2.connect(tg2); tg2.connect(tg);
+    tg.connect(tp); tp.connect(this.posBus);
+    B.train = { g: tg, p: tp, lowpass: tf1 };
   }
 
   // ------------------------------------------------------------------ helpers
@@ -489,6 +496,33 @@ export class AudioSystem {
       B.machine.lfo.gain.setTargetAtTime(work * 0.12, t, 2);
     }
 
+    // train + level crossing
+    if (g.trains) {
+      const T = g.trains, tdist = Math.hypot(T.posX - g.player.x, T.posZ - g.player.z);
+      if (T.active && tdist < 1400) {
+        this._setPos(B.train.p, T.posX, T.posY + 1.5, T.posZ);
+        B.train.g.gain.setTargetAtTime(0.55 * open, t, 0.3);
+        // rail clatter
+        this._clackAcc = (this._clackAcc || 0) + dt * T.speed;
+        if (this._clackAcc > 6.2 && tdist < 450) { this._clackAcc = 0; this._noiseBurst(B.train.p, 0.05, 'bandpass', 1300 + Math.random() * 400, 2, 0.5); }
+        // horn as it approaches the crossing
+        const toX = (T.crossingS - T.s) * T.dir;
+        if (T.runId !== this.hornRun && toX < 210 && toX > 120) {
+          this.hornRun = T.runId;
+          const hp = B.train.p;
+          for (const [f, gain] of [[311, 0.13], [370, 0.11]]) {
+            for (const [when, dur] of [[0, 0.9], [1.2, 1.6]]) this._tone(hp, f, f * 0.995, dur, gain, 'sawtooth', when, 0.06);
+          }
+        }
+        // crossing bell
+        this._bellAcc = (this._bellAcc || 0) + dt;
+        if (T.crossingActive() && this._bellAcc > 0.5) {
+          this._bellAcc = 0;
+          if (!this._crossPan) this._crossPan = this._panner(T.crossing.x, 2.5, T.crossing.z, 14, 1.2);
+          this._tone(this._crossPan, 1560, 1500, 0.35, 0.16, 'sine', 0, 0.002);
+        }
+      } else B.train.g.gain.setTargetAtTime(0, t, 0.5);
+    }
     // ---- stochastic events ----
     this.timers.birds -= dt;
     if (this.timers.birds <= 0) {

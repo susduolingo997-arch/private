@@ -93,6 +93,13 @@ export class Vehicles {
         target = Math.min(target, clamp((toStop - 1) * 0.5, 0, c.vMax));
         if (toStop < 1.2) target = 0;
       }
+      // level crossing: wait while a train is approaching or passing
+      if (g.trains && g.trains.crossingActive()) {
+        const cs = g.trains.countyS;
+        const stopX = cs - c.dir * 9;
+        const toX = (stopX - c.s) * c.dir;
+        if (toX > 0 && toX < 70 + c.v * 3) { target = Math.min(target, clamp((toX - 1) * 0.5, 0, c.vMax)); if (toX < 1.2) target = 0; }
+      }
       // gentle accel/brake
       const acc = target > c.v ? 2.2 : 5.5;
       c.v += clamp(target - c.v, -acc * dt, acc * dt);

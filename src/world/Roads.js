@@ -37,6 +37,8 @@ export class RoadNetwork {
       this._lengths(r);
     }
     for (const r of this.roads) this._elevation(r, terrain);
+    // railways meet roads at level crossings: blend the track onto the road's height there
+    for (const r of this.roads) if (r.type === 'rail') for (const o of this.roads) if (o.type !== 'rail') this._crossing(r, o);
     // junction elevation matching (branch adopts parent's height at the join)
     for (const r of this.roads) {
       if (r.def.joinStart) this._match(r, 0, 1);
@@ -81,6 +83,23 @@ export class RoadNetwork {
       }
     }
     r.elev.set(raw); // after two passes result is in `raw`
+  }
+
+  _crossing(a, b) {
+    let best = 1e9, ai = -1, bj = -1;
+    for (let i = 0; i < a.n; i++) for (let j = 0; j < b.n; j++) {
+      const d = (a.x[i] - b.x[j]) ** 2 + (a.z[i] - b.z[j]) ** 2;
+      if (d < best) { best = d; ai = i; bj = j; }
+    }
+    if (best > 9) return;
+    const delta = b.elev[bj] - a.elev[ai];
+    const K = 28;
+    for (let k = -K; k <= K; k++) {
+      const i = ai + k;
+      if (i < 0 || i >= a.n) continue;
+      a.elev[i] += delta * (1 - smoothstep(0, K, Math.abs(k)));
+    }
+    (this.crossings || (this.crossings = [])).push({ rail: a, road: b, x: a.x[ai], z: a.z[ai], i: ai });
   }
 
   _match(r, idx, dir) {
@@ -128,8 +147,8 @@ export class RoadNetwork {
         }
         r.elev[a - 1] += raise; r.elev[b + 1] += raise;
         for (let k = a; k <= b; k++) r.bridge[k] = 1;
-        for (let k = 1; k <= 4; k++) {
-          const f = 1 - k / 5;
+        for (let k = 1; k <= 2; k++) {
+          const f = 1 - k / 3;
           if (a - k >= 0) r.bridge[a - k] = Math.max(r.bridge[a - k], f);
           if (b + k < r.n) r.bridge[b + k] = Math.max(r.bridge[b + k], f);
         }
@@ -195,7 +214,7 @@ export class RoadNetwork {
       }
       if (d > flat + r.falloff + 2.5) continue;
       let w = 1 - smoothstep(flat, flat + r.falloff, d);
-      w *= 1 - br;
+      w *= 1 - Math.min(1, Math.max(0, (br - 0.4) / 0.5));
       if (w > 0) {
         const e = r.elev[i] + (r.elev[i + 1] - r.elev[i]) * t;
         wSum += w; eSum += e * w;

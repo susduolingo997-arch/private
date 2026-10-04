@@ -329,7 +329,7 @@ export class SkySystem {
     if (this.usePmrem && this.envTimer > 4) {
       this.envTimer = 0;
       const old = this.envTarget;
-      this.envTarget = this.pmrem.fromScene(this.envScene, 0, 1, 500);
+      this.envTarget = this.pmrem.fromScene(this.envScene, 0, 1, 500, { size: 128 });
       this.scene.environment = this.envTarget.texture;
       if (old) old.dispose();
     }

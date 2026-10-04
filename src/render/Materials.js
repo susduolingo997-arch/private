@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { makeDetailTexture, makeRoadTexture, makeDirtTexture } from './Textures.js';
+import { makeDetailTexture, makeRoadTexture, makeDirtTexture, makeRailTexture } from './Textures.js';
 
 /**
  * Global shader uniforms, updated once per frame by the weather / sky systems and
@@ -96,7 +96,8 @@ function patch(mat, o = {}) {
         float dA = texture2D(uDetail, vWPos.xz * 0.37).r;
         float dB = texture2D(uDetail, vWPos.xz * 0.029).g;
         float dC = texture2D(uDetail, vWPos.xz * 1.9).b;
-        diffuseColor.rgb *= (0.72 + 0.56 * dA) * (0.86 + 0.3 * dB) * (0.9 + 0.2 * dC);
+        float dD = texture2D(uDetail, vWPos.xz * 7.3 + 0.37).b;
+        diffuseColor.rgb *= (0.72 + 0.56 * dA) * (0.86 + 0.3 * dB) * (0.9 + 0.2 * dC) * (0.9 + 0.2 * dD);
       }` : ''}
       ${o.terrain ? `
       {
@@ -191,6 +192,7 @@ export function initMaterials() {
     farm: makeDirtTexture({ width: 3.0, seed: 10 }),
     trail: makeDirtTexture({ width: 1.3, trail: true, seed: 11 }),
     drive: makeDirtTexture({ width: 3.0, trail: true, seed: 12 }),
+    rail: makeRailTexture({ width: 4.2 }),
   };
   Mats.road = {};
   for (const k of Object.keys(Mats.roadTex)) Mats.road[k] = mk(Mats.roadTex[k]);

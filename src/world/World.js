@@ -54,7 +54,7 @@ export class World {
 
   deckAt(x, z) {
     const ri = this.roads.influence(x, z, this._ri);
-    if (ri.road && ri.bridge > 0.9 && ri.d < ri.road.width / 2 + 0.9) {
+    if (ri.road && ri.bridge > 0.02 && ri.d < ri.road.width / 2 + 0.9) {
       const r = ri.road;
       return lerp(r.elev[ri.i], r.elev[ri.i + 1], ri.t);
     }

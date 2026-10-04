@@ -75,9 +75,11 @@ export class Post {
   }
 
   setQuality(q) {
-    this.enabled = q.msaa > 0 || q === null;
-    this.samples = q.msaa;
-    this.enabled = q.msaa > 0;
+    const r = this.renderer, ext = r.extensions;
+    // HDR (half-float) render targets need EXT_color_buffer_*; without them render straight to screen.
+    const hdrOk = r.capabilities.isWebGL2 && (ext.has('EXT_color_buffer_float') || ext.has('EXT_color_buffer_half_float'));
+    this.samples = Math.min(q.msaa, r.capabilities.maxSamples || 4);
+    this.enabled = q.msaa > 0 && hdrOk;
     this.dispose(); // recreate lazily
   }
 

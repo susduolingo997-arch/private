@@ -112,6 +112,7 @@ export class Structures {
     this.placeInfrastructure();
     this.placeFields();
     this.placeBridges();
+    this.placeRailway();
     // flatten ground under every building
     for (const b of this.buildings) {
       const r = Math.hypot(b.w, b.d) / 2 + (b.kind === 'church' ? 3.5 : 1.8);
@@ -222,7 +223,9 @@ export class Structures {
       line(-Pw / 2, zBack, Pw / 2, zBack, 0, 'rail');
       line(-Pw / 2, zBack, -Pw / 2, zFront, 0, 'rail');
       line(Pw / 2, zBack, Pw / 2, zFront, 0, 'rail');
-      line(-Pw / 2, zFront, Pw / 2, zFront, 2.2, style);
+      const gc = b.doorX;
+      line(-Pw / 2, zFront, gc - 1.7, zFront, 0, style);
+      line(gc + 1.7, zFront, Pw / 2, zFront, 0, style);
     }
     this.addFootprint(...b.toWorld(0, -4), Math.max(Pw, 18) * 0.55);
     // garden trees
@@ -325,7 +328,7 @@ export class Structures {
     for (const s of SETTLEMENTS) {
       const rng = new Rng(WORLD_SEED ^ (s.cx * 31 + s.cz));
       for (const road of this.roads.roads) {
-        if (road.type === 'dirt' || road.type === 'trail') continue;
+        if (road.type === 'dirt' || road.type === 'trail' || road.type === 'rail') continue;
         for (const side of [-1, 1]) {
           let pos = rng.range(8, s.spacing);
           while (pos < road.length - 8) {
@@ -357,7 +360,9 @@ export class Structures {
     const [fx, fz] = b.front;
     const door = b.doorWorld;
     // path from lane end to door
-    this.add('drives', x, z, { pts: [[e.x, e.z], [door[0] + fx * 1.2, door[1] + fz * 1.2]], width: 2.4 });
+    const gate = b.toWorld(b.doorX, b.d / 2 + 8);
+    this.add('drives', x, z, { pts: [[e.x, e.z], [gate[0], gate[1]]], width: 2.4 });
+    this.add('drives', x, z, { pts: [[gate[0], gate[1]], [door[0] + fx * 1.2, door[1] + fz * 1.2]], width: 2.4 });
     this.addFootprint(...b.toWorld(0, -5), 17);
     // garden: picket fence, hedge, oak, bench, mailbox
     const Pw = 24, zBack = -b.d / 2 - 11, zFront = b.d / 2 + 8;
@@ -375,7 +380,8 @@ export class Structures {
     line(-Pw / 2, zBack, Pw / 2, zBack, 0, 'rail');
     line(-Pw / 2, zBack, -Pw / 2, zFront, 0, 'picket');
     line(Pw / 2, zBack, Pw / 2, zFront, 0, 'picket');
-    line(-Pw / 2, zFront, Pw / 2, zFront, 2.4, 'picket');
+    line(-Pw / 2, zFront, b.doorX - 1.9, zFront, 0, 'picket');
+    line(b.doorX + 1.9, zFront, Pw / 2, zFront, 0, 'picket');
     const t1 = b.toWorld(-8.5, -3), t2 = b.toWorld(8, -9), t3 = b.toWorld(-6, 7);
     this.add('trees', t1[0], t1[1], { x: t1[0], z: t1[1], type: 0, scale: 1.6, garden: true });
     this.add('trees', t2[0], t2[1], { x: t2[0], z: t2[1], type: 1, scale: 1.1, garden: true });
@@ -501,7 +507,7 @@ export class Structures {
     }
     // --- roadside trees (rows and hedgerow trees) ---
     for (const road of this.roads.roads) {
-      if (road.type === 'trail') continue;
+      if (road.type === 'trail' || road.type === 'rail') continue;
       for (const side of [-1, 1]) {
         let s = rng.range(4, 14);
         while (s < road.length - 4) {
@@ -560,6 +566,46 @@ export class Structures {
         }
       }
     }
+  }
+
+  /** A small halt beside the county road crossing: platform, building, bench, lamps, crossing signs. */
+  placeRailway() {
+    const rail = this.roads.byId.railway, cr = this.roads.crossings && this.roads.crossings[0];
+    if (!rail || !cr) return;
+    const county = cr.road;
+    const p = this.roadAt(rail, rail.s[cr.i]);
+    // station sits west of the road, along the track, on the south side
+    const sx = p.x - p.tx * 46 + p.nx * 11, sz = p.z - p.tz * 46 + p.nz * 11;
+    const rot = Math.atan2(-p.nx, -p.nz);      // facing the track
+    const b = this.mkBuilding({ id: 'station', kind: 'shop', x: sx + p.nx * 4, z: sz + p.nz * 4, rot, w: 11, d: 6.4, H: 3.1, doorX: 0, style: { wall: 0xb55a3c, roof: 0x3b3d42, door: 0x2a3f5a }, label: 'Alden Halt', enterable: true });
+    b.station = true;
+    this.footprints.pop(); this.addFootprint(b.x, b.z, 12);
+    // platform alongside the track (flat slab)
+    const pc = [p.x - p.tx * 46 + p.nx * 3.2, p.z - p.tz * 46 + p.nz * 3.2];
+    this.add('misc', pc[0], pc[1], { type: 'platform', x: pc[0], z: pc[1], rot: Math.atan2(-p.tz, p.tx), len: 38, wid: 3.4 });
+    const py = this.t.heightNoPads(pc[0], pc[1]);
+    for (let k = -18; k <= 18; k += 3.2) this.t.pads.add(pc[0] + p.tx * k, pc[1] + p.tz * k, 2.5, py + 0.3, 1.2);
+    this.add('benches', pc[0] + p.tx * 8, pc[1] + p.tz * 8, { x: pc[0] + p.tx * 8 + p.nx * 0.9, z: pc[1] + p.tz * 8 + p.nz * 0.9, rot: Math.atan2(-p.nx, -p.nz) });
+    const lampAt = (k) => { const x = pc[0] + p.tx * k + p.nx * 1.6, z = pc[1] + p.tz * k + p.nz * 1.6; const y = this.t.heightNoPads(x, z) + 0.3; this.add('lamps', x, z, { x, z, y, rot: Math.atan2(-(-p.nz), -p.nx) }); this.lampList.push({ x: x + (-p.nx) * 0.9, y: y + 4.7, z: z + (-p.nz) * 0.9, color: 0xffe2b0, intensity: 7, dist: 20 }); };
+    lampAt(-12); lampAt(12);
+    // crossing warning signs and a bell post either side of the road
+    for (const side of [-1, 1]) {
+      const q = this.roadAt(county, county.s[0] + 0);
+      void q;
+    }
+    for (const side of [-1, 1]) {
+      const cp = this.roadAt(county, this.nearestS(county, cr.x, cr.z) + side * 12);
+      const x = cp.x + cp.nx * (county.width / 2 + 1.8) * 1, z = cp.z + cp.nz * (county.width / 2 + 1.8) * 1;
+      const y = this.t.heightNoPads(x, z);
+      this.add('signs', x, z, { x, z, y, rot: Math.atan2(-cp.tx * -side, -cp.tz * -side), lines: ['LEVEL CROSSING', 'Stop · look · listen'], kind: 'road', w: 1.6, h: 0.8 });
+    }
+    this.station = { x: b.x, z: b.z, platform: pc };
+  }
+
+  nearestS(road, x, z) {
+    let b = 0, bd = 1e18;
+    for (let i = 0; i < road.n; i++) { const d = (road.x[i] - x) ** 2 + (road.z[i] - z) ** 2; if (d < bd) { bd = d; b = i; } }
+    return road.s[b];
   }
 
   placeBridges() {

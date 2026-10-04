@@ -46,7 +46,12 @@ export class ChunkManager {
       let ch = this.chunks.get(key);
       if (!ch) { ch = new Chunk(x, z, key); this.chunks.set(key, ch); this.group.add(ch.group); }
       ch.dist = d;
-      const lod = d <= 1.6 ? 0 : d <= 3.6 ? 1 : d <= 6.2 ? 2 : 3;
+      let lod = d <= 1.6 ? 0 : d <= 3.6 ? 1 : d <= 6.2 ? 2 : 3;
+      // hysteresis: do not flip LOD back and forth while standing near a threshold
+      if (ch.terrainLod >= 0 && Math.abs(ch.terrainLod - lod) === 1) {
+        const edge = [1.6, 3.6, 6.2][Math.min(ch.terrainLod, lod)];
+        if (Math.abs(d - edge) < 0.35) lod = ch.terrainLod;
+      }
       if (ch.terrainLod !== lod) tasks.push({ pri: d, ch, kind: 'terrain', lod });
       if (d <= P.featureRadius + 0.3) { if (!ch.hasFeatures) tasks.push({ pri: d + 0.01, ch, kind: 'features' }); }
       else if (ch.hasFeatures && d > P.featureRadius + 1.3) tasks.push({ pri: -1, ch, kind: 'dropFeatures' });
