@@ -1,7 +1,8 @@
 name: Release video
 on:
   push:
-    tags: ['v*']
+    branches: ['claude/voxel-survival-letsplay-k76okk']
+    paths: ['.github/workflows/release.yml', 'letsplay/shardwild_letsplay_web.mp4']
 permissions:
   contents: write
 jobs:
@@ -13,6 +14,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "$GITHUB_REF_NAME" letsplay/shardwild_letsplay_web.mp4 \
+          gh release view v1.0 >/dev/null 2>&1 && exit 0
+          gh release create v1.0 --target "$GITHUB_SHA" letsplay/shardwild_letsplay_web.mp4 \
             --title "SHARDWILD — Completely Normal Survival Playthrough" \
             --notes "5-minute animated Let's Play of the fictional voxel survival game Shardwild (720p, H.264/AAC). Generated entirely from code in \`letsplay/\`."
