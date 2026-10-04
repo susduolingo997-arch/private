@@ -15,6 +15,9 @@ const LOD_SEGS = [32, 16, 8, 4];
 const _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _p = new THREE.Vector3(), _s = new THREE.Vector3(), _e = new THREE.Euler();
 const _c = new THREE.Color();
 const UP = new THREE.Vector3(0, 1, 0);
+let AO_GEO = null;
+const aoGeo = () => (AO_GEO || (AO_GEO = (() => { const g = new THREE.PlaneGeometry(1, 1); g.rotateX(-Math.PI / 2); g.userData.shared = true; return g; })()));
+const AO_R = [3.1, 1.9, 2.5, 1.5]; // contact-shadow radius per tree type (scale 1)
 
 export class Chunk {
   constructor(cx, cz, key) {
@@ -432,6 +435,25 @@ export class ChunkBuilder {
       const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7, side: THREE.FrontSide }));
       m.userData.ownMat = true; m.castShadow = true; m.matrixAutoUpdate = false;
       fg.add(m);
+    }
+    // ambient-occlusion decals under trees and around buildings
+    {
+      const decals = [];
+      for (let type = 0; type < 4; type++) for (const tr of treeLists[type]) decals.push([tr.x, tr.y + 0.05, tr.z, AO_R[type] * tr.scale * 2, AO_R[type] * tr.scale * 2, 0]);
+      if (sc) for (const b of sc.buildings) {
+        if (b.kind === 'silo') continue;
+        decals.push([b.x - ox, b.y + 0.06, b.z - oz, (b.w + 5), (b.d + 5), b.rot]);
+      }
+      if (decals.length) {
+        const am = new THREE.InstancedMesh(aoGeo(), Mats.aoDecal, decals.length);
+        decals.forEach((d, i) => {
+          _q.setFromAxisAngle(UP, d[5]); _p.set(d[0], d[1], d[2]); _s.set(d[3], 1, d[4]);
+          _m.compose(_p, _q, _s); am.setMatrixAt(i, _m);
+        });
+        am.instanceMatrix.needsUpdate = true;
+        am.renderOrder = 1; am.frustumCulled = true;
+        fg.add(am);
+      }
     }
     // parked cars (instanced)
     if (carList.length) {

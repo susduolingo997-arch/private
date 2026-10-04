@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { makeDetailTexture, makeRoadTexture, makeDirtTexture, makeRailTexture } from './Textures.js';
+import { makeDetailTexture, makeRoadTexture, makeDirtTexture, makeRailTexture, makeAOTexture } from './Textures.js';
 
 /**
  * Global shader uniforms, updated once per frame by the weather / sky systems and
@@ -177,6 +177,7 @@ export function initMaterials() {
   Mats.animal = patch(new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 }), {});
   Mats.emissiveLamp = new THREE.MeshBasicMaterial({ color: 0xfff1c9 });
   Mats.wires = new THREE.LineBasicMaterial({ color: 0x1a1a1c });
+  Mats.aoDecal = new THREE.MeshBasicMaterial({ map: makeAOTexture(), color: 0x000000, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 });
   Mats.sig = [0xff2a1a, 0xffa31a, 0x2aff55].map((c) => new THREE.MeshBasicMaterial({ color: c }));
   Mats.terrain.side = THREE.DoubleSide;
 

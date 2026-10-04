@@ -28,7 +28,14 @@ function oak(detail) {
 function birch(detail) {
   const rng = new Rng(21);
   const b = new GeoBuilder();
-  b.cyl(0, 0, 0, 0.16, 0.07, 6.2, [6, 5, 4][detail], lin(0xd9d5c9), lin(0xb9b4a6), false);
+  // birch bark: pale with dark horizontal marks
+  const segs = [7, 5, 4][detail], white = lin(0xd2cdc0), mark = lin(0x4a4640);
+  const rings = detail === 0 ? 7 : 3;
+  for (let k = 0; k < rings; k++) {
+    const h0 = (k / rings) * 6.2, h1 = ((k + 1) / rings) * 6.2, r0 = 0.16 - 0.09 * (k / rings), r1 = 0.16 - 0.09 * ((k + 1) / rings);
+    const dark = (k * 7 + 3) % 5 === 0;
+    b.cyl(0, h0, 0, r0, r1, h1 - h0, segs, dark ? mark : white, dark ? mark : lin(0xbdb7a8), false);
+  }
   const la = lin(0x5f9238), lb = lin(0x92b84c);
   const blobs = [[0, 6.3, 0, 1.6, 2.2, 1.6], [0.7, 5.0, 0.4, 1.3, 1.7, 1.3], [-0.6, 4.6, -0.5, 1.3, 1.6, 1.3], [0.1, 7.6, 0, 1.0, 1.4, 1.0]];
   const n = [4, 3, 2][detail];

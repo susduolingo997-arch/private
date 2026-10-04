@@ -263,3 +263,13 @@ export function makeRailTexture({ width = 4.2, seed = 21 }) {
   t.userData.width = width;
   return t;
 }
+
+/** Soft round contact-shadow decal (ambient occlusion under trees and buildings). */
+export function makeAOTexture() {
+  const S = 128;
+  const c = canvas(S, S), ctx = c.getContext('2d');
+  const g = ctx.createRadialGradient(S / 2, S / 2, 2, S / 2, S / 2, S / 2);
+  g.addColorStop(0, 'rgba(0,0,0,0.62)'); g.addColorStop(0.45, 'rgba(0,0,0,0.38)'); g.addColorStop(0.8, 'rgba(0,0,0,0.1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, S, S);
+  return tile(c, { repeat: false, srgb: false });
+}
