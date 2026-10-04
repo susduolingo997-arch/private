@@ -1,0 +1,24 @@
+{
+  "name": "private",
+  "version": "1.0.0",
+  "description": "hi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/susduolingo997-arch/private.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/susduolingo997-arch/private/issues"
+  },
+  "homepage": "https://github.com/susduolingo997-arch/private#readme",
+  "dependencies": {
+    "playwright-core": "^1.63.0",
+    "three": "^0.186.1"
+  }
+}

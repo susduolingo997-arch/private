@@ -1,0 +1,10 @@
+{"spawn":1.6,"walkTree":18.6,"atTree":22.0,"punch":22.4,"logBreak":26.0,"pickup":26.8,
+ "craftOpen":32.6,"craftLog1":33.5,"craftLog2":34.1,"craftDone":35.2,"craftClose":36.8,"trip":39.0,
+ "run1":40.8,"stopHill":48.6,"villageWalk":50.6,"atTrader":55.0,"wave":56.0,
+ "tradeOpen":60.0,"tradeDone":62.6,"tradeClose":64.2,"bombDrop":66.2,"boom":67.6,"stare":79.8,"flee":84.6,
+ "caveSwap":100.5,"bugsLeave":123.0,"lurk":125.3,"chase":126.8,"light":134.2,"exitFlash":135.8,"faceplant":137.0,
+ "floor":143.2,"walls":145.2,"roof":151.4,"tower1":154.4,"tower2":157.4,"windows":161.6,"mismatch":166.2,"door":174.0,"proud":181.6,
+ "dusk":189.0,"night":198.0,"moons":195.4,"spawnMobs":200.4,"swing1":211.4,"swing2":213.6,"bombThrow":217.0,"bombBack":217.8,"bombBoom":219.4,
+ "wallBreak":223.6,"panic":226.2,"panicEnd":236.6,"pillar":236.8,"roofHop":240.7,"climbFail":243.4,"hours":246.4,"hoursEnd":250.3,
+ "dawn":250.4,"retreat":255.5,"swingBlock":270.8,"breakBlock":272.0,"creak":272.7,"collapse":275.2,"heroLand":276.6,"bonkHead":283.0,
+ "freeze":285.3,"logo":291.8,"end":300.0}
