@@ -18,7 +18,7 @@ jobs:
       eps: ${{ steps.f.outputs.eps }}
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 2 }
+        with: { ref: claude/voxel-survival-letsplay-k76okk }
       - id: f
         env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
         run: |
@@ -32,6 +32,7 @@ jobs:
     strategy: { matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}' } }
     steps:
       - uses: actions/checkout@v4
+        with: { ref: claude/voxel-survival-letsplay-k76okk }
       - uses: actions/cache@v4
         with: { path: '/tmp/v', key: 'kokoro-v1' }
       - run: pip install numpy pillow soundfile kokoro-onnx
@@ -52,6 +53,7 @@ jobs:
       matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}', part: [0, 1, 2, 3, 4, 5] }
     steps:
       - uses: actions/checkout@v4
+        with: { ref: claude/voxel-survival-letsplay-k76okk }
       - uses: actions/download-artifact@v4
         with: { name: 'audio-${{ matrix.ep }}', path: 'letsplay/ep${{ matrix.ep }}/build/' }
       - uses: actions/cache@v4
@@ -70,6 +72,7 @@ jobs:
     strategy: { matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}' } }
     steps:
       - uses: actions/checkout@v4
+        with: { ref: claude/voxel-survival-letsplay-k76okk }
       - uses: actions/download-artifact@v4
         with: { pattern: 'part-${{ matrix.ep }}-*', path: parts, merge-multiple: true }
       - uses: actions/download-artifact@v4
