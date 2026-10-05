@@ -50,6 +50,7 @@ Read the end card in `letsplay/epN/scene.js` (`outlined(i ? 'EP ...'`) — that 
 
 ## 4b. Before pushing
 Check the episode dir contains ALL of: events.json, narration.py, audio.py, scene.js, index.html, RENDER. A missing audio.py makes the cloud render fail.
+Smoke-test audio.py (it crashed Ep 9's render once): with the placeholder `build/cues.json` (`[]`) run `python3 audio.py`; it must get through all music/SFX and only fail inside the narration mixer (IndexError on empty cues). Any error in the episode's own lines must be fixed. Never add two sound arrays of different lengths with `+` — pad/mix them first.
 
 ## 5. Render + publish in the cloud (do NOT render the full video locally)
 Rendering runs on GitHub Actions (`.github/workflows/render.yml`), so the session can end early and container restarts don't matter.

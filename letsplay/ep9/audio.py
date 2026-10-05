@@ -7,7 +7,11 @@ def splash(d=1.2): return bp(noise(d), 300, 4000) * env_ad(int(SR * d), 0.005, d
 def s_hover(d): return (osc(sweep(180, 260, d), d, 'saw') * 0.3 + bp(noise(d), 800, 3000) * 0.3) * np.minimum(1, T(d) / 0.5) * np.minimum(1, (d - T(d)) / 0.5)
 def s_glam(): return sum(s_bell(mtof(m), 0.9, 0.3) for m in (84, 88, 91, 96)) * 0.5
 def s_rocket(d=1.4): return bp(noise(d), 1500, 8000) * np.linspace(0.2, 1, int(SR * d)) * 0.5 + osc(sweep(400, 1800, d), d) * 0.15
-def s_pop_fw(): return s_boom(1.2, 0.3) + s_sparkle() * 0.8
+def mix(*xs):
+    out = np.zeros(max(len(x) for x in xs))
+    for x in xs: out[:len(x)] += x
+    return out
+def s_pop_fw(): return mix(s_boom(1.2, 0.3), s_sparkle() * 0.8)
 def s_crowd(d): return bp(noise(d), 300, 2500) * (0.6 + 0.4 * np.sin(2 * np.pi * 3 * T(d))) * 0.25
 mput(s_fanfare(), E['titleIn'], 0.7)
 track(4.6, E['arrive'], 112, 62, [C, G_, Am, F_], seed=301, gain=0.34, drums=1, wave='tri')
