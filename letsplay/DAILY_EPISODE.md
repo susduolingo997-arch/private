@@ -40,9 +40,13 @@ Read the end card in `letsplay/epN/scene.js` (`outlined(i ? 'EP ...'`) — that 
 - **Narration**: vary energy (whisper → shout), include 2–3 lines of direct talk to the viewer/chat, avoid repeating the previous episode's catchphrases.
 - **Audio**: a distinct musical theme for the new setting and at least 5 new sound effects made for this episode's events.
 
-## 4. Audio + check
-In the episode dir: `python3 narration.py <scratchpad>` then `python3 audio.py`.
-Stills: `PAGE=letsplay/epX/index.html node ../render.mjs --stills t1,t2,...` (~16 times), make a contact sheet with `../sheet.py`, look once, fix obvious camera/visibility bugs once. Delete stills/sheets afterwards.
+## 4. Quick check (keep it FAST — GitHub Actions does narration, audio and the real render)
+- Do NOT run narration.py / audio.py locally (CI regenerates them). For stills use placeholder data:
+  `echo '[]' > build/cues.json; python3 -c "import json;json.dump([0]*7200,open('build/env.json','w'))"`
+- ONE batch of ~12 stills (`PAGE=letsplay/epX/index.html node ../render.mjs --stills ...` from the episode dir), one contact sheet (`../sheet.py`), fix obvious problems once, no second stills pass unless something was badly broken.
+- Only sanity-check narration.py by running `python3 -c "import ast;ast.parse(open('narration.py').read())"` and checking line times are increasing and end before 292 s.
+- Write files in as few tool calls as possible (one Write per file); don't re-read files you just wrote.
+- Delete build/stills and sheets before committing.
 
 ## 5. Render + publish in the cloud (do NOT render the full video locally)
 Rendering runs on GitHub Actions (`.github/workflows/render.yml`), so the session can end early and container restarts don't matter.
