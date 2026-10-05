@@ -48,6 +48,9 @@ Read the end card in `letsplay/epN/scene.js` (`outlined(i ? 'EP ...'`) — that 
 - Write files in as few tool calls as possible (one Write per file); don't re-read files you just wrote.
 - Delete build/stills and sheets before committing.
 
+## 4b. Before pushing
+Check the episode dir contains ALL of: events.json, narration.py, audio.py, scene.js, index.html, RENDER. A missing audio.py makes the cloud render fail.
+
 ## 5. Render + publish in the cloud (do NOT render the full video locally)
 Rendering runs on GitHub Actions (`.github/workflows/render.yml`), so the session can end early and container restarts don't matter.
 Create `letsplay/epX/RENDER` (any content), add `letsplay/epX/build/` to `.gitignore`, commit the episode code + RENDER file and push.
