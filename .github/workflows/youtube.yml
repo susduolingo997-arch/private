@@ -1,0 +1,27 @@
+name: Upload to YouTube
+# Uploads any release video not yet on YouTube. Runs every 6 hours (from main) or manually.
+on:
+  schedule:
+    - cron: '43 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: ['claude/voxel-survival-letsplay-k76okk']
+    paths: ['.github/workflows/youtube.yml', 'letsplay/youtube_upload.py']
+permissions:
+  contents: write
+concurrency: { group: youtube, cancel-in-progress: false }
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: claude/voxel-survival-letsplay-k76okk }
+      - run: pip install google-api-python-client google-auth
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          YT_DESCRIPTION: ${{ vars.YT_DESCRIPTION }}
+        run: python3 letsplay/youtube_upload.py
