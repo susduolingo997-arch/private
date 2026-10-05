@@ -1,0 +1,73 @@
+name: Render episode
+# Push a file letsplay/epN/RENDER (any content) to render episode N in the cloud and publish release vN.0.
+on:
+  push:
+    branches: ['claude/voxel-survival-letsplay-k76okk']
+    paths: ['letsplay/ep*/RENDER']
+permissions:
+  contents: write
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      eps: ${{ steps.f.outputs.eps }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - id: f
+        run: |
+          eps=$(git diff --name-only HEAD~1 HEAD | grep -E '^letsplay/ep[0-9]+/RENDER$' | sed -E 's#letsplay/ep([0-9]+)/RENDER#\1#' | jq -R . | jq -sc .)
+          echo "eps=$eps" >> $GITHUB_OUTPUT
+  audio:
+    needs: plan
+    if: needs.plan.outputs.eps != '[]'
+    runs-on: ubuntu-latest
+    strategy: { matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}' } }
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install numpy pillow soundfile kokoro-onnx
+      - run: |
+          mkdir -p /tmp/v && cd /tmp/v
+          B=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0
+          curl -sSL -o kokoro.onnx $B/kokoro-v1.0.int8.onnx && curl -sSL -o voices.bin $B/voices-v1.0.bin
+      - working-directory: letsplay/ep${{ matrix.ep }}
+        run: python3 narration.py /tmp/v && python3 audio.py
+      - uses: actions/upload-artifact@v4
+        with: { name: 'audio-${{ matrix.ep }}', path: 'letsplay/ep${{ matrix.ep }}/build/' }
+  render:
+    needs: [plan, audio]
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}', part: [0, 1, 2, 3, 4, 5] }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: 'audio-${{ matrix.ep }}', path: 'letsplay/ep${{ matrix.ep }}/build/' }
+      - run: npm i three playwright-core && npx playwright install --with-deps chromium
+      - working-directory: letsplay/ep${{ matrix.ep }}
+        run: |
+          export CHROME_PATH=$(ls -d ~/.cache/ms-playwright/chromium-*/chrome-linux*/chrome | head -1)
+          a=$(( ${{ matrix.part }} * 50 )); b=$(( a + 50 ))
+          PAGE=letsplay/ep${{ matrix.ep }}/index.html node ../render.mjs $a $b part${{ matrix.part }}.mp4
+      - uses: actions/upload-artifact@v4
+        with: { name: 'part-${{ matrix.ep }}-${{ matrix.part }}', path: 'letsplay/ep${{ matrix.ep }}/part${{ matrix.part }}.mp4' }
+  publish:
+    needs: [plan, render]
+    runs-on: ubuntu-latest
+    strategy: { matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}' } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { pattern: 'part-${{ matrix.ep }}-*', path: parts, merge-multiple: true }
+      - uses: actions/download-artifact@v4
+        with: { name: 'audio-${{ matrix.ep }}', path: audio }
+      - env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+        run: |
+          N=${{ matrix.ep }}; for i in 0 1 2 3 4 5; do echo "file 'parts/part$i.mp4'"; done > list.txt
+          ffmpeg -y -loglevel error -f concat -safe 0 -i list.txt -i audio/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full.mp4
+          ffmpeg -y -loglevel error -i full.mp4 -c:v libx264 -preset veryfast -crf 31 -c:a aac -b:a 128k -movflags +faststart shardwild_ep${N}_web.mp4
+          TITLE=$(grep -oE "outlined\('I [A-Z ]+'" letsplay/ep$N/scene.js | head -1 | sed -E "s/outlined\('//;s/'//")
+          gh release view v$N.0 >/dev/null 2>&1 || gh release create v$N.0 --target "$GITHUB_SHA" shardwild_ep${N}_web.mp4 \
+            --title "SHARDWILD Ep $N — ${TITLE:-new episode}" --notes "5-minute animated Let's Play of the fictional voxel survival game Shardwild (720p). Rendered by GitHub Actions from code in letsplay/ep$N/."
