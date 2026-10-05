@@ -7,7 +7,7 @@ If the repo is not already in the working directory: `git clone https://github.c
 If cloning/pushing is refused, call the `add_repo` tool (claude-code-remote) for susduolingo997-arch/private with access "push", then retry. If it still fails, stop and report.
 
 ## 1. Guards (stop early, cheaply)
-- Let N = highest `letsplay/epN/` directory. If `letsplay/epN/shardwild_epN_web.mp4` is NOT committed yet, the previous episode is still unfinished → if `letsplay/epN/scene.js` exists but no video, finish that episode (steps 4–6) instead of starting a new one. Never start two episodes in one run.
+- For EVERY `letsplay/epK/` that has a `scene.js` but no committed `shardwild_epK_web.mp4` (oldest first): finish it (steps 4–6; reuse existing build/vo, build/audio.wav if present) and publish it. If you finished any, stop there — do not also start a new episode in the same run.
 - If the last commit touching `letsplay/ep*/` is from today (Europe/Berlin), stop: today's episode already exists.
 
 ## 2. Setup
