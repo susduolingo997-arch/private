@@ -24,6 +24,16 @@ Read the end card in `letsplay/epN/scene.js` (`outlined(i ? 'EP ...'`) — that 
 - `audio.py`: modeled on epN's (exec the library part of `../audio.py`, new music/SFX timeline, `exec(MIX)`).
 - copy `../index.html`.
 
+## 3b. Quality bar (Episode 6 onward — make each episode better than the last)
+- **Story**: 3 acts with a real twist in the middle, not just "build → disaster". Give Bloop and Leggy their own mini-plot (a goal, a reaction, a payoff), not just standing around.
+- **Fresh jokes**: at most ONE callback to an old running gag (invoice, sandwich, support block). Invent 3+ new gags specific to this episode's setting.
+- **At least 2 distinct locations/sets** (e.g. travel → destination, or outside → inside) with different sky/lighting moods.
+- **A new creature or NPC** designed for this episode (blocky, original, expressive), plus one new prop/mechanic that drives the plot.
+- **Camera**: vary shots — establishing wide, over-the-shoulder, low angle, a tracking shot, a dramatic push-in. No shot longer than ~8 s without camera motion. Check stills specifically for clipping, characters off-screen or blocked, and too-dark frames.
+- **Pacing**: an action beat or visual gag at least every ~15 s; quiet moments only right before a payoff.
+- **Narration**: vary energy (whisper → shout), include 2–3 lines of direct talk to the viewer/chat, avoid repeating the previous episode's catchphrases.
+- **Audio**: a distinct musical theme for the new setting and at least 5 new sound effects made for this episode's events.
+
 ## 4. Audio + check
 In the episode dir: `python3 narration.py <scratchpad>` then `python3 audio.py`.
 Stills: `PAGE=letsplay/epX/index.html node ../render.mjs --stills t1,t2,...` (~16 times), make a contact sheet with `../sheet.py`, look once, fix obvious camera/visibility bugs once. Delete stills/sheets afterwards.
