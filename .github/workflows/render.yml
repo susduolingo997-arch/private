@@ -58,8 +58,14 @@ jobs:
         with: { name: 'audio-${{ matrix.ep }}', path: 'letsplay/ep${{ matrix.ep }}/build/' }
       - uses: actions/cache@v4
         with: { path: '~/.cache/ms-playwright', key: 'pw-chromium-v1' }
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-      - run: npm i three playwright-core && npx playwright install --with-deps chromium
+      - uses: actions/cache@v4
+        with: { path: '~/ffmpeg-bin', key: 'ffmpeg-static-v1' }
+      - run: |
+          if [ ! -x ~/ffmpeg-bin/ffmpeg ]; then mkdir -p ~/ffmpeg-bin && curl -sSL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz | tar xJ --strip-components=1 -C ~/ffmpeg-bin; fi
+          echo "$HOME/ffmpeg-bin" >> $GITHUB_PATH
+      - uses: actions/cache@v4
+        with: { path: 'node_modules', key: 'node-three-pw-v1' }
+      - run: '[ -d node_modules/three ] || npm i three playwright-core; npx playwright install --with-deps chromium'
       - working-directory: letsplay/ep${{ matrix.ep }}
         run: |
           export CHROME_PATH=$(ls -d ~/.cache/ms-playwright/chromium-*/chrome-linux*/chrome | head -1)
@@ -78,12 +84,16 @@ jobs:
         with: { pattern: 'part-${{ matrix.ep }}-*', path: parts, merge-multiple: true }
       - uses: actions/download-artifact@v4
         with: { name: 'audio-${{ matrix.ep }}', path: audio }
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - uses: actions/cache@v4
+        with: { path: '~/ffmpeg-bin', key: 'ffmpeg-static-v1' }
+      - run: |
+          if [ ! -x ~/ffmpeg-bin/ffmpeg ]; then mkdir -p ~/ffmpeg-bin && curl -sSL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz | tar xJ --strip-components=1 -C ~/ffmpeg-bin; fi
+          echo "$HOME/ffmpeg-bin" >> $GITHUB_PATH
       - env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
         run: |
           N=${{ matrix.ep }}; for i in $(seq 0 19); do echo "file 'parts/part$i.mp4'"; done > list.txt
           ffmpeg -y -loglevel error -f concat -safe 0 -i list.txt -i audio/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full.mp4
-          ffmpeg -y -loglevel error -i full.mp4 -c:v libx264 -preset veryfast -crf 31 -c:a aac -b:a 128k -movflags +faststart shardwild_ep${N}_web.mp4
+          ffmpeg -y -loglevel error -i full.mp4 -c:v libx264 -preset medium -crf 25 -c:a aac -b:a 160k -movflags +faststart shardwild_ep${N}_web.mp4
           TITLE=$(grep -oE "outlined\('I [A-Z ]+'" letsplay/ep$N/scene.js | head -1 | sed -E "s/outlined\('//;s/'//")
           gh release view v$N.0 >/dev/null 2>&1 || gh release create v$N.0 --target "$GITHUB_SHA" shardwild_ep${N}_web.mp4 \
             --title "SHARDWILD Ep $N — ${TITLE:-new episode}" --notes "5-minute animated Let's Play of the fictional voxel survival game Shardwild (720p). Rendered by GitHub Actions from code in letsplay/ep$N/."
