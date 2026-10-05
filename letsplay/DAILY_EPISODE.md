@@ -7,7 +7,7 @@ If the repo is not already in the working directory: `git clone https://github.c
 If cloning/pushing is refused, call the `add_repo` tool (claude-code-remote) for susduolingo997-arch/private with access "push", then retry. If it still fails, stop and report.
 
 ## 1. Guards (stop early, cheaply)
-- For EVERY `letsplay/epK/` that has a `scene.js` but no committed `shardwild_epK_web.mp4` (oldest first): finish it (steps 4–6; reuse existing build/vo, build/audio.wav if present) and publish it. If you finished any, stop there — do not also start a new episode in the same run.
+- For EVERY `letsplay/epK/` that has a `scene.js` but no committed `shardwild_epK_web.mp4` (oldest first): trigger its cloud render (step 5). If you finished any, stop there — do not also start a new episode in the same run.
 - If the last commit touching `letsplay/ep*/` is from today (Europe/Berlin), stop: today's episode already exists.
 
 ## 2. Setup
@@ -28,9 +28,9 @@ Read the end card in `letsplay/epN/scene.js` (`outlined(i ? 'EP ...'`) — that 
 In the episode dir: `python3 narration.py <scratchpad>` then `python3 audio.py`.
 Stills: `PAGE=letsplay/epX/index.html node ../render.mjs --stills t1,t2,...` (~16 times), make a contact sheet with `../sheet.py`, look once, fix obvious camera/visibility bugs once. Delete stills/sheets afterwards.
 
-## 5. Render (≈1.5 h)
-4 parallel chunks exactly like `letsplay/overnight5.sh`, run in the background, wait for them; concat + mux with `build/audio.wav`; encode `shardwild_epX_web.mp4` at crf 31.
-
-## 6. Publish
-Add `rel vX.0 letsplay/epX/shardwild_epX_web.mp4 "Ep X — <title>"` to `.github/workflows/release.yml`, add `letsplay/epX/build/` to `.gitignore`, `git add -f` the web mp4, commit, push (retry with backoff on network errors). The workflow creates the GitHub release.
-Finish with a 3-line summary and the release link `https://github.com/susduolingo997-arch/private/releases/tag/vX.0`.
+## 5. Render + publish in the cloud (do NOT render the full video locally)
+Rendering runs on GitHub Actions (`.github/workflows/render.yml`), so the session can end early and container restarts don't matter.
+Create `letsplay/epX/RENDER` (any content), add `letsplay/epX/build/` to `.gitignore`, commit the episode code + RENDER file and push.
+The workflow regenerates narration + audio, renders in 6 parallel jobs and publishes release `vX.0` by itself (~1–2 h). Do not wait for it.
+For unfinished older episodes (guard in step 1): just make sure `letsplay/epK/RENDER` exists; if it already exists and release vK.0 is missing, append a line to it and push to re-trigger.
+Finish with a 3-line summary and `https://github.com/susduolingo997-arch/private/releases/tag/vX.0` (will appear when the workflow finishes).
