@@ -50,7 +50,7 @@ jobs:
     timeout-minutes: 340
     strategy:
       fail-fast: false
-      matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}', part: [0, 1, 2, 3, 4, 5] }
+      matrix: { ep: '${{ fromJson(needs.plan.outputs.eps) }}', part: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
     steps:
       - uses: actions/checkout@v4
         with: { ref: claude/voxel-survival-letsplay-k76okk }
@@ -63,7 +63,7 @@ jobs:
       - working-directory: letsplay/ep${{ matrix.ep }}
         run: |
           export CHROME_PATH=$(ls -d ~/.cache/ms-playwright/chromium-*/chrome-linux*/chrome | head -1)
-          a=$(( ${{ matrix.part }} * 50 )); b=$(( a + 50 ))
+          a=$(( ${{ matrix.part }} * 25 )); b=$(( a + 25 ))
           PAGE=letsplay/ep${{ matrix.ep }}/index.html node ../render.mjs $a $b part${{ matrix.part }}.mp4
       - uses: actions/upload-artifact@v4
         with: { name: 'part-${{ matrix.ep }}-${{ matrix.part }}', path: 'letsplay/ep${{ matrix.ep }}/part${{ matrix.part }}.mp4' }
@@ -81,7 +81,7 @@ jobs:
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
         run: |
-          N=${{ matrix.ep }}; for i in 0 1 2 3 4 5; do echo "file 'parts/part$i.mp4'"; done > list.txt
+          N=${{ matrix.ep }}; for i in $(seq 0 11); do echo "file 'parts/part$i.mp4'"; done > list.txt
           ffmpeg -y -loglevel error -f concat -safe 0 -i list.txt -i audio/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full.mp4
           ffmpeg -y -loglevel error -i full.mp4 -c:v libx264 -preset veryfast -crf 31 -c:a aac -b:a 128k -movflags +faststart shardwild_ep${N}_web.mp4
           TITLE=$(grep -oE "outlined\('I [A-Z ]+'" letsplay/ep$N/scene.js | head -1 | sed -E "s/outlined\('//;s/'//")
