@@ -24,6 +24,10 @@ Read the end card in `letsplay/epN/scene.js` (`outlined(i ? 'EP ...'`) — that 
 - `audio.py`: modeled on epN's (exec the library part of `../audio.py`, new music/SFX timeline, `exec(MIX)`).
 - copy `../index.html`.
 
+## 3a. Planned episodes (user requests — these override the end-card teaser)
+- **Episode 7**: its end card must tease Episode 8 as something like `EP 8: BLOOP QUITS?!` / `(pay the invoice)`.
+- **Episode 8 — "Bloop Quits?!"**: Bloop finally demands payment for ALL his invoices (the 2-page one included) or he quits for good. The episode is the hero's frantic attempt to raise the money (side hustles, selling stuff, schemes that go wrong; Leggy helps in her own way). Bloop gets the spotlight: show his side, his hard hat, his pile of invoices, maybe a job offer from someone else. Must still end with a comedic disaster + freeze-frame, and a heartfelt-but-funny resolution with Bloop (he stays — or does he?). The invoice is the episode's main thread, so the "max one old callback" rule does not apply to invoices here.
+
 ## 3b. Quality bar (Episode 6 onward — make each episode better than the last)
 - **Story**: 3 acts with a real twist in the middle, not just "build → disaster". Give Bloop and Leggy their own mini-plot (a goal, a reaction, a payoff), not just standing around.
 - **Fresh jokes**: at most ONE callback to an old running gag (invoice, sandwich, support block). Invent 3+ new gags specific to this episode's setting.
