@@ -3,7 +3,7 @@ name: Render episode
 on:
   push:
     branches: ['claude/voxel-survival-letsplay-k76okk']
-    paths: ['letsplay/ep*/RENDER']
+    paths: ['letsplay/ep*/RENDER', 'letsplay/ep*/REMAKE']
   schedule:
     - cron: '17 */6 * * *'   # watchdog: retry any episode that has RENDER but no release
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
         env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
         run: |
           # every episode with a RENDER file whose release doesn't exist yet (oldest first, max 2 per run)
-          eps=$(for f in letsplay/ep*/RENDER; do n=$(echo $f | sed -E 's#letsplay/ep([0-9]+)/RENDER#\1#'); gh release view v$n.0 >/dev/null 2>&1 || echo $n; done | sort -n | head -2 | jq -R . | jq -sc .)
+          eps=$(for f in letsplay/ep*/RENDER; do n=$(echo $f | sed -E 's#letsplay/ep([0-9]+)/RENDER#\1#'); if ! gh release view v$n.0 >/dev/null 2>&1; then echo $n; elif [ -f letsplay/ep$n/REMAKE ] && ! gh release view v$n.0 --json body -q .body | grep -qF "remake:$(head -1 letsplay/ep$n/REMAKE)"; then echo $n; fi; done | sort -n | head -2 | jq -R . | jq -sc .)
           echo "eps=$eps" >> $GITHUB_OUTPUT
   audio:
     needs: plan
@@ -95,8 +95,13 @@ jobs:
           ffmpeg -y -loglevel error -f concat -safe 0 -i list.txt -i audio/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full.mp4
           ffmpeg -y -loglevel error -i full.mp4 -c:v libx264 -preset medium -crf 25 -c:a aac -b:a 160k -movflags +faststart shardwild_ep${N}_web.mp4
           TITLE=$(grep -oE "outlined\('I [A-Z ]+'" letsplay/ep$N/scene.js | head -1 | sed -E "s/outlined\('//;s/'//")
-          gh release view v$N.0 >/dev/null 2>&1 || gh release create v$N.0 --target "$GITHUB_SHA" shardwild_ep${N}_web.mp4 \
+          if gh release view v$N.0 >/dev/null 2>&1; then
+            gh release upload v$N.0 shardwild_ep${N}_web.mp4 --clobber
+            [ ! -f letsplay/ep$N/REMAKE ] || gh release edit v$N.0 --notes "$(gh release view v$N.0 --json body -q .body | grep -v '^remake:')
+          remake:$(head -1 letsplay/ep$N/REMAKE)"
+          else gh release create v$N.0 --target "$GITHUB_SHA" shardwild_ep${N}_web.mp4 \
             --title "SHARDWILD Ep $N — ${TITLE:-new episode}" --notes "5-minute animated Let's Play of the fictional voxel survival game Shardwild (720p). Rendered by GitHub Actions from code in letsplay/ep$N/."
+          fi
   report-failure:
     needs: [plan, audio, render, publish]
     if: failure()

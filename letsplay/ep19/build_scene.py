@@ -38,7 +38,7 @@ rline("const FLASH = ", "const FLASH = [[E.chest + 0.4, 0.3, '255,230,120'], [E.
 rep("outlined('EPISODE 18', 70, H * 0.3 + 45, 26, '#5ff7ff', '#000', 5, 'left'); outlined('THE SHRINK RAY', 70, H * 0.3 + 92, 40, '#ffffff', '#000', 7, 'left'); outlined('(we\\'re tiny now)'",
     "outlined('EPISODE 19', 70, H * 0.3 + 45, 26, '#5ff7ff', '#000', 5, 'left'); outlined('THE TREASURE MAP', 70, H * 0.3 + 92, 40, '#ffffff', '#000', 7, 'left'); outlined('(X marks the wrong spot)'")
 rep("outlined(i ? 'EP 19: THE TREASURE MAP' : 'EP 17: THE TIME MACHINE', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(X marks the wrong spot)' : '(Bloop built it. uh oh.)', x + 110, y + 80, 14",
-    "outlined(i ? 'EP 20: THE BIG STORM' : 'EP 18: THE SHRINK RAY', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(hold on to the hat)' : '(we\\'re tiny now)', x + 110, y + 80, 14")
+    "outlined(i ? 'EP 20: THE TIME MACHINE' : 'EP 18: THE SHRINK RAY', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(this time it works!)' : '(we\\'re tiny now)', x + 110, y + 80, 14")
 rep("outlined('yep. it hit the wrong guy.', 0, 0, 52", "outlined('yep. it was chocolate.', 0, 0, 56")
 rep("\"that's me. bug hug.\"", "\"that's me. X marks me.\"")
 rep("'(Muffin is the biggest now)'", "'(Leggy ate the treasure)'")

@@ -1224,7 +1224,7 @@ function drawLogo(t) {
   const pressed = t > 296.2 && t < 296.5, subbed = t > 296.3;
   ctx.save(); ctx.translate(W / 2 - 260, H / 2 + 150); if (pressed) ctx.scale(0.92, 0.92); rrect(-110, -32, 220, 64, 32); ctx.fillStyle = subbed ? '#666' : '#ff2a4a'; ctx.fill(); outlined(subbed ? 'SUBSCRIBED ✓' : 'SUBSCRIBE', 0, 1, 24, '#fff', '#000', 4); ctx.restore();
   for (let i = 0; i < 2; i++) { const x = W / 2 + 40 + i * 250, y = H / 2 + 110; rrect(x, y, 220, 124, 12); ctx.fillStyle = i ? '#3a1d5c' : '#1d4a3a'; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = '#fff'; ctx.stroke();
-    outlined(i ? 'EP 20: THE BIG STORM' : 'EP 18: THE SHRINK RAY', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(hold on to the hat)' : '(we\'re tiny now)', x + 110, y + 80, 14, '#fff', '#000', 3); }
+    outlined(i ? 'EP 20: THE TIME MACHINE' : 'EP 18: THE SHRINK RAY', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(this time it works!)' : '(we\'re tiny now)', x + 110, y + 80, 14, '#fff', '#000', 3); }
   const c = track(t, [[E.logo + 3, W / 2 + 120, 0, H - 40], [296.2, W / 2 - 250, 0, H / 2 + 160], [300, W / 2 - 240, 0, H / 2 + 170]]).p; cursor(c[0], c[2], pressed);
   ctx.restore();
   ctx.fillStyle = `rgba(0,0,0,${seg(t, 299.3, 300)})`; ctx.fillRect(0, 0, W, H);
