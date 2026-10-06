@@ -48,7 +48,7 @@ rline("const SHAKES = ", "const SHAKES = [[E.duckSend, 1, 0.12], [E.countdown, 2
 rline("const FLASH = ", "const FLASH = [[E.duckSend, 0.3, '160,250,255'], [E.duckArrive, 0.2, '160,250,255'], [E.highfive + 0.8, 0.3, '255,120,240'], [E.twinOut, 0.25, '160,250,255'], [E.third, 0.25, '160,250,255']];")
 rep("outlined('EPISODE 19', 70, H * 0.3 + 45, 26, '#5ff7ff', '#000', 5, 'left'); outlined('THE TREASURE MAP', 70, H * 0.3 + 92, 40, '#ffffff', '#000', 7, 'left'); outlined('(X marks the wrong spot)'",
     "outlined('EPISODE 20', 70, H * 0.3 + 45, 26, '#5ff7ff', '#000', 5, 'left'); outlined('THE TIME MACHINE', 70, H * 0.3 + 92, 40, '#ffffff', '#000', 7, 'left'); outlined('(it works. really.)'")
-rep("outlined(i ? 'EP 20: THE BIG STORM' : 'EP 18: THE SHRINK RAY', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(hold on to the hat)' : '(we\\'re tiny now)', x + 110, y + 80, 14",
+rep("outlined(i ? 'EP 20: THE TIME MACHINE' : 'EP 18: THE SHRINK RAY', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(this time it works!)' : '(we\\'re tiny now)', x + 110, y + 80, 14",
     "outlined(i ? 'EP 21: THREE OF ME' : 'EP 19: THE TREASURE MAP', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(we need a bigger couch)' : '(X marks the wrong spot)', x + 110, y + 80, 14")
 rep("outlined('yep. it was chocolate.', 0, 0, 56", "outlined('yep. it works. too well.', 0, 0, 56")
 rep("\"that's me. X marks me.\"", "\"that's me. and me. and me.\"")
