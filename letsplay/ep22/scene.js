@@ -935,214 +935,222 @@ function drawFlyer(T) { const k = ss(seg(T, E.flyer + 0.4, E.flyer + 0.8)) * (1 
   if (T > E.flyer + 2.4) { outlined('PRIZE: THE MEGA SOFA', 0, 66, 26, '#c0182a', '#ffe8f4', 2); outlined('seats 12!!', 0, 100, 24, '#3a2a60', '#ffe8f4', 2); }
   if (T > E.flyer + 4) outlined('(do not feed the sofa)', 0, 150, 16, '#777', '#ffe8f4', 2); ctx.restore(); }
 
-// ---------------------------------------------------------------- set A: the yard (couch trouble; later the sunset and the leap)
+// ---------------------------------------------------------------- Ep 22 helpers: the ghost train, Conductor Wisp, flappers, the Spook-o-Meter
+const ghostM = new THREE.MeshLambertMaterial({ color: '#7fe8ff', emissive: '#2ab0c8', emissiveIntensity: 0.7, transparent: true, opacity: 0.75 }), ghostD = new THREE.MeshLambertMaterial({ color: '#2a5a8a', emissive: '#103a5a', emissiveIntensity: 0.6, transparent: true, opacity: 0.8 });
+const glowY = new THREE.MeshBasicMaterial({ color: '#fff3a0' }), glowC = new THREE.MeshBasicMaterial({ color: '#7ff5e6' }), glowP = new THREE.MeshBasicMaterial({ color: '#ff8fd8' });
+function makeTrain() { const root = new THREE.Group(), loco = pivot(root, 0, 0, 0), cars = [pivot(root, 0, 0, 0), pivot(root, 0, 0, 0)];
+  box(2.2, 0.5, 4.2, 0, 0, 0.8, 0, loco, ghostD); box(1.8, 1.6, 2.6, 0, 0, 1.85, 0.6, loco, ghostM); box(2.2, 0.2, 1.6, 0, 0, 3.2, -1.3, loco, ghostD); for (const x of [-1, 1]) box(0.2, 2.2, 1.5, 0, x, 2.1, -1.3, loco, ghostM); box(2.2, 1.0, 0.2, 0, 0, 1.5, -2.0, loco, ghostM);
+  box(0.6, 1.0, 0.6, 0, 0, 3.1, 1.5, loco, ghostD); box(0.9, 0.7, 0.15, 0, 0, 1.9, 1.95, loco, glowY); box(2.0, 0.5, 0.5, 0, 0, 0.6, 2.25, loco, ghostD);
+  const lever = pivot(loco, 0.6, 1.2, -1.0); box(0.1, 0.8, 0.1, '#c0c0c8', 0, 0.4, 0, lever); box(0.24, 0.24, 0.24, '#e8344e', 0, 0.82, 0, lever);
+  const wheels = []; for (const g of [loco, ...cars]) for (const z of [-1.2, 1.2]) for (const x of [-1.15, 1.15]) { const w = pivot(g, x, 0.45, z); box(0.16, 0.8, 0.8, 0, 0, 0, 0, w, ghostD); wheels.push(w); }
+  for (const c of cars) { box(2.2, 0.6, 3.6, 0, 0, 0.9, 0, c, ghostD); for (const x of [-1.05, 1.05]) box(0.15, 0.7, 3.6, 0, x, 1.55, 0, c, ghostM); for (const z of [-1.75, 1.75]) box(2.2, 0.7, 0.15, 0, 0, 1.55, z, c, ghostM); }
+  const lamp = new THREE.PointLight('#bff8ff', 30, 14, 1.4); lamp.position.set(0, 2.4, -5); root.add(lamp);
+  root.traverse(o => { if (o.isMesh) o.castShadow = true; }); return { root, loco, cars, lever, wheels, lamp }; }
+const train = makeTrain(), CARZ = [-5.4, -9.4];
+// place loco + cars: fn(d) -> [pos, yaw] for a distance d behind the loco centre
+function placeTrain(fn, roll, op = 0.75) { const [p, y] = fn(0); train.loco.position.set(...p); train.loco.rotation.set(0, y, 0); train.cars.forEach((c, i) => { const [q, yy] = fn(-CARZ[i]); c.position.set(...q); c.rotation.set(0, yy, 0); });
+  train.wheels.forEach(w => w.rotation.x = roll); ghostM.opacity = op; ghostD.opacity = Math.min(1, op + 0.05); train.lamp.position.set(...fn(4)[0]); train.lamp.position.y += 2.4; }
+const inCar = (i, l) => { const c = train.cars[i]; return wl([c.position.x, c.position.y, c.position.z], c.rotation.y, l); }, inLoco = l => wl([train.loco.position.x, train.loco.position.y, train.loco.position.z], train.loco.rotation.y, l);
+const SEATS = [[-0.5, 1.15, 0.8], [0.5, 1.15, 0.8], [-0.5, 1.15, -0.8], [0.5, 1.15, -0.8]];
+function makeWisp() { const root = new THREE.Group(), body = pivot(root, 0, 0, 0), sm = new THREE.MeshLambertMaterial({ color: '#f4fbff', emissive: '#9fdcff', emissiveIntensity: 0.45, transparent: true, opacity: 0.85 });
+  box(1.0, 1.2, 0.9, 0, 0, 0.7, 0, body, sm); const hd = pivot(body, 0, 1.3, 0); box(0.9, 0.75, 0.85, 0, 0, 0.3, 0, hd, sm);
+  const eyes = [-0.2, 0.2].map(x => box(0.16, 0.26, 0.04, '#111', x, 0.36, 0.44, hd)); const mouth = box(0.2, 0.16, 0.04, '#111', 0, 0.1, 0.44, hd);
+  const cap = pivot(hd, 0, 0.72, 0); box(0.95, 0.25, 0.9, '#1b2a4a', 0, 0, 0, cap); box(0.96, 0.08, 0.91, '#ffd23f', 0, -0.06, 0, cap); box(0.95, 0.06, 0.4, '#1b2a4a', 0, -0.1, 0.55, cap);
+  const skirt = [-0.36, -0.12, 0.12, 0.36].map(x => { const p = pivot(body, x, 0.1, 0); box(0.24, 0.3, 0.9, 0, 0, -0.12, 0, p, sm); return p; });
+  const aL = pivot(body, -0.58, 1.1, 0), aR = pivot(body, 0.58, 1.1, 0); box(0.2, 0.5, 0.2, 0, 0, -0.22, 0, aL, sm); box(0.2, 0.5, 0.2, 0, 0, -0.22, 0, aR, sm);
+  const lant = pivot(aR, 0, -0.55, 0.1); box(0.26, 0.36, 0.26, 0, 0, -0.1, 0, lant, glowY); box(0.3, 0.06, 0.3, '#333', 0, 0.1, 0, lant); const punch = box(0.14, 0.24, 0.1, '#c0c0c8', 0, -0.55, 0.12, aL);
+  return { root, body, hd, eyes, mouth, cap, skirt, aL, aR, lant, punch, sm }; }
+function poseWisp(w, t, p, yaw, o = {}) { w.root.position.set(p[0], p[1] + 0.25 + Math.sin(t * 2.2) * 0.12 + (o.hop ? Math.abs(Math.sin(t * 8)) * 0.5 : 0), p[2]); w.root.rotation.set(0, yaw + (o.spin ? t * 9 : 0), 0);
+  w.skirt.forEach((s, i) => s.rotation.x = Math.sin(t * 6 + i * 1.3) * 0.35); w.body.rotation.x = o.sad ? 0.25 : 0; w.hd.rotation.set(o.sad ? 0.45 : 0, o.look || 0, 0);
+  w.aL.rotation.set(o.panic ? -2.7 + Math.sin(t * 22) * 0.5 : o.punch ? -1.4 + Math.abs(Math.sin(t * 10)) * 0.5 : o.lever ? -1.2 : 0, 0, -0.15); w.aR.rotation.set(o.panic ? -2.7 + Math.cos(t * 22) * 0.5 : o.wave ? -2.8 + Math.sin(t * 10) * 0.3 : -0.5, 0, 0.15);
+  w.eyes.forEach(e => e.scale.y = o.sad ? 0.4 : o.panic ? 1.5 : 1); w.mouth.scale.set(o.panic ? 1.6 : o.happy ? 2.2 : 1, o.panic ? 2 : o.happy ? 0.5 : 1, 1); w.punch.visible = !!o.punch;
+  w.sm.color.set(o.happy ? '#ffd6ee' : '#f4fbff'); w.sm.emissive.set(o.happy ? '#ff8fd8' : '#9fdcff'); w.sm.opacity = o.fade ?? 0.85; }
+const wisp = makeWisp();
+function makeFlapper() { const root = new THREE.Group(); box(0.3, 0.26, 0.3, '#2a2030', 0, 0, 0, root); for (const x of [-0.08, 0.08]) box(0.06, 0.06, 0.04, 0, x, 0.04, 0.16, root, glowY);
+  const wL = pivot(root, -0.15, 0, 0), wR = pivot(root, 0.15, 0, 0); box(0.6, 0.04, 0.4, '#3a2a48', -0.3, 0, 0, wL); box(0.6, 0.04, 0.4, '#3a2a48', 0.3, 0, 0, wR); return { root, wL, wR }; }
+function poseFlap(f, t, p, yaw, ph = 0) { f.root.position.set(...p); f.root.rotation.set(0, yaw, 0); const a = Math.sin(t * 26 + ph) * 0.8; f.wL.rotation.z = a; f.wR.rotation.z = -a; }
+const flappers = Array.from({ length: 16 }, makeFlapper);
+const meter = new THREE.Group(); box(0.42, 0.3, 0.2, '#3a3a3a', 0, 0, 0, meter); box(0.3, 0.18, 0.02, '#ffe066', 0, 0.02, 0.11, meter); const needle = pivot(meter, 0, -0.05, 0.13); box(0.02, 0.14, 0.01, '#e8344e', 0, 0.07, 0, needle);
+box(0.04, 0.5, 0.04, '#c0c0c8', 0.14, 0.38, 0, meter); const mTip = box(0.1, 0.1, 0.1, '#ff3d3d', 0.14, 0.66, 0, meter); bloop6.B.aR.add(meter); meter.position.set(0, -0.62, 0.22);
+const sheetB = box(1.15, 1.7, 1.15, '#f4f4f0', 0, 1.0, 0, bloop6.B.body); for (const x of [-0.2, 0.2]) box(0.14, 0.2, 0.02, '#111', x, 0.35, 0.58, sheetB);
+const lanternH = new THREE.Group(); box(0.26, 0.34, 0.26, 0, 0, 0, 0, lanternH, glowY); box(0.3, 0.06, 0.3, '#333', 0, 0.2, 0, lanternH); hero.aL.add(lanternH); lanternH.position.set(0, -0.82, 0.1); const heroLight = new THREE.PointLight('#ffe8a0', 12, 10, 1.4); lanternH.add(heroLight);
+const ticket = box(0.6, 0.3, 0.03, 0, 0, 0, 0, new THREE.Group(), glowC);
+// HUD: the Spook-o-Meter; the ticket card
+const spookAt = t => t < E.detectorEnd ? null : t < E.test + 1 ? 0.05 : t < E.test + 3 ? 0.42 : t < E.walk ? 0.03 : t < E.midnight ? lerp(0.1, 0.3, seg(t, E.arrive, E.midnight)) : t < E.wisp ? 0.85 : t < E.twist ? 0.97 : t < E.hug ? 0.35 : t < E.prep ? 0.12 : t < E.boo ? 0.2 : t < E.lever ? 1 : 0.6 + 0.3 * Math.abs(Math.sin(t));
+function drawSpook(t) { const v = spookAt(t); if (v === null || t >= E.freeze) return; rrect(22, 96, 220, 92, 12); ctx.fillStyle = 'rgba(10,20,40,.78)'; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = '#7ff5e6'; ctx.stroke(); outlined('SPOOK-O-METER', 132, 114, 15, '#7ff5e6', '#000', 3);
+  rrect(36, 130, 192, 20, 8); ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fill(); const lonely = win(t, E.twist, E.hug); rrect(36, 130, Math.max(16, 192 * v), 20, 8); ctx.fillStyle = lonely ? '#8fa0ff' : v > 0.8 ? (Math.floor(t * 8) % 2 ? '#ff2a4a' : '#ffe066') : v > 0.4 ? '#ffa02a' : '#7cff6b'; ctx.fill();
+  outlined(lonely ? 'READING: LONELY?' : v > 0.95 ? 'AAAAAAH' : Math.round(v * 100) + '% SPOOKY', 132, 168, 16, '#fff', '#000', 4); }
+function drawTicket(T) { const k = ss(seg(T, E.ticket + 1, E.ticket + 1.4)) * (1 - ss(seg(T, E.ticketEnd - 0.4, E.ticketEnd))); if (k <= 0) return;
+  ctx.save(); ctx.globalAlpha = k; ctx.translate(W * 0.3, H / 2 - 20 + (1 - k) * 60); ctx.rotate(-0.05 + Math.sin(T * 2) * 0.02); rrect(-230, -130, 460, 250, 16); ctx.fillStyle = 'rgba(160,250,255,.92)'; ctx.fill(); ctx.lineWidth = 6; ctx.setLineDash([14, 10]); ctx.strokeStyle = '#1b4a6a'; ctx.stroke(); ctx.setLineDash([]);
+  outlined('GHOST TRAIN', 0, -90, 40, '#ffffff', '#1b4a6a', 7); outlined('ADMIT THREE', 0, -40, 26, '#1b4a6a', '#a0faff', 2); if (T > E.ticket + 2.6) outlined('DEPARTS: MIDNIGHT', 0, 2, 24, '#1b4a6a', '#a0faff', 2);
+  if (T > E.ticket + 4) outlined('NEXT STOP: AAAAH', 0, 46, 28, '#c0182a', '#a0faff', 2); if (T > E.ticket + 5.4) outlined('(no refunds. no exits.)', 0, 88, 16, '#3a5a7a', '#a0faff', 2); ctx.restore(); }
+
+// ================================================================ EPISODE 22: "THE GHOST TRAIN (next stop: AAAAH)" — the yard at dusk (a ticket; the Spook-o-Meter) → Hollow Hill Station at midnight → the tunnel ride (Wisp is lonely) → grand opening (Bloop says BOO; the train flies)
+// ---------------------------------------------------------------- set A: the yard at dusk
 const yard = (() => {
   const g = mk('yard'); field(g, false); const hg = new THREE.Group(); g.add(hg); { const st = new VSet(hg); HOUSE.forEach(c => st.add(...c)); st.build(); flowers(hg); }
-  const flag = pivot(hg, 3, 12.4, -11); box(0.08, 1.6, 0.08, '#c0c0c8', 0, 0.8, 0, flag); box(0.9, 0.5, 0.04, '#ff8a2a', 0.45, 1.3, 0, flag);
-  const LD = rain.map((_, i) => { const r = rng(2100 + i); return [-12 + r() * 24, 3 + r() * 12, r() * 6]; });
-  burst(E.snap, [0, 1, -1], { n: 90, colors: ['#5ab0d0', '#ffffff', '#3a8fb0'], speed: 6, size: 0.18, life: 1.4, grav: 8, up: 5 });
-  for (let t = E.wagon; t < E.wagonEnd; t += 0.42) burst(t, [4, 1.2, 7], { n: 6, colors: ['#ffe066', '#ffffff'], speed: 3, size: 0.1, life: 0.5, grav: 6, up: 2 });
-  burst(E.home + 6, [0, 2.4, 1.5], { n: 40, colors: ['#b06ae8', '#ffffff'], speed: 3, size: 0.14, life: 1, grav: 4, up: 3 }); burst(E.leap + 3.6, [7, 2, 0.8], { n: 120, colors: ['#5ff7ff', '#ff5cf0', '#ffe066'], speed: 6, size: 0.16, life: 1.2, grav: 1, up: 3 });
-  const C = [[0, 0, 3.2, 9, 0, 1.6, -1, 50], [4.9, 1.2, 2.8, 7, 0, 1.6, -1, 46], [5, -3.4, 1.5, 4, 0, 1.9, -1, 44], [11.3, 3.4, 1.5, 4, 0, 1.9, -1, 44], [11.4, 7, 3, 5, 0, 1.4, -1, 50], [18.5, 4.6, 2.4, 3.6, 0, 1.6, -1, 46],
-    [18.6, 0, 5, 10, 0, 1, -1, 54], [21.3, 0, 4, 8.4, 0, 1, -1, 50], [21.4, -0.4, 2.4, 5.2, 1.6, 1.6, 1.0, 42], [29.7, 0, 2.3, 4.8, 1.6, 1.6, 1.0, 38], [29.8, 0, 0.9, 6.4, 0, 4, 0, 58], [35.9, 0, 1.4, 6.4, 0, 2.2, 1, 50],
-    [36, -3.8, 1.8, 3.6, -1.8, 1.7, 1.0, 40], [39.7, -3.4, 1.8, 3.4, -1.8, 1.7, 1.0, 38], [39.8, -2.6, 2.2, 5.6, 0.6, 1.4, 2.6, 44], [43.7, -2.2, 2.1, 5.2, 0.6, 1.4, 2.6, 42], [43.8, 12, 4, 13, 4, 1, 7, 46], [50.3, 10, 3.6, 15, 4, 1, 7, 46],
-    [50.4, 10, 3, 8, 4, 1.5, 10, 50], [53.9, 9, 3, 22, 4, 1.5, 22, 52], [E.travel, 9, 3, 22, 4, 1.5, 22, 52],
-    [E.home, 6, 3, 26, 0, 2.4, 16, 50], [217.9, 5, 3.4, 10, 0, 2.2, 1.5, 52], [218, 0, 4.4, 13, 0, 2.6, -1, 54], [226.5, 0, 3.6, 10.5, 0, 2.6, -1, 50], [226.6, -0.9, 3.3, 5.6, -0.9, 3.1, 1.5, 38], [230.9, -0.7, 3.3, 5.2, -0.9, 3.1, 1.5, 36],
-    [231, 0.9, 3.3, 5.6, 0.9, 3.1, 1.5, 38], [234.9, 1.1, 3.3, 5.2, 0.9, 3.1, 1.5, 36], [235, -2.7, 3.3, 5.6, -2.7, 3.1, 1.5, 38], [239.5, -2.5, 3.3, 5.2, -2.7, 3.1, 1.5, 36], [239.6, -12, 5, 16, 0, 3, -1, 50], [245.3, 10, 5, 16, 0, 3, -1, 50],
-    [245.4, 12, 3.4, 9, 4, 1.8, 0, 50], [252.9, 11, 3, 7, 6, 1.8, -1, 46], [253, 10.4, 2.4, 4.4, 7, 2, -1, 46], [258.9, 10, 2.4, 4, 7, 2, -1, 42], [259, 5.8, 3.8, 7.4, 4.4, 2.8, 1.5, 40], [263.9, 5.6, 3.8, 7, 4.4, 2.8, 1.5, 36],
-    [264, 0, 4, 12, 0, 2.6, 1.5, 54], [265.9, 0, 4.2, 11, 0, 2.6, 1.5, 54], [276, 13, 2.6, 14, 7, 1.6, 8, 50], [281.3, 12, 2.4, 13, 7, 1.8, 6, 48], [281.4, 2, 7, 15, 7, 2, 4, 52], [285.6, 3, 9, 14, 7, 1.8, 1, 50], [E.logo, 3, 9, 14, 7, 1.8, 1, 50]];
-  const BP = [7, 0.5, -2], CO = [0, 0.5, -1];
-  const lapAt = t => { const a = Math.atan2(-1, 1) * 0 + Math.atan2(1.5 - 8, 1) + 0.82 * Math.max(0, t - E.laps - 0.5); return [[-1 + Math.cos(a) * 7, 0.5, 8 + Math.sin(a) * 6.5], Math.atan2(-Math.sin(a) * 7, Math.cos(a) * 6.5)]; };
+  parentTo(sofie.root, g); burst(E.ticket + 6, [0, 2.2, 1.6], { n: 40, colors: ['#7ff5e6', '#ffffff'], speed: 3, size: 0.12, life: 1, grav: 1, up: 2 });
+  for (let t = E.detector; t < E.detectorEnd; t += 0.5) burst(t, [3, 1.6, 1.8], { n: 6, colors: ['#ffe066', '#ffffff'], speed: 3, size: 0.1, life: 0.5, grav: 6, up: 2 });
+  const C = [[0, 0, 3, 10, 0, 1.6, 0, 50], [5.9, 1, 2.6, 8, 0, 1.6, 0.5, 46], [6, 4, 1.6, 5, 0, 1.8, 0.5, 44], [10.9, 3, 1.6, 4.4, 0, 1.8, 0.5, 42], [11, 0, 1.2, 5.4, 0, 4, -2, 56], [18.9, 0, 1.8, 5, 0, 2, 0, 48],
+    [19, 2.8, 1.9, 4.6, 0.2, 1.2, -0.2, 44], [23.9, 2.4, 1.9, 4.2, 0.2, 1.2, -0.2, 42], [24, 7, 3, 6, 3, 1.2, 1.5, 46], [30.9, 6, 2.6, 5, 3, 1.2, 1.5, 42], [31, -1, 2, 5.6, 1, 1.4, 1, 44], [36.9, -0.6, 2, 5.2, 1, 1.4, 1, 42],
+    [37, 4, 3, 6, 0, 1.4, 6, 50], [45.9, 4, 3, 24, 0, 1.4, 22, 52], [E.arrive, 4, 3, 24, 0, 1.4, 22, 52]];
   function update(t) {
-    hideMisc(); blueprint.parent.visible = false; ribbon.visible = false; [duckA, duckB, duckC, duckD, fish].forEach(d => d.visible = false); muffin.root.visible = puff.root.visible = bot.root.visible = false; card.visible = false;
-    const late = t > E.home; parentTo(booth, g); booth.position.set(...BP); booth.rotation.set(0, 0, 0); tarp.visible = false; dial.material = dialM[late && t > E.bye ? 3 : 0];
-    const hum = late && t > E.hum; if (hum) booth.position.x += Math.sin(t * 60) * 0.04; lever.rotation.x = hum ? -1 : 0.4; boothLight.intensity = hum ? 30 + Math.sin(t * 30) * 20 : 6;
-    [twin, third, hero].forEach(h => parentTo(h.root, g)); parentTo(bloop6.B.root, g); parentTo(L6.root, g); parentTo(tock.root, g); twin.root.visible = third.root.visible = tock.root.visible = true; prop.rotation.y = t * 14;
-    pillow.visible = lpillow.visible = false; [duke, ...lumpy, ...fans].forEach(c => c.root.visible = false);
-    rain.forEach((d, i) => { if (i < 9) return; d.visible = !late; parentTo(d, g); d.position.set(LD[i][0], 0.5, LD[i][1]); d.rotation.set(0, LD[i][2], i % 4 ? 0 : PI / 2); });
-    parentTo(couchOld.g, g); couchOld.g.visible = !late; couchOld.g.position.set(...CO); if (t < E.snap) { resetCouch(couchOld); couchOld.g.position.x = t > E.squeeze + 2 ? Math.sin(t * 40) * 0.05 * seg(t, E.squeeze + 2, E.snap) : 0; } else poseSnap(couchOld, t, E.snap);
-    parentTo(wagon.root, g); wagon.root.visible = !late && t > E.wagon; const wz = lerp(7, 24, ss(seg(t, E.depart, E.travel + 1))), WP = [4, 0.5, wz]; poseWagon(wagon, t, WP, 0, -wz / 0.5, E.wagon);
-    parentTo(sofie.root, g); sofie.root.visible = late;
-    let cam;
-    if (!late) {
-      const onW = t > E.depart; leggyDucks(t, t < 6 ? 6 : 9);
-      // the three of me
-      const sitC = (h, x, o) => pose(h, { t, p: [x, 1.05, -1], yaw: 0, sit: 1, face: 'smug', ...o });
-      const fall = (h, p, o) => pose(h, { t, p, yaw: 0.2, face: 'scared', flat: ss(seg(t, E.snap, E.snap + 0.5)), flatDir: -1, ...o });
-      if (onW) { sitOn(hero, t, WP, 0, [0, 0.9, 0.4], { panic: false }); sitOn(twin, t, WP, 0, [-0.7, 0.9, -0.6], { wave: true }); sitOn(third, t, WP, 0, [0.7, 0.9, -0.6], { hips: true }); }
-      else if (t < E.snap) { sitC(hero, 0, { face: t > E.squeeze ? 'scared' : 'smug', wave: t < 4 }); sitC(twin, -1.2, { wave: win(t, 5, 8.2) }); sitC(third, 1.2, { hips: win(t, 8.2, 11.4) }); }
-      else if (t < E.why) { fall(hero, [0, 0.5, -0.2]); fall(twin, [-1.5, 0.5, 0.2]); fall(third, [1.5, 0.5, 0.2]); }
-      else { const lk = t > E.flyer && t < E.flyerEnd ? { headPitch: -0.5 } : {};
-        pose(hero, { t, p: [-0.2, 0.5, 1.6], yaw: t > E.invoice ? faceTo([-0.2, 0, 1.6], [1.2, 0, 3.2]) : t > E.wagon ? 1.2 : faceTo([-0.2, 0, 1.6], [1.6, 0, 1.0]), face: t > E.invoice && t < E.wagon ? 'scared' : 'smug', ...lk });
-        pose(twin, { t, p: [-1.8, 0.5, 1.0], yaw: 1.4, face: 'smug', wave: win(t, E.flyerEnd, E.invoice), ...lk }); pose(third, { t, p: [1.6, 0.5, 1.0], yaw: -1.6, face: t < E.flyer ? 'normal' : 'smug', hips: t < E.flyer, ...lk }); }
-      // Bloop
-      if (onW) poseBurble(bloop6, t, wl(WP, 0, [0, 1.1, -1.4]), 0, { hop: true });
-      else if (t < E.snap) { const a = act(t, [[0, 4.6, 0.5, -0.6], [E.squeeze, 4.6, 0.5, -0.6], [E.squeeze + 2, 0.6, 0.5, 0.4], [E.squeeze + 2.6, 0.6, 1.4, -0.9]], [[0, { yaw: -2.2 }], [E.squeeze, {}], [E.squeeze + 2.6, { yaw: 0 }]]); poseBurble(bloop6, t, a.p, a.yaw, { walk: a.walk, phase: a.phase }); }
-      else if (t < E.why) poseBurble(bloop6, t, [0.9, 0.5, 0.6], 0.3, { angry: true });
-      else { const a = act(t, [[E.why, 3, 0.5, 2], [E.invoice, 3, 0.5, 2], [E.invoice + 1, 1.2, 0.5, 3.2], [E.wagon, 1.2, 0.5, 3.2], [E.wagon + 1, 5.8, 0.5, 5.4]], [[E.why, { yaw: -1.6 }], [E.invoice, {}], [E.invoice + 1, { yaw: faceTo([1.2, 0, 3.2], [-0.2, 0, 1.6]), handOut: true }], [E.wagon, {}], [E.wagon + 1, { yaw: -1.4, hop: true }]]);
-        poseBurble(bloop6, t, a.p, a.yaw, a); card.visible = win(t, E.invoice + 1, E.wagon); }
-      // Leggy (collecting ducks) and Tock
-      if (onW) poseLurk(L6, t, wl(WP, 0, [0, 0, 3.8]), 0, t < E.travel ? 3 : 0.3);
-      else if (t < E.squeeze) { const a = act(t, [[0, -6, 0.5, 3], [3, -4, 0.5, 5], [6, -7, 0.5, 6], [9, -3, 0.5, 2]], [[0, {}]]); poseLurk(L6, t, a.p, a.yaw, 1.4); }
-      else if (t < E.snap) poseLurk(L6, t, L3([-3, 0.5, 2], [-0.4, 1.4, -1.5], seg(t, E.squeeze + 1, E.squeeze + 3)), 0.2, 0.3);
-      else if (t < E.why) poseLurk(L6, t, [-1, 0.5, -2.8], 0.8, 0.3); else poseLurk(L6, t, [-4, 0.5, 2.2], 1.2, 0.3);
-      const tk = t < E.snap ? [[1.95, 1.4, -1], 0, {}] : t < E.flyer ? [[0, 9, -8], 0, { fly: true }] : t < E.flyer + 2 ? [L3([2, 10, -6], [0, 3.6, 1.4], seg(t, E.flyer, E.flyer + 2)), 0, { fly: true }] : onW ? [wl(WP, 0, [0, 3.2, 0]), 0, { fly: true }] : [[0.4, 3.4, 2], 0, { fly: true }];
-      poseTock(tock, t, ...tk); hero.root.visible = true;
-      cam = camKeys(t, C);
-    } else {
-      // home: sofie walks up the path, turns, plops; the leap at the end
-      let sp, sy, so = { awake: true };
-      if (t < E.home + 5) { const a = walker(t, [[E.home, 0, 0.5, 18], [E.home + 5, 0, 0.5, 1.5]]); sp = a.p; sy = PI; so.walk = 1; so.phase = a.phase; }
-      else if (t < E.laps) { sp = [0, 0.5, 1.5]; sy = PI * (1 - ss(seg(t, E.home + 5, E.home + 6))); so.hop = win(t, E.excited, E.laps); so.purr = win(t, E.sitAll + 10, E.squeak); }
-      else if (t < E.lapsEnd) { [sp, sy] = lapAt(t); so.walk = 1.2; so.phase = t * 14; }
-      else if (t < E.leap) { const k = ss(seg(t, E.lapsEnd, E.lapsEnd + 2)), [l0, y0] = lapAt(E.lapsEnd); sp = L3(l0, [7, 0.5, 10], k); sy = lerp(y0, PI, k); so.crouch = t > E.lapsEnd + 3; so.walk = k < 1 ? 1 : 0; so.phase = t * 10; }
-      else { const k = seg(t, E.leap, E.leap + 5); sp = [7, 0.5 + Math.sin(k * PI) * 3, lerp(10, 1.2, k)]; sy = PI; }
-      poseSofa(sofie, t, sp, sy, so); const P = [sp[0], sp[1] + sofaBob() + (so.hop ? Math.abs(Math.sin(t * 9)) * 0.7 : 0), sp[2]];
-      const scared = t > E.excited, wild = { face: 'scared', panic: t > E.laps };
-      sitOn(hero, t, P, sy, [SEAT.hero, 1.5, 0.2], scared ? wild : { face: 'smug', headYaw: win(t, E.calm, E.bye) ? -0.3 : 0 });
-      const gone = t > E.bye;
-      if (!gone) { sitOn(twin, t, P, sy, [SEAT.twin, 1.5, 0.2], { wave: win(t, E.sitAll, E.sitAll + 3) }); sitOn(third, t, P, sy, [SEAT.third, 1.5, 0.2], { hips: false }); }
-      else { const dive = t > E.lapsEnd + 3; const tw = act(t, [[E.bye, -2.7, 1.5, 2.2], [E.bye + 1, -2, 0.5, 3.4], [E.hum, 6.3, 0.5, 0.6], [E.lapsEnd + 3, 6.3, 0.5, 0.6], [E.lapsEnd + 3.6, 4.4, 0.5, 0.8]], [[E.bye, {}], [E.hum, { yaw: -2.4, face: 'smug', wave: t < E.squeak }], [E.squeak, { yaw: -2.4, face: 'scared', panic: true }], [E.lapsEnd + 3.6, { yaw: 0, face: 'scared', flat: 1 }]]);
-        pose(twin, { t, ...tw }); const th = act(t, [[E.bye, 0.9, 1.5, 2.2], [E.bye + 1, 1.4, 0.5, 3.4], [E.hum, 7.7, 0.5, 0.6], [E.lapsEnd + 3, 7.7, 0.5, 0.6], [E.lapsEnd + 3.6, 9.6, 0.5, 0.8]], [[E.bye, {}], [E.hum, { yaw: -2.0, face: 'smug', hips: true }], [E.squeak, { yaw: -2.0, face: 'scared', panic: true }], [E.lapsEnd + 3.6, { yaw: 0, face: 'scared', flat: 1, flatDir: -1 }]]); pose(third, { t, ...th }); }
-      poseBurble(bloop6, t, wl(P, sy, [SEAT.bloop, 1.7, 0.2]), sy, scared ? { angry: true } : { hop: win(t, E.sitAll, E.sitAll + 3) });
-      poseLurk(L6, t, wl(P, sy, [SEAT.leggy, 1.7, 0]), sy, t > E.excited ? 2 : 0.3); ribbon.visible = true; leggyDucks(t, 0);
-      rain.forEach((d, i) => { if (i >= 9) return; d.visible = true; parentTo(d, sofie.body); if (i === 8) { d.position.set(3.6, 1.85, 0.7); d.scale.set(1, win(t, E.squeak, E.squeak + 0.5) ? 0.45 : 1, 1); } else d.position.set(SEAT.ducks + ((i % 4) - 1.5) * 0.4, 1.85 + Math.floor(i / 4) * 0.3, 0.2); d.rotation.set(0, 0, 0); });
-      poseTock(tock, t, wl(P, sy, [0, 3.35, -1.0]), sy, { fly: t > E.excited, alarm: t > E.laps });
-      if (win(t, E.laps, E.lapsEnd)) { const sx = sp[0], sz = sp[2]; cam = { p: [sx + Math.sin(t * 0.4) * 10, 8, sz + 14], l: [sx, 2.4, sz], fov: 54 }; } else cam = camKeys(t, C);
-    }
-    bHat.visible = true; bHat.position.y = 1.2; bloop6.B.root.visible = L6.root.visible = true;
+    hideMisc(); blueprint.parent.visible = ribbon.visible = sheetB.visible = false; [duckA, duckB, duckC, duckD, fish, ...rain].forEach(d => d.visible = false); muffin.root.visible = puff.root.visible = bot.root.visible = false;
+    [twin, third, tock, wisp, duke, ...lumpy, ...fans, wagon].forEach(o => (o.root || o).visible = false); booth.visible = tarp.visible = false; sofie.root.visible = true; poseSofa(sofie, t, [-9, 0.5, -1], 0.5, { awake: false });
+    [hero.root, bloop6.B.root, L6.root].forEach(o => parentTo(o, g)); lanternH.visible = t > E.walk; meter.visible = t > E.detectorEnd - 1.2; card.visible = false;
+    const w = t > E.walk;
+    const ha = act(t, [[0, 0, 0.5, 1], [E.walk, 0, 0.5, 1], [E.arrive, 0, 0.5, 22]], [[0, { yaw: 0, face: 'smug', wave: t < 4 }], [E.whistle, { yaw: 0, face: 'scared', headYaw: Math.sin(t * 2) * 0.6 }], [E.ticket, { yaw: 0, face: 'scared', headPitch: -0.5 }], [E.ticket + 6, { yaw: 0, face: 'smug', hold: true }], [E.scared, { yaw: 0.6, face: 'smug', headYaw: 0.8 }], [E.test, { yaw: 0.9, face: 'normal' }], [E.walk, { face: 'smug' }]]);
+    pose(hero, { t, ...ha }); parentTo(ticket.parent, g); ticket.parent.visible = win(t, E.ticket, E.walk); if (t < E.ticket + 6) { const k = seg(t, E.ticket, E.ticket + 6); ticket.parent.position.set(Math.sin(t * 2.4) * 1.2 * (1 - k), lerp(9, 2.1, k), lerp(-3, 1.4, k)); ticket.parent.rotation.set(0, t * 2, Math.sin(t * 3) * 0.5); } else { parentTo(ticket.parent, hero.aR); ticket.parent.position.set(0, -0.8, 0.25); ticket.parent.rotation.set(-1.2, 0, 0); }
+    const ba = act(t, [[0, 3, 0.5, 1.5], [E.scared, 3, 0.5, 1.5], [E.scared + 1, 0.4, 0.5, -0.6], [E.detector, 0.4, 0.5, -0.6], [E.detector + 1, 3, 0.5, 1.8], [E.walk + 0.6, 3, 0.5, 1.8], [E.arrive, 1.2, 0.5, 19]], [[0, { yaw: -1.2 }], [E.whistle, { yaw: -1.2, angry: true }], [E.scared + 1, { yaw: 0.4, facepalm: true }], [E.detector, {}], [E.detector + 1, { yaw: -0.6, hop: true }], [E.test, { yaw: faceTo([3, 0, 1.8], [-3, 0, 1.2]), handOut: true }], [E.test + 3, { yaw: faceTo([3, 0, 1.8], [0, 0, 1]), handOut: true }], [E.walk + 0.6, {}]]);
+    poseBurble(bloop6, t, ba.p, ba.yaw, ba); bHat.visible = true; bHat.position.y = 1.2;
+    const la = act(t, [[0, -3, 0.5, 1.2], [E.walk + 0.3, -3, 0.5, 1.2], [E.arrive, -1.4, 0.5, 20]], [[0, { yaw: 0.6 }], [E.walk + 0.3, {}]]); poseLurk(L6, t, la.p, la.yaw, la.walk ? 1.4 : win(t, E.whistle, E.ticket) ? 1.6 : 0.3);
+    needle.rotation.z = -lerp(-1, 1, spookAt(t) ?? 0) + Math.sin(t * 30) * 0.05; mTip.visible = Math.floor(t * 4) % 2 === 0;
+    return { cam: camKeys(t, C), hud: true };
+  }
+  return { g, update };
+})();
+
+// ---------------------------------------------------------------- set B: Hollow Hill Station (midnight; later the grand opening and the wild ride)
+const OV = { rx: 46, rz: 20, cz: 20 };
+const ovalP = a => [OV.rx * Math.sin(a), 0.5, OV.cz - OV.rz * Math.cos(a)], ovalYaw = a => Math.atan2(OV.rx * Math.cos(a), OV.rz * Math.sin(a)), ovalDs = a => Math.hypot(OV.rx * Math.cos(a), OV.rz * Math.sin(a));
+// the wild ride: angle from a ramping speed, scaled so the train reaches the lake curve exactly at E.derail
+const RIDE = (() => { const W_ = [[E.depart2, 0], [E.boo, 0.03], [E.lever, 0.04], [E.lever + 8, 0.45], [E.lever + 32, 0.62], [E.derail, 0.8]], A = []; let a = 0;
+  for (let t = E.depart2; t <= E.derail + 0.001; t += 0.02) { A.push(a); a += lerpK(W_, t) * 0.02; } const k = (Math.floor(a / (2 * PI)) * 2 * PI + 5.2) / a; return t => A[Math.min(A.length - 1, Math.max(0, Math.round((t - E.depart2) / 0.02)))] * k; })();
+const station = (() => {
+  const g = mk('station'); const st = new VSet(g);
+  for (let x = -60; x <= 60; x++) for (let z = -30; z <= 50; z++) { const lake = x >= -34 && x <= -18 && z >= -16 && z <= -4; st.add(x, 0, z, lake ? 'water' : 'turf'); }
+  for (let x = -8; x <= 8; x++) for (let z = -7; z <= -3; z++) st.add(x, 1, z, 'castle');
+  for (let y = 1; y <= 4; y++) for (let x = -4; x <= 4; x++) for (let z = -12; z <= -8; z++) { if (x > -4 && x < 4 && z > -12 && z < -8) continue; if (z === -8 && Math.abs(x) <= 1 && y <= 3) continue; st.add(x, y, z, y === 4 ? 'dark' : (x === -4 || x === 4) && (z === -12 || z === -8) ? 'log' : 'plank'); }
+  for (let x = -5; x <= 5; x++) for (let z = -13; z <= -7; z++) st.add(x, 5, z, 'slate'); for (let y = 1; y <= 8; y++) for (const [x, z] of [[6, -9], [7, -9], [6, -8], [7, -8]]) st.add(x, y, z, 'stone');
+  for (let dx = -12; dx <= 12; dx++) for (let dz = -12; dz <= 12; dz++) { const d = Math.hypot(dx, dz * 0.9); if (d > 12) continue; const h = Math.round(9 * Math.cos(d / 12 * PI / 2)); for (let y = 1; y <= h; y++) { if (Math.abs(dx) <= 3 && y <= 5) continue; st.add(46 + dx, y, 20 + dz, y === h ? 'turf' : 'stone'); } }
+  for (const [x, z, h] of [[-20, -20, 5], [18, -22, 6], [-44, 0, 5], [22, 30, 5], [-14, 36, 6], [-50, 30, 6], [10, -16, 4]]) tree20(st, x, z, h, true);
+  st.build();
+  const N = 340, sl = new THREE.InstancedMesh(GEO, new THREE.MeshLambertMaterial({ color: '#4a3424' }), N), rl = new THREE.InstancedMesh(GEO, new THREE.MeshLambertMaterial({ color: '#9aa4bd' }), N * 2);
+  for (let i = 0; i < N; i++) { const a = i / N * 2 * PI, p = ovalP(a), y = ovalYaw(a); _q.setFromEuler(_e.set(0, y, 0)); sl.setMatrixAt(i, _m.compose(_p.set(p[0], 0.55, p[2]), _q, _s.set(2.4, 0.12, 0.4)));
+    for (const s of [-1, 1]) rl.setMatrixAt(i * 2 + (s > 0), _m.compose(_p.set(p[0] + Math.cos(y) * 0.75 * s, 0.68, p[2] - Math.sin(y) * 0.75 * s), _q, _s.set(0.14, 0.14, 1.0))); }
+  g.add(sl, rl);
+  const sign = new THREE.Mesh(new THREE.BoxGeometry(5, 0.9, 0.12), new THREE.MeshBasicMaterial({ map: bannerTex('HOLLOW HILL') })); sign.position.set(0, 4.1, -7.9); g.add(sign);
+  const sign2 = new THREE.Mesh(new THREE.BoxGeometry(6.4, 1.1, 0.12), new THREE.MeshBasicMaterial({ map: bannerTex('GHOST TRAIN!') })); sign2.position.set(0, 6.4, -7.4); g.add(sign2);
+  const clockF = box(1.6, 1.6, 0.1, '#fff8e0', 6.5, 7.2, -7.45, g), hand = pivot(g, 6.5, 7.2, -7.38); box(0.08, 0.7, 0.04, '#111', 0, 0.3, 0, hand);
+  const lanterns = Array.from({ length: 14 }, (_, i) => { const l = box(0.4, 0.5, 0.4, 0, -7.5 + (i % 7) * 2.5, i < 7 ? 3.2 : 6.0, i < 7 ? -3.2 : -7.2, g, i % 2 ? glowP : glowY); return l; });
+  const bunt = new THREE.Group(); g.add(bunt); for (let i = 0; i < 20; i++) box(0.4, 0.5, 0.05, ['#ff8fd8', '#7ff5e6', '#ffe066'][i % 3], -7.6 + i * 0.8, 4.4 - Math.sin(i / 19 * PI) * 0.6, -3.2, bunt);
+  const tape = box(16, 0.2, 0.05, '#e8344e', 0, 2.3, -3.1, g); const roofLamp = new THREE.PointLight('#ffd0a0', 0, 22, 1.2); roofLamp.position.set(0, 5, -2); g.add(roofLamp);
+  for (let t = E.prep; t < E.prepEnd; t += 0.5) burst(t, [lerp(-7, 7, ((t - E.prep) * 0.37) % 1), 3.4, -3.4], { n: 5, colors: ['#ffe066', '#ffffff'], speed: 3, size: 0.1, life: 0.5, grav: 6, up: 2 });
+  burst(E.opening + 1, [0, 2.3, -3.1], { n: 80, colors: ['#ff8fd8', '#7ff5e6', '#ffe066'], speed: 6, size: 0.14, life: 1.6, grav: 4, up: 5 }); burst(E.trainIn, ovalP(-0.3), { n: 80, colors: ['#7ff5e6', '#ffffff'], speed: 4, size: 0.2, life: 2, grav: -1, up: 1 });
+  const C = [[E.arrive, -30, 12, 20, -2, 2, -4, 54], [51.9, -26, 9, 16, -4, 2, -4, 52], [52, 6, 2.6, -0.6, -1, 2.2, -4.6, 46], [59.9, 5, 2.6, -1.0, 1, 2.2, -4.6, 44], [60, 9, 2.4, -3.6, 6.5, 6.5, -8, 52], [63.9, 9, 2.8, -2.8, 6.5, 6.5, -8, 50],
+    [64, -4, 2.6, 3.4, -12, 1.6, 0, 50], [71.9, 0, 2.6, 4, 2, 1.6, -1, 50], [72, 4, 2.8, -0.6, 1, 2.6, -3.8, 44], [78.9, 4.2, 2.8, -0.2, 1, 2.6, -3.8, 40], [79, 5, 3, -6.6, 1, 2.2, -3.4, 44], [83.9, 4.6, 3, -6.2, 1, 2.2, -3.4, 42],
+    [84, -2, 5, -7.5, -4, 1.6, 0, 52], [89.9, 0, 5, -7.5, -4, 1.6, 0, 50], [90, 24, 4, 2, 40, 2, 10, 50], [95.9, 26, 3.4, 2, 42, 2, 12, 48], [E.tunnel, 26, 3.4, 2, 42, 2, 12, 48],
+    [E.prep, -14, 6, 8, 0, 2.4, -6, 52], [183.9, 14, 6, 8, 0, 2.4, -6, 52], [184, -12, 4, -13, -10, 1.2, -5, 48], [191.9, -8, 4, -13, -6, 1.2, -5, 48], [192, 0, 2.8, 0.8, 0, 2.6, -5, 44], [197.9, 0.6, 2.6, 0.2, 0, 2.6, -5, 42],
+    [198, 7, 3.2, 4, 0, 1.6, -1, 50], [203.9, 6, 3.2, 4.4, -2, 1.6, -1, 50], [204, -5, 8, -17, 0, 5.8, -10, 50], [211.9, -4, 8.4, -18, 0, 5.8, -10, 46], [212, 11, 2.6, 4, 4, 2, 0, 50], [215.9, 10, 2.6, 4.4, 5, 2, 0, 50], [216, 9, 5, -6, 3, 3, -2, 50], [E.lever, 9, 5, -6, 4, 3, -1, 50]];
+  function update(t) {
+    hideMisc(); blueprint.parent.visible = ribbon.visible = false; [duckA, duckB, duckC, duckD, fish, ...rain].forEach(d => d.visible = false); muffin.root.visible = puff.root.visible = bot.root.visible = false; sofie.root.visible = false;
+    [twin, third, tock, wagon].forEach(o => (o.root || o).visible = false); [hero.root, bloop6.B.root, L6.root, wisp.root, train.root].forEach(o => parentTo(o, g)); card.visible = false; booth.visible = tarp.visible = false;
+    const late = t > E.prep; hand.rotation.z = -(t < E.midnight ? 6.1 + seg(t, E.arrive, E.midnight) * 0.18 : 6.28 + (t - E.midnight) * 0.01);
+    lanterns.forEach((l, i) => { l.visible = late && t > E.prep + i * 0.9; }); bunt.visible = sign2.visible = late && t > E.prep + 8; tape.visible = late && t < E.opening + 1; roofLamp.intensity = late ? 40 : 0;
+    // train
+    let ta, op = 0.75, roll = 0; if (!late) { ta = t < E.trainIn ? -9 : t < E.trainStop ? lerp(-0.45, 0, ss(seg(t, E.trainIn, E.trainStop))) : t < E.depart ? 0 : lerp(0, 1.3, seg(t, E.depart, E.tunnel) ** 1.6); op = t < E.trainIn ? 0 : Math.min(0.75, seg(t, E.trainIn, E.trainIn + 4)); roll = -ta * 30; }
+    else ta = t < E.depart2 ? 0 : RIDE(Math.min(t, E.derail));
+    train.root.visible = !late ? t > E.trainIn : true;
+    const derailed = late && t > E.derail, D0 = ovalP(RIDE(E.derail)), Dy = ovalYaw(RIDE(E.derail)), fl = derailed ? t - E.derail : 0;
+    const fn = d => { if (!derailed) { const a = ta - d / ovalDs(ta); return [ovalP(a), ovalYaw(a)]; } const fwd = fl * 13 - d; return [[D0[0] + Math.sin(Dy) * fwd, 0.5 + Math.max(0, fl * 5.2 - fl * fl * 0.55) + Math.sin(fl * 3 + d) * 0.1, D0[2] + Math.cos(Dy) * fwd], Dy + Math.sin(fl * 2 + d * 0.2) * 0.1]; };
+    placeTrain(fn, late ? -ta * 30 : roll, op); train.lever.rotation.x = t > E.lever ? -1 : 0.5; train.lever.visible = !(late && t > E.snap);
+    // hero
+    let H_; if (!late) { const a = act(t, [[E.arrive, -16, 0.5, -5], [50, -9, 0.5, -5], [51, -8, 1.5, -5], [56, -1, 1.5, -4.6], [60, 0.4, 1.5, -4.6]], [[0, { face: 'scared' }], [60, { yaw: 2.2, face: 'scared', headPitch: -0.3 }], [E.trainIn, { yaw: -2.0, face: 'scared' }], [E.wisp, { yaw: faceTo([0.4, 0, -4.6], [1.4, 0, -2.8]), face: 'scared' }], [E.punch, { yaw: faceTo([0.4, 0, -4.6], [1.4, 0, -2.8]), face: 'smug', hold: true }]]);
+        H_ = a; if (t > E.board) { const k = seg(t, E.board, E.board + 2); H_ = { p: L3([0.4, 1.5, -4.6], inCar(1, SEATS[0]), k), yaw: train.cars[1].rotation.y, sit: k, face: 'smug', wave: t > E.depart }; } }
+    else { const a = act(t, [[E.prep, -6, 1.5, -4], [E.prep + 7, 6, 1.5, -4], [E.prep + 14, -2, 1.5, -5]], [[0, { face: 'smug', swing: t * 1.6 }], [E.crowd, { yaw: -1.6, face: 'smug', wave: true }], [E.opening, { yaw: 0.2, face: 'smug' }]]); H_ = a;
+      if (t > E.board2) { const k = seg(t, E.board2, E.board2 + 2); H_ = { p: L3([-2, 1.5, -5], inCar(1, SEATS[0]), k), yaw: train.cars[1].rotation.y, sit: k, face: t > E.lever ? 'scared' : 'smug', panic: t > E.lever && t < E.climb, wave: win(t, E.hit, E.hit + 4) }; }
+      if (t > E.climb) { const k = seg(t, E.climb, E.climb + 4); H_ = { p: L3(inCar(1, SEATS[0]), inLoco([0.3, 1.2, -1.3]), k), yaw: train.loco.rotation.y, face: 'scared', walk: k < 1 ? 1 : 0, phase: t * 9, panic: k >= 1 }; H_.p[1] += Math.sin(k * PI) * 1.2; } }
+    pose(hero, { t, ...H_ }); lanternH.visible = !late; heroLight.intensity = late ? 0 : 12;
+    // Bloop: scared with the meter; carried aboard; later the sheet, the roof, BOO
+    let bp, by, bo = {}; meter.visible = !late || t < E.sheet; sheetB.visible = late && t > E.sheet;
+    if (!late) { const a = act(t, [[E.arrive, -18, 0.5, -5.8], [50.6, -10, 0.5, -5.8], [51.6, -9, 1.5, -5.8], [57, -3, 1.5, -5.6], [60, -1.6, 1.5, -5.6]], [[0, { handOut: true }], [E.midnight, { yaw: 1.2, handOut: true, angry: t < E.midnight + 2 }], [E.trainIn, { yaw: 2.2, angry: true }]]); bp = a.p; by = a.yaw; bo = a;
+      if (t > E.faint) { bp = [-1.6, 1.5, -5.6]; bo = {}; } if (t > E.board + 0.6) { bp = null; } }
+    else { const a = act(t, [[E.prep, 4, 1.5, -6], [E.prep + 6, -4, 1.5, -6], [E.prep + 12, 3, 1.5, -6]], [[0, { hop: true }], [E.crowd, { yaw: -1.4 }]]); bp = a.p; by = a.yaw; bo = a;
+      if (t > E.sheet) { const k = seg(t, E.sheet, E.sheet + 3); bp = L3([3, 1.5, -6], [0, 5.5, -10], k); bp[1] += Math.sin(k * PI) * 2; by = 0; bo = { hop: t > E.sheet + 3 }; }
+      if (t > E.boo) { const k = seg(t, E.boo, E.boo + 1.2); bp = L3([0, 5.5, -10], inLoco([0, 3.3, -1.3]), k); bp[1] += Math.sin(k * PI) * 3; by = train.loco.rotation.y; bo = { angry: true }; } }
+    const fainted = !late && t > E.faint;
+    if (bp) { poseBurble(bloop6, t, bp, by, bo); if (fainted) { bloop6.B.root.rotation.z = PI / 2; bloop6.B.root.position.y += 0.4; } bloop6.B.root.visible = true; } else bloop6.B.root.visible = false;
+    bHat.visible = true; bHat.position.y = 1.2;
+    // Leggy (carries fainted Bloop aboard)
+    let lp, ly, ls = 0.3; if (!late) { const a = act(t, [[E.arrive, -19, 0.5, -4.2], [51, -10.6, 0.5, -4.2], [52, -9.4, 1.5, -4.2], [58, -3.6, 1.5, -3.8], [E.board, -3.6, 1.5, -3.8], [E.board + 2.4, ...inCar(1, [0, 0.9, -0.6])]], [[0, {}], [E.midnight, { yaw: 1.4 }], [E.board, {}]]); lp = a.p; ly = a.walk ? a.yaw : (t > E.board + 2.4 ? train.cars[1].rotation.y : a.yaw ?? 1.4); ls = a.walk ? 1.4 : 0.3; if (t > E.board + 2.4) lp = inCar(1, [0, 0.9, -0.6]); }
+    else { const a = act(t, [[E.prep, -6, 1.5, -5.4], [E.prep + 13, -6, 1.5, -5.4]], [[0, { yaw: 0.4 }]]); lp = a.p; ly = 0.4; if (t > E.board2) { lp = L3([-6, 1.5, -5.4], inCar(1, [0, 0.9, -0.6]), seg(t, E.board2, E.board2 + 2.4)); ly = train.cars[1].rotation.y; } ls = t > E.brake && t < E.climb ? 3 : t > E.lever ? 1.4 : 0.3; }
+    poseLurk(L6, t, lp, ly, ls);
+    if (!late && t > E.board + 0.6) { bloop6.B.root.visible = true; parentTo(bloop6.B.root, g); const bpp = t > E.board + 2.4 ? inCar(1, [0, 2.3, -0.6]) : [lp[0], lp[1] + 1.9, lp[2]]; poseBurble(bloop6, t, bpp, ly, {}); bloop6.B.root.rotation.z = PI / 2; }
+    // Wisp
+    let wp, wy = 0, wo = {}; wisp.root.visible = !late ? t > E.trainStop - 1 : true;
+    if (!late) { wp = inLoco([0, 1.2, -1.3]); wy = train.loco.rotation.y; if (win(t, E.wisp, E.board + 1)) { wp = L3(inLoco([0, 1.2, -1.3]), [1.4, 1.5, -2.8], seg(t, E.wisp, E.wisp + 1.4)); wy = faceTo([1.4, 0, -2.8], [0.4, 0, -4.6]); wo = { punch: win(t, E.punch, E.punch + 1.4), wave: t < E.wisp + 3 }; } }
+    else { wp = [3.4, 1.5, -4.2]; wy = -0.6; wo = { happy: true, hop: win(t, E.crowd, E.crowd + 4) || win(t, E.opening + 1, E.opening + 4) }; if (t > E.board2) { wp = inLoco([0, 1.2, -1.3]); wy = train.loco.rotation.y; wo = { happy: true, wave: t < E.depart2 + 2, lever: true }; }
+      if (t > E.boo) wo = { panic: true, lever: t > E.lever }; if (t > E.lever) { wp = inLoco([0, 1.6 + Math.min(1, t - E.lever), -1.3]); } if (t > E.snap) wo = { panic: true, spin: win(t, E.snap, E.snap + 1) }; }
+    poseWisp(wisp, t, wp, wy, wo);
+    // the crowd: Duke Fluffington, Team Lumpy, fans
+    const crowdOn = late && t > E.crowd; [duke, ...lumpy, ...fans].forEach((c, i) => { c.root.visible = crowdOn; if (!crowdOn) return; parentTo(c.root, g); const k = seg(t, E.crowd + i * 0.3, E.crowd + 4 + i * 0.3);
+      let p = L3([-24 - i, 0.5, -5], i < 4 ? [-6 + i * 1.6, 1.5, -6.4] : [-7 + (i - 4) * 1.9, 1.5, -6.2 + ((i % 2) ? -0.6 : 0)], k), y = k < 1 ? PI / 2 : 0, o = { hop: k < 1 || win(t, E.opening + 1, E.opening + 4), seed: i, mega: i === 0 && win(t, E.opening - 2, E.opening + 2) };
+      if (i === 0 && win(t, E.opening - 2, E.board2)) { p = [0, 1.5, -4.2]; y = 0; }
+      if (i < 4 && t > E.board2) { const q = seg(t, E.board2 + 0.4 * i, E.board2 + 2 + 0.4 * i); p = L3(p, inCar(0, SEATS[i]), q); p[1] += Math.sin(q * PI); y = train.cars[0].rotation.y; o = { wave: t > E.hit, hop: false, seed: i }; if (q >= 1) p = inCar(0, [SEATS[i][0], 1.0, SEATS[i][2]]); }
+      if (i >= 4) { const near = Math.hypot(train.loco.position.x, train.loco.position.z + 2) < 14; o = { hop: (t > E.depart2 && near) || win(t, E.hit, E.hit + 6), wave: t > E.lever && i % 2, seed: i }; }
+      poseCushion(c, t, p, y, o); });
+    // flapper jump-scare
+    flappers.forEach((f, i) => { f.root.visible = !late && i < 3 && win(t, E.lantern, E.lantern + 2.2); if (!f.root.visible) return; parentTo(f.root, g); const k = seg(t, E.lantern, E.lantern + 2.2); poseFlap(f, t, [lerp(0, 4, k) + i, 3 + k * 4 + i * 0.4, lerp(-9, -2, k)], 0.4, i); });
+    // camera
+    let cam = camKeys(t, C);
+    if (late && t > E.lever) { const L = train.loco.position, yy = train.loco.rotation.y, side = [Math.cos(yy), 0, -Math.sin(yy)], fw = [Math.sin(yy), 0, Math.cos(yy)];
+      const o = t < E.hit ? [side[0] * 9 - fw[0] * 6, 4, side[2] * 9 - fw[2] * 6] : t < E.hit + 6 ? null : t < E.brake ? [fw[0] * 12 + side[0] * 3, 3, fw[2] * 12 + side[2] * 3] : t < E.climb ? [-side[0] * 7 - fw[0] * 3, 2.4, -side[2] * 7 - fw[2] * 3] : t < E.warn ? [side[0] * 6 - fw[0] * 9, 6, side[2] * 6 - fw[2] * 9] : t < E.derail ? [side[0] * 12 + fw[0] * 6, 5, side[2] * 12 + fw[2] * 6] : [side[0] * 10 - fw[0] * 3, 3, side[2] * 10 - fw[2] * 3];
+      cam = o ? { p: [L.x + o[0], L.y + o[1], L.z + o[2]], l: [L.x - fw[0] * 4, L.y + 1.6, L.z - fw[2] * 4], fov: 56 } : { p: [-2, 2.4, -6.6], l: [L.x, 1.6, L.z], fov: 58 }; }
     return { cam, hud: true };
   }
   return { g, update };
 })();
 
-// ---------------------------------------------------------------- set B: the Comfy Fair (candy-bright; the relay; the prize is alive)
-const fair = (() => {
-  const g = mk('fair'); const st = new VSet(g);
-  for (let x = -32; x <= 32; x++) for (let z = -24; z <= 70; z++) st.add(x, 0, z, Math.abs(x) <= 1 && z > 6 ? 'path' : z >= 2 && z <= 6 && Math.abs(x) <= 15 ? 'sand' : 'turf');
-  for (let x = -6; x <= 6; x++) for (let z = -16; z <= -12; z++) st.add(x, 1, z, 'goldblk'); for (let x = -1; x <= 1; x++) for (let z = -10; z <= -9; z++) st.add(x, 1, z, 'castle');
-  for (let x = -14; x <= -8; x++) st.add(x, 1, 4, 'log'); for (const c of [-4, -1, 2]) for (let dx = -1; dx <= 1; dx++) for (let z = 3; z <= 5; z++) st.add(c + dx, 1, z, 'polka');
-  for (const z of [2, 6]) for (let y = 1; y <= 4; y++) st.add(14, y, z, 'castle'); for (let z = 2; z <= 6; z++) st.add(14, 5, z, 'castle');
-  function tent(cx, cz) { for (let y = 1; y <= 3; y++) for (let x = cx - 2; x <= cx + 2; x++) for (let z = cz - 2; z <= cz + 2; z++) { if (x > cx - 2 && x < cx + 2 && z > cz - 2 && z < cz + 2) continue; if (z === cz + 2 && x === cx && y <= 2) continue; st.add(x, y, z, (x + z) % 2 ? 'jam' : 'quartz'); }
-    for (let k = 0; k < 3; k++) for (let x = cx - 2 + k; x <= cx + 2 - k; x++) for (let z = cz - 2 + k; z <= cz + 2 - k; z++) st.add(x, 4 + k, z, k % 2 ? 'quartz' : 'jam'); }
-  tent(-20, -8); tent(18, -8); tent(2, 11); tent(19, 15); tent(-22, 22);
-  for (const x of [-15, -9]) for (let z = 12; z <= 16; z++) st.add(x, 1, z, 'log'); for (let x = -15; x <= -9; x++) st.add(x, 1, 12, 'log');
-  for (const x of [-10, 10]) for (let y = 1; y <= 5; y++) st.add(x, y, -7, 'log');
-  for (const [x, z, h] of [[-28, -18, 6], [28, -20, 7], [-28, 8, 5], [28, 4, 6], [-12, 40, 6], [12, 46, 5], [-10, 60, 6], [9, 30, 5]]) tree20(st, x, z, h, false);
+// ---------------------------------------------------------------- set C: inside the tunnel (the ride; Wisp's lonely platform)
+const pitY = x => x > 185 && x < 215 ? -4 * Math.sin((x - 185) / 30 * PI) : 0;
+const tunnel = (() => {
+  const g = mk('tunnel'); const st = new VSet(g);
+  for (let x = -24; x <= 262; x++) { const room = x >= 232, zr = room ? 9 : 4, top = room ? 10 : 6, fy = Math.round(pitY(x));
+    for (let z = -zr; z <= zr; z++) { st.add(x, fy, z, Math.abs(z) <= 1 ? 'dark' : 'stone'); st.add(x, top, z, 'dark'); if (Math.abs(z) === zr) for (let y = fy + 1; y < top; y++) st.add(x, y, z, hash2(x, y, z) < 0.15 ? 'ore' : 'stone'); } }
+  for (let y = 0; y <= 10; y++) for (let z = -9; z <= 9; z++) st.add(262, y, z, 'stone');
+  for (let x = 236; x <= 252; x++) for (let z = 3; z <= 8; z++) st.add(x, 1, z, 'plank'); for (let r = 0; r < 3; r++) for (let x = 238; x <= 250; x += 2) st.add(x, 2, 5 + r, 'log');
+  // the skull rock
+  for (let y = 1; y <= 5; y++) for (let x = 77; x <= 83; x++) st.add(x, y, 3, 'basalt');
   st.build();
-  const bunt = new THREE.Group(); g.add(bunt); for (let i = 0; i < 25; i++) box(0.4, 0.5, 0.05, ['#ff6fb8', '#ffe066', '#5ff7ff', '#7cff6b'][i % 4], -9.6 + i * 0.8, 5.2 - Math.sin(i / 24 * PI) * 0.8, -7, bunt);
-  const balloons = [[-6, -9], [7, -10], [16, 1], [-16, 6], [-4, 12]].map(([x, z], i) => { const b = pivot(g, x, 6, z); box(0.8, 1.0, 0.8, ['#ff3d7f', '#5ff7ff', '#ffe066', '#7cff6b', '#c08aff'][i], 0, 0, 0, b); box(0.04, 3, 0.04, '#ffffff', 0, -2, 0, b); return b; });
-  const banner = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.9, 3.6), new THREE.MeshBasicMaterial({ map: bannerTex('FINISH') })); banner.position.set(14, 4.2, 4); g.add(banner);
-  const sheet = box(11.6, 3.6, 3.4, '#f6efe0', 0, 3.3, -14, g);
-  const sofaK = [[0, 0, 1.5, -14], [E.bolt, 0, 1.5, -14], [E.bolt + 1.4, 2.4, 0.5, -6], [E.bolt + 4, -1, 0.5, 4], [E.bolt + 6.6, 8, 0.5, 6], [E.bolt + 9, 14, 0.5, 12], [E.bolt + 11.6, 4, 0.5, 16], [E.chaseEnd, -17, 0.5, 4], [E.board + 1.4, -17, 0.5, 4], [E.board + 3.6, -6, 0.5, 14], [E.board + 5, 0, 0.5, 22], [E.home, 0, 0.5, 60]];
-  const lag = (t, d) => walker(t - d, sofaK);
-  burst(E.bonk, [-9.8, 2.2, 4], { n: 50, colors: ['#ffffff', '#ffe066'], speed: 5, size: 0.14, life: 1, grav: 4, up: 3 }); burst(E.win, [14, 5, 4], { n: 140, colors: ['#ff6fb8', '#ffe066', '#5ff7ff', '#7cff6b'], speed: 7, size: 0.16, life: 2, grav: 4, up: 6 });
-  burst(E.ribbon, [-10, 2.4, 14], { n: 60, colors: ['#3d7bff', '#ffe066'], speed: 4, size: 0.12, life: 1.2, grav: 3, up: 4 }); burst(E.unveil, [0, 4, -14], { n: 120, colors: ['#ffe066', '#ff6fb8', '#ffffff'], speed: 6, size: 0.15, life: 1.6, grav: 3, up: 5 });
-  burst(E.bolt + 0.8, [3.4, 1, -9.6], { n: 60, colors: ['#ff9ad0', '#ffffff'], speed: 5, size: 0.16, life: 1, grav: 6, up: 3 }); burst(E.bolt + 4, [-1, 1.6, 4], { n: 40, colors: ['#3d7bff', '#ffffff'], speed: 4, size: 0.14, life: 0.8, grav: 6, up: 3 });
-  for (let t = E.rip; t < E.rip + 1.2; t += 0.2) burst(t, [-16.8, 3.2, 1.3], { n: 8, colors: ['#fff3cf', '#e8d8a8'], speed: 2.4, size: 0.12, life: 1.4, grav: 2, up: 2 });
-  for (let t = E.purr; t < E.named; t += 0.5) burst(t, [-15.6, 2.6, 4], { n: 2, colors: ['#ff6fb8'], speed: 0.5, size: 0.22, life: 1.2, grav: -1.5, up: 0.5 });
-  const C = [[E.travel, 3, 1.5, 32, 0, 2, 62, 50], [61.9, 4, 2.2, 16, 0, 1.6, 24, 50], [62, 0, 14, 36, 0, 2, -6, 56], [67.3, 8, 12, 32, 0, 2, -6, 54], [67.4, 0.4, 2.6, -4.2, 0, 2.4, -9.5, 44], [75.7, 1.2, 2.4, -5.2, 0, 2.3, -9.5, 40],
-    [75.8, 0, 3.4, -11, 0.6, 1.3, -4, 52], [81.9, -2, 3.2, -11, 0.6, 1.3, -4, 50], [82, 3.6, 1.6, -1.0, -1, 1.4, -5.4, 46], [88.5, 2.6, 1.6, -0.6, -1, 1.4, -5.4, 44], [88.6, -1.2, 2.1, -8.6, -1.2, 1.7, -4, 46], [92.9, -0.6, 2.1, -8.2, -1.2, 1.7, -4, 44],
-    [93, -11, 2.4, 10, -11, 2, 4, 46], [99.5, -10, 2.4, 10, -11, 2, 4, 44], [99.6, -12.5, 0.9, 8.5, -11, 3, 4, 52], [105.9, -9, 1.2, 9, -9, 2, 4, 50],
-    [106, -6, 2.4, -3, -6, 2, 4, 50], [108.6, -2, 3, -3, -1, 2.5, 4, 50], [111, 1, 4, -4, 1, 3, 4, 52], [114.6, 0, 8, -6, 2, 6, 9, 54], [118.9, 7, 2.6, -2, 4, 1, 6, 50], [119, 8, 1.8, 0.6, 5, 1.4, 4.4, 44], [120.3, 8, 1.8, 1.0, 5, 1.4, 4.4, 42],
-    [120.4, 9.6, 1.8, 0.2, 6, 1.2, 4, 46], [127.9, 9.2, 1.8, -0.2, 7, 1.2, 4, 44], [128, 4, 3, 11, 7, 1.4, 4, 52], [131.3, 7, 3, 11, 9, 1.4, 5, 52], [131.4, 12.6, 1.6, 10.8, 12.2, 0.8, 7, 40], [133.9, 12.2, 1.6, 10.4, 12.2, 0.8, 7, 38],
-    [134, 9, 3, 11, 11, 1.4, 4, 52], [137.3, 12, 3, 11, 13, 1.4, 4, 50], [137.4, 18, 1.2, 7, 13.5, 2, 4, 52], [139.9, 18, 1.6, 7.6, 13.5, 2, 4, 50],
-    [140, -12, 2.8, 21, -12, 1.2, 14, 48], [145.5, -11, 2.6, 20, -12, 1.2, 14, 46], [145.6, -8, 2.4, 19.5, -10, 1.6, 14, 40], [150.3, -7.8, 2.4, 19.1, -10, 1.6, 14, 38],
-    [150.4, 0, 6, 0, 0, 3, -14, 56], [155.5, 0, 5.4, -2, 0, 3, -14, 52], [155.6, 0, 2.6, -7, 0, 2.5, -13, 44], [160.1, 0, 2.6, -8.6, 0, 2.5, -13, 34], [160.2, 8, 5, 0, 0, 2, -12, 56], [E.bolt + 1, 9, 6, 2, 0, 1.5, -9, 56],
-    [E.chaseEnd, -8, 4.5, 0, -17, 1.6, 4, 50], [180.5, -8.6, 4.2, 0.4, -17, 1.6, 4, 46], [180.6, -11, 2.6, -1.5, -15.6, 1.4, 4, 46], [185.3, -11.4, 2.6, -1.0, -16, 1.6, 3, 44], [185.4, -9, 4.2, 0, -15.7, 1.8, 3, 46], [189.5, -9.4, 4.0, 0.4, -15.7, 1.8, 3, 42],
-    [189.6, -10, 3.4, 9, -16, 1.8, 3, 50], [192.3, -10.6, 3.4, 8.6, -16, 1.8, 3, 48], [192.4, -7, 3.4, -2, -14, 1.4, 2, 50], [197.3, -7.4, 3.4, -2.4, -14, 1.4, 2, 48], [197.4, -13.2, 2.8, 1.0, -16.8, 2.6, 1.3, 40], [202.7, -13.6, 2.8, 0.4, -16.8, 2.6, 1.3, 36],
-    [202.8, -12, 3.6, 4.4, -16.8, 2.6, 1.3, 44], [206.5, -12.4, 3.6, 4.8, -16.8, 2.6, 1.3, 42], [206.6, -8, 4, 8, -17, 2, 3, 52], [E.board + 1.4, -8, 4, 8, -17, 2, 3, 52]];
+  const glow = new THREE.Group(); g.add(glow); for (let x = -20; x < 232; x += 7) { const s = x % 14 ? 1 : -1; box(0.3, 0.5, 0.3, 0, x, pitY(x) + 0.75, s * 3.2, glow, x % 21 ? glowC : glowP); box(0.6, 0.2, 0.6, 0, x, pitY(x) + 1.05, s * 3.2, glow, x % 21 ? glowC : glowP); if (x % 15 < 7) box(0.4, 0.5, 0.4, 0, x, 5.3, 0, glow, glowY); }
+  const skEyes = [79, 81].map(x => box(1.0, 0.8, 0.2, 0, x, 4.0, 2.4, g, glowP)), jaw = pivot(g, 80, 2.0, 2.5); box(6, 1, 0.6, '#3a3040', 0, -0.5, 0, jaw); for (let i = -2; i <= 2; i++) box(0.4, 0.4, 0.3, '#f4f4f0', i * 1.1, 0.1, 0.1, jaw);
+  const chair = new THREE.Group(); g.add(chair); box(1, 0.2, 1, '#8a5a2b', 0, 1.0, 0, chair); box(1, 1.2, 0.2, '#8a5a2b', 0, 1.6, -0.45, chair); for (const [x, z] of [[-0.4, -0.4], [0.4, -0.4], [-0.4, 0.4], [0.4, 0.4]]) box(0.12, 0.6, 0.12, '#6a4020', x, 0.6, z, chair); chair.position.set(246, 1, 6.6); chair.rotation.y = PI;
+  const poster = new THREE.Mesh(new THREE.BoxGeometry(5, 1.0, 0.1), new THREE.MeshBasicMaterial({ map: bannerTex('OPENING DAY?') })); poster.position.set(244, 4.4, 8.8); poster.rotation.y = PI; g.add(poster);
+  const roomL = new THREE.PointLight('#ffd8a0', 0, 30, 1.2); roomL.position.set(244, 7, 2); g.add(roomL);
+  burst(E.hug + 0.6, [245, 3, 5.4], { n: 70, colors: ['#ff8fd8', '#ffffff', '#ffe066'], speed: 4, size: 0.14, life: 1.4, grav: 1, up: 3 });
+  const X = [[E.tunnel, 0], [E.skull, 60], [E.flappers, 118], [E.drop, 180], [E.drop + 4, 214], [E.stop, 240], [E.back, 240], [E.prep, 40]];
   function update(t) {
-    hideMisc(); blueprint.parent.visible = false; [duckA, duckB, duckC, duckD, fish].forEach(d => d.visible = false); muffin.root.visible = puff.root.visible = bot.root.visible = false; card.visible = false;
-    [twin, third, hero].forEach(h => parentTo(h.root, g)); parentTo(bloop6.B.root, g); parentTo(L6.root, g); parentTo(tock.root, g); twin.root.visible = third.root.visible = tock.root.visible = hero.root.visible = true; prop.rotation.y = t * (win(t, E.prop, E.bonk + 0.4) ? 40 : 14);
-    rain.forEach((d, i) => { if (i >= 9) d.visible = false; }); [duke, ...lumpy, ...fans, sofie].forEach(c => parentTo(c.root, g)); [couchRace, couchMini].forEach(c => { parentTo(c.g, g); resetCouch(c); });
-    balloons.forEach((b, i) => { b.position.y = 6 + Math.sin(t * 1.3 + i) * 0.3; b.rotation.z = Math.sin(t + i) * 0.1; });
-    const ld = t > E.leggyCalm + 3 ? 8 : 9; leggyDucks(t, ld); ribbon.visible = t > E.ribbon;
-    // the wagon: arrival, parked, then the chase
-    parentTo(wagon.root, g); const wk = ss(seg(t, E.travel, E.arrive - 0.4)); let WP = [0, 0.5, lerp(64, 24, wk)], wy = PI;
-    if (t > E.chaseEnd - 6) { const a = lag(Math.min(t, E.chaseEnd), 3.2); WP = [a.p[0], 0.5, a.p[2]]; wy = a.yaw; if (t > E.chaseEnd) { WP = [-10, 0.5, 7.5]; wy = -PI / 2 - 0.4; } }
-    poseWagon(wagon, t, WP, wy, -t * (t < E.arrive || win(t, E.chaseEnd - 6, E.chaseEnd) ? 4 : 0));
-    // the sofa
-    const sw = walker(t, sofaK); let sy = sw.yaw, so = { awake: t > E.blink, walk: sw.walk > 0.05 ? 1.2 : 0, phase: sw.phase * 1.6, look: t > E.blink && t < E.alive ? Math.sin(t * 2) : 0 };
-    if (t < E.bolt) { sy = 0; so.hop = win(t, E.alive, E.bolt) && Math.floor(t * 2) % 2; } if (win(t, E.chaseEnd, E.board + 1.4)) { sy = lerp(-PI / 2, PI / 2, ss(seg(t, E.chaseEnd, E.chaseEnd + 0.8))); so.purr = t > E.purr; so.crouch = t < E.leggyCalm + 3; }
-    let SP = [...sw.p]; if (win(t, E.bolt + 2.6, E.bolt + 4)) SP[1] += Math.sin(seg(t, E.bolt + 2.6, E.bolt + 4) * PI) * 2.4; if (win(t, E.bolt + 4, E.bolt + 5.4)) SP[1] += Math.sin(seg(t, E.bolt + 4, E.bolt + 5.4) * PI) * 4;
-    poseSofa(sofie, t, SP, sy, so); sofie.root.visible = true; const P = [SP[0], SP[1] + sofaBob(), SP[2]];
-    sheet.visible = t < E.unveil + 1.2; { const k = seg(t, E.unveil, E.unveil + 1.2); sheet.position.set(0, 3.3 + k * k * 14, -14); sheet.rotation.set(k * 0.8, 0, k * 1.2); }
-    // Duke Fluffington
-    duke.root.visible = true; let dp = [0, 1.5, -9.5], dy = 0, dO = { mega: true, hop: win(t, E.duke, E.duke + 2) };
-    if (win(t, E.prize, E.bolt + 3)) dp = [3.4, 0.5, -9.6];
-    if (win(t, E.squint, E.leg1)) { dp = L3([-3.4, 0.5, -6], [1, 0.5, -6], seg(t, E.squint, E.squint + 6)); dy = PI; dO = { squint: true, mega: false }; }
-    if (win(t, E.leg1, E.pets)) { dp = [15.6, 0.5, 1.4]; dy = -PI / 2 - 0.3; dO = { wave: win(t, E.win, E.pets), mega: !win(t, E.win, E.pets) }; }
-    if (win(t, E.pets, E.prize)) { dp = [-16.5, 0.5, 16]; dy = 2.0; dO = { squint: t < E.ribbon - 3, hop: t > E.ribbon, wave: t > E.ribbon }; }
-    if (win(t, E.bolt + 0.6, E.bolt + 3)) dO = { squish: lerp(0.25, 1, seg(t, E.bolt + 1.8, E.bolt + 3)) };
-    if (t > E.chaseEnd) { dp = [-11.4, 0.5, 0.2]; dy = -1.2; dO = { wave: win(t, E.named, E.named + 4), mega: t > E.named + 4 }; }
-    poseCushion(duke, t, dp, dy, dO);
-    // Team Lumpy + the crowd
-    lumpy.forEach((c, i) => { c.root.visible = true; let p = [2 + i * 1.1, 0.5, -4.4], y = PI, o = { seed: i, hop: win(t, E.rules, E.rules + 3) };
-      if (t > E.leg1) { p = [[-9.6, 1.5, 4], [8, 0.5, 9], [5.4, 0.5, 7]][i]; y = [-PI / 2, PI, PI / 2][i]; o = { seed: i }; }
-      if (i === 0 && win(t, E.leg1, E.pets)) { o.swing = t < E.bonk; if (t > E.bonk) { p = L3([-9.6, 1.5, 4], [-9.2, 0.5, 5.6], seg(t, E.bonk, E.bonk + 0.5)); o = { flat: true, sleep: true }; } }
-      if (i === 2 && win(t, E.leg3, E.pets)) { p = [lerp(5.4, 11.6, seg(t, E.leg3, E.nap)), 0.5, 7]; o = { hop: t < E.nap, sleep: t > E.nap, seed: 2 }; }
-      if (t > E.prize) { p = [3 + i * 1.1, 0.5, -4.4]; y = PI; o = { seed: i, hop: win(t, E.unveil, E.blink) }; } if (t > E.bolt + 1) { p = [8 + i * 1.4, 0.5, -1]; y = PI * 0.8; o = { seed: i, wave: true }; } if (t > E.chaseEnd) c.root.visible = false;
-      poseCushion(c, t, p, y, o); });
-    lpillow.visible = win(t, E.leg1, E.bonk); couchMini.g.visible = win(t, E.leg3, E.pets); couchMini.g.position.set(lerp(5.4, 11.6, seg(t, E.leg3, E.nap)) + 0.2, t < E.nap ? 1.2 + Math.abs(Math.sin(t * 9)) * 0.3 : 0.5, 7.4); couchMini.g.rotation.y = PI / 2;
-    const cheer = win(t, E.bonk, E.bonk + 3) || win(t, E.tent, E.tent + 3) || win(t, E.win, E.pets) || win(t, E.unveil, E.blink);
-    fans.forEach((c, i) => { c.root.visible = t > E.arrive && t < E.chaseEnd; poseCushion(c, t, [i < 4 ? -8 + i * 1.5 : 6 + (i - 4) * 1.5, 0.5, 9.2], PI, { hop: cheer, wave: cheer && i % 2, seed: i * 1.3 }); });
-    // contestants, the race
-    const rP = [lerp(6.6, 8.2, seg(t, E.leg3, E.joinIn)), 0.5, 4], cx = lerp(8.2, 14.6, ss(seg(t, E.joinIn + 2, E.win - 0.8))); couchRace.g.visible = win(t, E.leg1, E.pets); couchRace.g.rotation.y = -PI / 2;
-    if (t < E.joinIn + 1.4) couchRace.g.position.set(...rP); else couchRace.g.position.set(cx, t < E.win ? lerp(0.5, 1.95, seg(t, E.joinIn + 1.4, E.joinIn + 2)) : lerp(1.95, 0.5, seg(t, E.win, E.win + 0.4)), 4);
-    const line = (x, o) => ({ p: [x, 0.5, -4.4], yaw: PI, face: 'smug', ...o });
-    const offW = (l, i) => L3(wl(WP, PI, l), [-2.4 + i * 1.2, 0.5, -4.4], seg(t, E.arrive, E.arrive + 4.5));
-    let H_, T_, R_;
-    if (t < E.arrive) { H_ = { p: wl(WP, PI, [0, 0.9, 0.4]), yaw: PI, sit: 1, face: 'scared', panic: t > 58.8 }; T_ = { p: wl(WP, PI, [-0.7, 0.9, -0.6]), yaw: PI, sit: 1, face: 'smug', wave: true }; R_ = { p: wl(WP, PI, [0.7, 0.9, -0.6]), yaw: PI, sit: 1, face: 'scared' }; }
-    else if (t < E.leg1) { const wk2 = t < E.arrive + 4.5 ? 1 : 0; H_ = line(-1.2, { p: offW([0, 0.9, 0.4], 1), walk: wk2, phase: t * 8 }); T_ = line(-2.4, { p: offW([-0.7, 0.9, -0.6], 0), walk: wk2, phase: t * 8, wave: win(t, 85.6, 88.6) }); R_ = line(0, { p: offW([0.7, 0.9, -0.6], 2), walk: wk2, phase: t * 8, hips: win(t, 88.6, 90.4) });
-      if (t > E.squint) { H_.face = T_.face = R_.face = 'scared'; } if (t > 90.4) H_.face = 'smug'; }
-    else if (t < E.prize) {
-      // past me: pillow fight, propeller lift, bonk, run, tag
-      const tp = t < E.prop ? [-12, 1.5, 4] : t < E.bonk ? [-12 + seg(t, E.prop, E.bonk) * 1.6, 1.5 + Math.sin(seg(t, E.prop, E.bonk) * PI) * 2.2 + seg(t, E.prop, E.prop + 0.6) * 0.4, 4] : null;
-      if (tp) T_ = { p: tp, yaw: PI / 2, face: t < E.prop ? 'smug' : 'scared', swing: t < E.prop ? t * 1.4 : t * 3 }; else { const a = act(t, [[E.bonk, -10.4, 1.5, 4], [E.bonk + 1.4, -8, 1.5, 4], [E.leg2 - 0.4, -7, 0.5, 4], [E.joinIn, -7, 0.5, 4], [E.joinIn + 1.4, cx - 1.2, 0.5, 4], [E.win, cx - 1.2, 0.5, 4]], [[0, { face: 'smug' }], [E.leg2, { yaw: PI / 2, face: 'smug', wave: t < E.leg2 + 3 }], [E.joinIn, { face: 'smug' }], [E.joinIn + 1.4, { yaw: PI / 2, face: 'scared', panic: true, walk: 1, phase: t * 10 }], [E.win, { face: 'smug', wave: true, yaw: 0 }]]); T_ = a; if (t > E.joinIn + 1.4 && t < E.win) T_.p = [cx - 1.2, 0.5, 4]; }
-      pillow.visible = t < E.leg2;
-      // future me: bounce sprint onto the tent, slide, tag
-      const bk = [[E.leg2, -6.5, 0.5, 4, 0], [E.leg2 + 1.2, -4, 1.5, 4, 1.0], [E.leg2 + 2.4, -1, 1.5, 4, 1.6], [E.leg2 + 3.6, 2, 1.5, 4, 2.4], [E.bounce, -1, 1.5, 4, 3.4], [E.bounce + 1.2, 2, 1.5, 4, 4.4], [E.tent, 2, 6.5, 10, 7], [E.tent + 2.2, 4.2, 0.5, 6.6, 0], [E.tag2, 4.6, 0.5, 4.6, 0]];
-      if (t < E.leg2) R_ = { p: [-6.5, 0.5, 4], yaw: -PI / 2, face: 'smug', hips: true }; else if (t < E.tag2) R_ = { p: arcPath(t, bk), yaw: t < E.tent ? PI / 2 : 0.6, face: t > E.bounce ? 'scared' : 'smug', panic: win(t, E.bounce, E.tent), flat: win(t, E.tent, E.tent + 2.2) ? 1 : 0 };
-      else { const a = act(t, [[E.tag2, 4.6, 0.5, 4.6], [E.joinIn, 4.6, 0.5, 4.6], [E.joinIn + 1.4, cx + 1.2, 0.5, 4]], [[0, { yaw: PI / 2, face: 'smug', wave: t < E.tag2 + 1 }], [E.joinIn, { face: 'smug' }], [E.joinIn + 1.4, { yaw: PI / 2, face: 'scared', panic: true, walk: 1, phase: t * 10 + 1 }], [E.win, { face: 'smug', wave: true, yaw: 0 }]]); R_ = a; if (t > E.joinIn + 1.4) R_.p = [cx + 1.2, 0.5, 4]; }
-      // me: wait, drag the couch, carry it with me and me, win
-      if (t < E.leg3) H_ = { p: [5.4, 0.5, 4.6], yaw: -PI / 2, face: 'smug', hips: t < E.tag2 - 2 }; else if (t < E.joinIn + 1.4) H_ = { p: [rP[0] - 1.3, 0.5, 4], yaw: PI / 2, face: 'scared', walk: 0.6, phase: t * 3, lean: 0.4 }; else H_ = { p: [cx, 0.5, 4], yaw: PI / 2, face: t < E.win ? 'scared' : 'smug', panic: t < E.win, walk: t < E.win ? 1 : 0, phase: t * 10 + 2, wave: t > E.win };
-      if (t > E.pets) { H_ = { p: [13, 0.5, 2], yaw: 0, face: 'smug' }; T_ = { p: [12, 0.5, 2.6], yaw: 0.2, face: 'smug' }; R_ = { p: [14, 0.5, 2.6], yaw: -0.2, face: 'smug' }; }
-    } else {
-      // prize, the bolt, the chase, the purr, the ride home
-      H_ = line(-1.2, { face: t > E.blink ? 'scared' : 'smug', wave: win(t, E.unveil, E.blink) }); T_ = line(-2.4, { hop: false, wave: win(t, E.unveil, E.blink) }); R_ = line(0, { hips: win(t, E.blink, E.alive), face: 'smug' });
-      if (t > E.alive) { H_.panic = T_.panic = R_.panic = true; H_.face = T_.face = R_.face = 'scared'; }
-      if (t > E.bolt + 1) { [[1.4, -1], [2.0, 1], [2.6, 0]].forEach(([d, side], i) => { const a = lag(Math.min(t, E.chaseEnd), d); const o = { p: [a.p[0] + side * 1.2, 0.5, a.p[2] + side * 1.2], yaw: a.yaw, walk: t < E.chaseEnd ? 1.2 : 0, phase: a.phase * 2, face: 'scared', panic: t < E.chaseEnd };
-        if (t > E.chaseEnd) { o.p = [[-11, 0.5, 2.6], [-11.6, 0.5, 5.6], [-10.8, 0.5, 4.2]][i]; o.yaw = -PI / 2; o.face = t > E.purr ? 'smug' : 'scared'; o.panic = false; } if (i === 0) H_ = o; else if (i === 1) T_ = o; else R_ = o; }); }
-      if (t > E.board) { const k = seg(t, E.board, E.board + 1.4); const ride = (h, l, o) => pose(h, { t, p: L3([h.root.position.x, 0.5, h.root.position.z], wl(P, sy, l), k), yaw: sy, sit: k, face: 'smug', ...o });
-        ride(hero, [SEAT.hero, 1.5, 0.2], { wave: t > E.board + 3 }); ride(twin, [SEAT.twin, 1.5, 0.2], {}); ride(third, [SEAT.third, 1.5, 0.2], { hips: true }); H_ = T_ = R_ = null; }
-    }
-    if (H_) pose(hero, { t, ...H_ }); if (T_) pose(twin, { t, ...T_ }); if (R_) pose(third, { t, ...R_ });
-    // Bloop
-    let bp, by, bo = {};
-    if (t < E.arrive) { bp = wl(WP, PI, [0, 1.1, -1.4]); by = PI; bo = { hop: true }; }
-    else if (t < E.leg1) { bp = [-4.6, 0.5, -3]; by = PI; } else if (t < E.pets) { bp = [11, 0.5, 1]; by = 0.4; bo = { hop: cheer }; } else if (t < E.bolt + 1) { bp = [-4, 0.5, -3.4]; by = PI; bo = { angry: t > E.alive }; }
-    else if (t < E.chaseEnd) { bp = wl(WP, wy, [0, 1.1, -1.2]); by = wy; bo = { angry: true }; }
-    else if (t < E.bloopSit) { bp = wl(WP, wy, [0, 1.1, -1.2]); by = wy; bo = {}; }
-    else { const k = seg(t, E.bloopSit, E.bloopSit + 1.6); bp = L3(wl(WP, wy, [0, 1.1, -1.2]), wl(P, sy, [SEAT.bloop, 1.7, 0.2]), k); bp[1] += Math.sin(k * PI) * 1.2; by = sy; bo = { hop: win(t, E.bloopSit + 2, E.rip), handOut: win(t, E.rip - 1.6, E.rip + 0.3) }; card.visible = win(t, E.rip - 1.6, E.rip); }
-    poseBurble(bloop6, t, bp, by, bo); bHat.visible = true; bHat.position.y = 1.2; bloop6.B.root.visible = true;
-    // Leggy: pulls the wagon, wins fluffiest pet, calms the sofa
-    let lp, ly, ls = 0.3;
-    if (t < E.arrive) { lp = wl(WP, PI, [0, 0, 3.8]); ly = PI; ls = 3; } else if (t < E.leg1) { lp = [-6.6, 0.5, -2.4]; ly = PI; } else if (t < E.pets) { lp = [-17, 0.5, 0]; ly = 0.8; }
-    else if (t < E.prize) { lp = [-10, 0.5, 14]; ly = 0.2; ls = t > E.ribbon ? 1.4 : 0.3; } else if (t < E.bolt + 1) { lp = [-6.4, 0.5, -2.6]; ly = PI; }
-    else if (t < E.leggyCalm) { lp = wl(WP, wy, [0, 0, 3.8]); ly = wy; ls = t < E.chaseEnd ? 3 : 0.3; }
-    else if (t < E.leggyCalm + 3.4) { const a = walker(t, [[E.leggyCalm, ...wl(WP, wy, [0, 0, 3.8])], [E.leggyCalm + 2.6, -14.8, 0.5, 4]]); lp = a.p; ly = a.walk > 0.05 ? a.yaw : -PI / 2; ls = 0.8; }
-    else { const k = seg(t, E.leggyCalm + 3.4, E.leggyCalm + 4.6); lp = L3([-14.8, 0.5, 4], wl(P, sy, [SEAT.leggy, 1.7, 0]), k); lp[1] += Math.sin(k * PI) * 1.4; ly = sy; ls = 0.2; }
-    poseLurk(L6, t, lp, ly, ls); L6.root.visible = true;
-    rain[8].visible = true; if (t > E.leggyCalm + 3) { parentTo(rain[8], sofie.body); rain[8].position.set(3.6, 1.85, 0.7); rain[8].rotation.set(0, 0, 0); rain[8].scale.setScalar(1); }
-    // Muffin and Puff are the other pet-show entrants
-    if (win(t, E.pets, E.prize)) { muffin.root.visible = puff.root.visible = true; parentTo(muffin.root, g); parentTo(puff.root, g); poseMuffin(muffin, t, [-14, 0.5, 14], 0.2, { hop: t < E.ribbon }); poseMag(puff, t, [-12, 0.6, 14], 0.1); }
-    // Tock
-    poseTock(tock, t, t < E.arrive ? wl(WP, PI, [0, 3.2, 0]) : t < E.leg1 ? [-3.6, 3.4, -5] : t < E.pets ? [12, 6.4, 3] : t < E.bolt ? [-2, 4, -6] : t < E.chaseEnd ? [P[0], 5, P[2] + 2] : wl(P, sy, [0, 3.35, -1.0]), 0, { fly: t < E.chaseEnd + 1, alarm: win(t, E.alive, E.purr) });
-    let cam = camKeys(t, C);
-    if (win(t, E.bolt + 1, E.chaseEnd)) cam = follow(SP, [7 * Math.cos(t * 0.25), 6, 11], 1.6, 54);
-    if (t > E.board + 1.4) cam = follow(P, [-9, 5, 7], 1.2, 52);
-    return { cam, hud: true };
+    hideMisc(); blueprint.parent.visible = ribbon.visible = sheetB.visible = false; [duckA, duckB, duckC, duckD, fish, ...rain].forEach(d => d.visible = false); muffin.root.visible = puff.root.visible = bot.root.visible = sofie.root.visible = false;
+    [twin, third, tock, wagon, duke, ...lumpy, ...fans].forEach(o => (o.root || o).visible = false); [hero.root, bloop6.B.root, L6.root, wisp.root, train.root].forEach(o => parentTo(o, g)); card.visible = false; lanternH.visible = true; heroLight.intensity = 10; meter.visible = true;
+    const x = lerpK(X, t), fn = d => [[x - d, pitY(x - d) + 0.5, 0], PI / 2 + (pitY(x - d + 1) - pitY(x - d - 1)) * 0]; train.root.visible = true; placeTrain(fn, -x * 2.2); train.lever.visible = true;
+    const tilt = d => -Math.atan2(pitY(x - d + 1) - pitY(x - d - 1), 2); train.loco.rotation.x = 0; train.loco.rotation.set(tilt(0), PI / 2, 0, 'YXZ'); train.cars.forEach((c, i) => c.rotation.set(tilt(-CARZ[i]), PI / 2, 0, 'YXZ'));
+    roomL.intensity = t > E.stop - 2 && t < E.back + 3 ? 40 : 0; jaw.rotation.x = Math.abs(x - 80) < 14 ? -0.6 * (1 - Math.abs(x - 80) / 14) * 1.6 : 0; skEyes.forEach(e => e.visible = Math.abs(x - 80) < 16);
+    const off = t > E.stop + 1 && t < E.back - 1;
+    // hero in car 2 (or on the lonely platform)
+    if (!off) pose(hero, { t, p: inCar(1, SEATS[0]), yaw: PI / 2, sit: 1, face: win(t, E.skull, E.drop + 4) ? 'scared' : 'smug', panic: win(t, E.skull + 2, E.skull + 5) || win(t, E.flappers, E.flappers + 4) || win(t, E.drop, E.drop + 4), headYaw: win(t, E.skull, E.skull + 2) ? 1 : 0 });
+    else { const a = act(t, [[E.stop + 1, 231, 0.5, 2.0], [E.stop + 3, 239, 0.5, 2.4], [E.stop + 3.5, 240, 1.5, 3.6], [E.twist, 241.6, 1.5, 4.0]], [[0, { face: 'smug' }], [E.twist, { yaw: faceTo([241.6, 0, 4], [246, 0, 6.4]), face: 'normal' }], [E.plan, { yaw: faceTo([241.6, 0, 4], [246, 0, 6.4]), face: 'smug', wave: true }]]); pose(hero, { t, ...a }); }
+    // Leggy (hugs Wisp)
+    if (!off) poseLurk(L6, t, inCar(1, [0, 0.9, -0.6]), PI / 2, win(t, E.flappers, E.flappers + 6) ? 3 : 0.3);
+    else { const a = act(t, [[E.stop + 1, 227, 0.5, 2.2], [E.stop + 3.6, 237, 0.5, 2.4], [E.stop + 4.2, 238, 1.5, 4.6], [E.hug, 238, 1.5, 4.6], [E.hug + 1.6, 244.6, 1.5, 5.4]], [[0, {}], [E.stop + 4, { yaw: 0.8 }], [E.hug, {}], [E.hug + 1.6, { yaw: PI / 2 }]]); poseLurk(L6, t, a.p, a.yaw, a.walk ? 1.4 : win(t, E.hug + 1.6, E.plan) ? 1.6 : 0.3); }
+    // Bloop: fainted in car 2; wakes, sees Wisp, faints again; then decides
+    const wake = win(t, E.plan + 2, E.faint2); const bl = inCar(1, [0, 2.3, -0.6]); let bo = {}; if (wake) { bo = { angry: true }; } poseBurble(bloop6, t, wake ? inCar(1, [0, 1.15, -1.0]) : bl, PI / 2, bo); bloop6.B.root.rotation.z = wake ? 0 : PI / 2; if (t > E.faint2 + 2.5) { bloop6.B.root.rotation.z = 0; poseBurble(bloop6, t, inCar(1, [0, 1.15, -1.0]), PI / 2, { hop: t > E.back + 1 }); }
+    bHat.visible = true; bHat.position.y = 1.2;
+    // Wisp: drives; then sits alone; the hug makes him glow
+    let wp = inLoco([0, 1.2, -1.3]), wy = PI / 2, wo = { look: win(t, E.skull, E.drop) ? -1 : 0, lever: true };
+    if (off) { const k = seg(t, E.stop + 1, E.stop + 3); wp = L3(inLoco([0, 1.2, -1.3]), [246, 1.6, 6.6], k); wy = lerp(PI / 2, 0, k); wo = { sad: t > E.stop + 3 && t < E.hug + 1, fade: t < E.hug ? 0.85 : 0.95, happy: t > E.hug + 1, hop: win(t, E.plan, E.plan + 4), wave: win(t, E.faint2 - 2, E.back - 1) }; }
+    if (t > E.back) wo = { happy: true, lever: true }; poseWisp(wisp, t, wp, wy, wo);
+    // flappers swarm past
+    flappers.forEach((f, i) => { const k = (t - E.flappers - i * 0.18) / 5; f.root.visible = k > 0 && k < 1; if (!f.root.visible) return; parentTo(f.root, g); const r = rng(220 + i); poseFlap(f, t, [x + 14 - k * 30, 2.4 + r() * 2.6 + Math.sin(t * 5 + i) * 0.3, (r() - 0.5) * 5], -PI / 2, i); });
+    // camera
+    const L = train.loco.position; let cam;
+    if (off) cam = camKeys(t, [[E.stop + 1, 230, 3.4, -4, 240, 2, 3, 52], [E.twist - 0.1, 234, 3.2, -5, 244, 2, 4, 50], [E.twist, 248.5, 3.4, -1.5, 245, 2.2, 6, 46], [E.hug - 0.1, 248.2, 3.4, -1.0, 245, 2.2, 6, 42], [E.hug, 240, 6.4, -4, 243, 2.2, 5.4, 50], [E.plan - 0.1, 241, 6.2, -4, 243, 2.2, 5.4, 48],
+      [E.plan, 244, 3, -1.6, 242, 2.2, 4.6, 48], [E.plan + 2, 236, 3, -2.6, 230, 2.6, 0, 46], [E.faint2 + 2.5, 236.6, 3, -2.2, 230, 2.6, 0, 44], [E.faint2 + 2.6, 243, 4, -3, 240, 2, 3, 50], [E.back - 1, 243, 4, -3, 240, 2, 3, 50]]);
+    else if (win(t, E.drop - 0.5, E.drop + 4)) cam = { p: [L.x + 9, Math.max(L.y + 2.2, 1.2), 1.6], l: [L.x - 3, L.y + 1.4, 0], fov: 58 };
+    else if (win(t, E.skull, E.flappers)) cam = { p: [L.x - 12, 3.4, -2.8], l: [L.x + 6, 2.4, 2], fov: 56 };
+    else if (win(t, E.stop - 2, E.stop + 1)) cam = { p: [244, 3.8, -6], l: [L.x - 4, 2, 0], fov: 54 };
+    else if (t > E.back) cam = { p: [L.x - 14.6, 2.6, 2.4], l: [L.x - 8, 1.8, 0], fov: 56 };
+    else cam = { p: [L.x - 15.4, 3.0, -2.4], l: [L.x - 4, 1.6, 0.4], fov: 56 };
+    return { cam, hud: true, cave: true };
   }
   return { g, update };
 })();
@@ -1155,9 +1163,9 @@ function sky(t) {
   const eve = { top: '#3a2a80', bot: '#ff8a6a', sunI: 1.4, hemiI: 1.0, fog: '#b07090', sunEl: 0.04, sunAz: 2.6, near: 60, far: 200 };
   const C = (a, b, k) => '#' + new THREE.Color(a).lerp(new THREE.Color(b), k).getHexString();
   const mix = (a, b, k) => ({ top: C(a.top, b.top, k), bot: C(a.bot, b.bot, k), fog: C(a.fog, b.fog, k), sunI: lerp(a.sunI, b.sunI, k), hemiI: lerp(a.hemiI, b.hemiI, k), sunEl: lerp(a.sunEl, b.sunEl, k), sunAz: lerp(a.sunAz, b.sunAz, k), near: lerp(a.near, b.near, k), far: lerp(a.far, b.far, k) });
-  const candy = { top: '#7ec8ff', bot: '#ffd6f0', sunI: 2.5, hemiI: 1.6, fog: '#ffd0ec', sunEl: 0.8, sunAz: 0.3, near: 70, far: 230 };
-  if (t < E.travel) return day; if (t < E.home) return mix(candy, sunset, seg(t, E.board - 4, E.home) * 0.6);
-  return mix(mix(sunset, eve, seg(t, E.home + 20, E.bye)), { ...eve, top: '#241c5a', bot: '#ff6a8a' }, seg(t, E.bye, 290));
+  const nite = { top: '#070a26', bot: '#26305e', sunI: 0.8, hemiI: 0.85, fog: '#1a2246', sunEl: -0.3, sunAz: 2.6, near: 30, far: 130 };
+  const festive = { ...nite, top: '#14103a', bot: '#4a2a6a', fog: '#2a2050', hemiI: 1.0 };
+  if (t < E.arrive) return mix(sunset, eve, seg(t, 0, E.arrive)); if (t < E.prep) return nite; return festive;
 }
 
 // ---------------------------------------------------------------- 2D compositor
@@ -1197,18 +1205,18 @@ ICON.frost = (x, y, s) => isoCube(x, y, s, '#e8fbff', '#b4e4fa', '#7cc8ee');
 ICON.thermo = (x, y, s) => { ctx.fillStyle = '#f4f4f4'; ctx.fillRect(x - s * 0.22, y - s, s * 0.44, s * 1.5); ctx.fillStyle = '#e8344e'; ctx.beginPath(); ctx.arc(x, y + s * 0.6, s * 0.42, 0, 7); ctx.fill(); ctx.fillRect(x - s * 0.1, y - s * 0.3, s * 0.2, s); };
 function drawHUD(t, info) {
   // vitality crystals
-  const hpv = t < E.snap ? 5 : t < E.travel ? 4 : t < E.bolt ? 5 : t < E.purr ? 3.5 : t < E.laps ? 5 : 3;
+  const hpv = t < E.midnight ? 5 : t < E.hug ? 3.5 : t < E.boo ? 5 : t < E.brake ? 3 : 2;
   for (let i = 0; i < 5; i++) { const x = 34 + i * 34, y = 34; const fill = clamp(hpv - i, 0, 1);
-    const shk = (win(t, E.snap, E.snap + 3) || win(t, E.bolt, E.chaseEnd) || win(t, E.laps, E.freeze)) ? Math.sin(t * 40 + i) * 2 : 0;
+    const shk = (win(t, E.midnight, E.faint) || win(t, E.skull, E.drop + 4) || win(t, E.boo, E.freeze)) ? Math.sin(t * 40 + i) * 2 : 0;
     ctx.save(); ctx.translate(x, y + shk); ctx.beginPath(); ctx.moveTo(0, -14); ctx.lineTo(11, 0); ctx.lineTo(0, 14); ctx.lineTo(-11, 0); ctx.closePath(); ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = '#0d1b2a'; ctx.stroke();
     if (fill > 0) { ctx.save(); ctx.clip(); ctx.fillStyle = '#5ff7ff'; ctx.fillRect(-11, -14, 22 * fill, 28); ctx.fillStyle = '#c9fdff'; ctx.fillRect(-5, -9, 4 * fill, 6); ctx.restore(); } ctx.restore(); }
   for (let i = 0; i < 5; i++) { const x = 34 + i * 34, y = 70; ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.beginPath(); ctx.arc(x, y, 10, 0, 7); ctx.fill(); ctx.fillStyle = (t > 240 && i > 3) ? '#7a4a2a' : '#ff9a2a'; ctx.beginPath(); ctx.arc(x, y, 7, 0, 7); ctx.fill(); ctx.fillStyle = '#3cc26a'; ctx.fillRect(x - 2, y - 11, 4, 5); }
   // day badge
   const night = false;
   rrect(W / 2 - 70, 14, 140, 34, 17); ctx.fillStyle = 'rgba(10,14,30,.6)'; ctx.fill();
-  outlined('☀ DAY 21', W / 2, 32, 18, night ? '#bcd0ff' : '#ffe066', '#000', 4);
+  outlined(t > E.arrive ? '☾ NIGHT 22' : '☀ DAY 22', W / 2, 32, 18, night ? '#bcd0ff' : '#ffe066', '#000', 4);
   // hotbar of hex slots
-  const slots = [['mallet', 1], ['crown', 1], ['flower', 1], ['shard', 1], ['duck', 9], ['pillow', win(t, E.leg1, E.leg2) ? 1 : 0], ['couch', t > E.named ? 1 : 0]];
+  const slots = [['mallet', 1], ['crown', 1], ['flower', 1], ['shard', 1], ['ticket', win(t, E.ticket + 6, E.board) ? 1 : 0], ['lantern', t > E.walk && t < E.prep ? 1 : 0], ['plank', win(t, E.prep, E.prepEnd) ? 64 : 3]];
   let sel = 0;
   const cx0 = W / 2 - 3 * 64, y = H - 44;
   for (let i = 0; i < 7; i++) { const x = cx0 + i * 64; hex(x, y, 30); ctx.fillStyle = 'rgba(15,20,40,.62)'; ctx.fill(); ctx.lineWidth = i === sel ? 5 : 3; ctx.strokeStyle = i === sel ? '#ffe066' : 'rgba(255,255,255,.5)'; ctx.stroke();
@@ -1217,11 +1225,11 @@ function drawHUD(t, info) {
   rrect(cx0 - 30, H - 86, 6 * 64 + 60, 8, 4); ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fill();
   const xp = clamp((t - 30) / 200, 0, 1) * 0.8; rrect(cx0 - 30, H - 86, (6 * 64 + 60) * xp, 8, 4); ctx.fillStyle = '#ff5cf0'; ctx.fill();
   // heat-o-meter gauge
-  // seats vs butts — this episode's mechanic
-  drawSeats(t);
+  // spook-o-meter — this episode's mechanic
+  drawSpook(t);
 
 }
-function drawFacecam(t) { drawCam(t, 0, 16); drawCam(t, 1, 176); drawCam(t, 2, 336); }
+function drawFacecam(t) { drawCam(t, 0, 16); }
 function drawCam(t, tw, y0) {
   const x = W - 236, y = y0, w = 220, h = 150;
   ctx.save(); rrect(x, y, w, h, 14); ctx.clip();
@@ -1268,21 +1276,21 @@ ICON.duck = (x, y, s) => { ctx.fillStyle = '#ffd23f'; ctx.fillRect(x - s * 0.7, 
 ICON.couch = (x, y, s) => { ctx.fillStyle = '#8a3fd1'; ctx.fillRect(x - s, y - s * 0.6, s * 2, s * 0.7); ctx.fillRect(x - s, y, s * 2, s * 0.5); ctx.fillStyle = '#b06ae8'; ctx.fillRect(x - s * 0.8, y - s * 0.1, s * 1.6, s * 0.25); ctx.fillStyle = '#ffd23f'; ctx.fillRect(x - s * 0.9, y + s * 0.5, s * 0.3, s * 0.3); ctx.fillRect(x + s * 0.6, y + s * 0.5, s * 0.3, s * 0.3); };
 ICON.pillow = (x, y, s) => { ctx.fillStyle = '#ffffff'; ctx.fillRect(x - s * 0.9, y - s * 0.5, s * 1.8, s); ctx.fillStyle = '#ffd23f'; for (const [a, b] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) ctx.fillRect(x + a * s * 0.9 - 2, y + b * s * 0.5 - 2, 4, 4); };
 ICON.ribbon = (x, y, s) => { ctx.fillStyle = '#3d7bff'; ctx.beginPath(); ctx.arc(x, y - s * 0.2, s * 0.6, 0, 7); ctx.fill(); ctx.fillRect(x - s * 0.5, y, s * 0.35, s); ctx.fillRect(x + s * 0.15, y, s * 0.35, s); ctx.fillStyle = '#ffd23f'; ctx.beginPath(); ctx.arc(x, y - s * 0.2, s * 0.25, 0, 7); ctx.fill(); };
-const TOASTS = [[E.flyer + 6, '+1 Flyer (Comfy Fair)', 'shard'], [E.wagonEnd, '+1 Sofa-Wagon', 'plank'], [E.leg1 + 1, '+1 Pillow (battle)', 'pillow'], [E.ribbon + 2, 'Leggy: FLUFFIEST PET', 'ribbon'], [E.named + 2, '+1 Sofa (alive)', 'couch']];
-const FEATS = [[E.snap + 2, 'Structural Failure', 'Break a couch with your butt(s)'], [E.bonk + 1, 'Propeller Power', 'Win a pillow fight from above'], [E.win + 1.5, 'Team Me, Me & Me', 'Win a relay against cushions'], [E.purr + 2, 'Sofa Whisperer', 'Calm a wild sofa'], [E.sitAll + 3, 'It Fits', 'Find a seat for everyone']];
-const POPS = [[E.squeeze + 3, 1.4, 'creeeak', 0.45, 0.42, '#ffffff', 60], [E.snap, 1.6, 'CRACK!', 0.5, 0.35, '#ff8a5a', 110], [E.invoice + 1.4, 1.6, '1 COUCH: DECEASED', 0.62, 0.32, '#ff6b6b', 52], [E.wagonEnd, 1.4, 'tadaa', 0.36, 0.3, '#ffe066', 80],
-  [E.arrive - 3, 1.4, 'NO BRAKES', 0.5, 0.35, '#ff6b6b', 80], [E.duke + 0.6, 1.8, 'WELCOME, SNUGGLERS!', 0.5, 0.22, '#ff9ad0', 60], [E.squint + 1, 1.6, '...triplets?', 0.4, 0.3, '#ffffff', 64], [E.leg1 + 0.4, 1.2, 'GO!', 0.5, 0.3, '#7cff6b', 110],
-  [E.leg1 + 2, 1.0, 'fwump', 0.4, 0.4, '#ffffff', 60], [E.leg1 + 3.6, 1.0, 'fwump', 0.6, 0.4, '#ffe066', 60], [E.prop, 1.4, 'whirrrr', 0.4, 0.3, '#9dff8a', 70], [E.bonk, 1.6, 'FWUMP!', 0.5, 0.35, '#ffffff', 110],
-  [E.leg2 + 1.2, 1.0, 'boing', 0.4, 0.45, '#5ff7ff', 60], [E.leg2 + 2.4, 1.0, 'boing', 0.5, 0.42, '#5ff7ff', 64], [E.bounce + 1.2, 1.2, 'BOING', 0.55, 0.35, '#5ff7ff', 90], [E.tent, 1.4, 'flomp', 0.5, 0.35, '#ff6b6b', 80],
-  [E.leg3 + 2, 1.4, 'hnnngh', 0.42, 0.4, '#ffffff', 64], [E.nap + 2.6, 1.6, 'zzz', 0.55, 0.35, '#5ad1c8', 80], [E.win, 1.8, 'WINNERS!', 0.5, 0.25, '#7cff6b', 110], [E.ribbon, 1.6, 'FLUFFIEST!', 0.5, 0.3, '#3d7bff', 90],
-  [E.unveil, 1.6, 'TA-DAAA!', 0.5, 0.25, '#ffe066', 100], [E.blink, 1.2, 'blink', 0.5, 0.42, '#ffffff', 56], [E.alive, 1.6, "IT'S ALIVE", 0.5, 0.25, '#ff6b6b', 100], [E.bolt + 0.8, 1.2, 'squish', 0.5, 0.5, '#ff9ad0', 70],
-  [E.bolt + 4, 1.2, 'BOING', 0.4, 0.3, '#5ff7ff', 90], [E.leggyCalm + 3, 1.4, 'quack?', 0.45, 0.4, '#ffd23f', 64], [E.purr, 1.8, 'purrrrrr', 0.5, 0.3, '#ff9ad0', 84], [E.bloopSit + 1.6, 1.6, '*sits*', 0.5, 0.3, '#9fdc5a', 80],
-  [E.rip, 1.4, 'RRRIP', 0.5, 0.3, '#ffffff', 96], [E.sitAll, 1.6, 'IT FITS!', 0.5, 0.25, '#7cff6b', 110], [E.squeak, 1.4, 'squeak.', 0.6, 0.4, '#ffd23f', 80], [E.excited, 1.4, '!!!', 0.5, 0.3, '#ff6b6b', 110],
-  [E.laps + 2, 1.4, 'WHEEE', 0.5, 0.3, '#b06ae8', 90], [E.lapsEnd + 3, 1.4, 'MOVE!', 0.6, 0.3, '#ff6b6b', 90], [E.leap, 1.6, 'BOUNCE', 0.4, 0.25, '#b06ae8', 100]];
+ICON.ticket = (x, y, s) => { ctx.fillStyle = '#7ff5e6'; ctx.fillRect(x - s, y - s * 0.5, s * 2, s); ctx.fillStyle = '#1b4a6a'; ctx.fillRect(x - s * 0.7, y - s * 0.15, s * 1.4, s * 0.3); };
+ICON.lantern = (x, y, s) => { ctx.fillStyle = '#333'; ctx.fillRect(x - s * 0.6, y - s * 0.9, s * 1.2, s * 0.25); ctx.fillStyle = '#fff3a0'; ctx.fillRect(x - s * 0.5, y - s * 0.6, s, s * 1.2); };
+const TOASTS = [[E.ticket + 7, '+1 Ghost Ticket', 'ticket'], [E.detectorEnd, '+1 Spook-o-Meter', 'shard'], [E.punch + 1.4, 'Ticket: PUNCHED', 'ticket'], [E.prepEnd - 2, '+14 Lanterns', 'lantern']];
+const FEATS = [[E.faint + 1.5, 'Down Bad', 'Faint at the sight of a ghost'], [E.drop + 4.5, 'Lights Out', 'Survive the drop'], [E.hug + 2, 'Ghost Hugger', 'Hug something you can see through'], [E.hit + 2, 'Grand Opening', 'Sell out a haunted ride']];
+const POPS = [[E.whistle, 1.8, 'WHOOOOO...', 0.5, 0.25, '#7ff5e6', 80], [E.ticket + 6, 1.4, 'a ticket?', 0.45, 0.4, '#ffffff', 60], [E.scared + 1, 1.4, 'nope.', 0.56, 0.42, '#9fdc5a', 70], [E.test + 1, 1.2, 'beep', 0.3, 0.4, '#ffe066', 60], [E.test + 3, 1.2, 'beep...', 0.6, 0.4, '#ffe066', 60],
+  [E.lantern, 1.4, 'FLAP FLAP', 0.6, 0.3, '#ffffff', 80], [E.midnight, 1.2, 'DONG', 0.6, 0.25, '#ffe066', 100], [E.midnight + 1.6, 1.2, 'DONG', 0.6, 0.35, '#ffe066', 80], [E.trainIn + 2, 1.8, 'CHOO... CHOOOO...', 0.35, 0.3, '#7ff5e6', 70],
+  [E.wisp + 1, 2.0, 'TICKETS, PLEASE', 0.62, 0.3, '#ffffff', 64], [E.faint, 1.4, '*thud*', 0.4, 0.5, '#9fdc5a', 70], [E.punch + 0.4, 1.2, 'CLICK', 0.55, 0.45, '#ffffff', 80], [E.depart, 1.6, 'ALL ABOARD', 0.5, 0.3, '#7ff5e6', 80],
+  [E.skull + 2, 1.6, 'ROAAAR', 0.6, 0.3, '#ff8fd8', 100], [E.flappers, 1.4, 'flapflapflap', 0.5, 0.3, '#ffffff', 70], [E.drop, 1.8, 'WHEEEEE', 0.5, 0.25, '#ffe066', 100], [E.stop, 1.6, 'END OF THE LINE', 0.5, 0.3, '#7ff5e6', 70],
+  [E.twist + 2, 1.8, 'sigh.', 0.62, 0.35, '#8fa0ff', 70], [E.hug + 0.6, 1.6, 'hug.', 0.62, 0.35, '#ff8fd8', 90], [E.faint2, 1.4, '*thud* (again)', 0.4, 0.4, '#9fdc5a', 60], [E.opening + 1, 1.6, 'SNIP!', 0.5, 0.3, '#ff6b6b', 100],
+  [E.opening - 1.4, 1.6, 'GRAND OPENING!', 0.5, 0.22, '#ff9ad0', 70], [E.boo, 1.6, 'BOO!', 0.5, 0.3, '#ffffff', 120], [E.lever, 1.6, 'FULL SPEED?!', 0.5, 0.3, '#ff6b6b', 80], [E.hit, 1.8, 'BEST RIDE EVER', 0.5, 0.25, '#7cff6b', 80],
+  [E.snap, 1.4, 'SNAP', 0.5, 0.35, '#ffffff', 100], [E.brake, 1.6, 'SKRRRRT', 0.5, 0.35, '#ffa02a', 90], [E.climb + 4.2, 1.6, 'TOOT TOOT', 0.5, 0.3, '#ffe066', 90], [E.warn, 1.6, 'TOO FAST', 0.5, 0.3, '#ff6b6b', 90], [E.derail, 1.6, 'WHEEEE', 0.5, 0.25, '#7ff5e6', 110]];
 
-const ZOOMS = [[E.snap, 0.8, 1.12, 0.5, 0.5], [E.squint, 1.0, 1.12, 0.5, 0.5], [E.bonk, 0.6, 1.15, 0.5, 0.45], [E.blink, 0.8, 1.2, 0.5, 0.5], [E.purr, 1.0, 1.1, 0.5, 0.5], [E.squeak, 0.8, 1.2, 0.5, 0.5]];
-const SHAKES = [[E.snap, 1, 0.3], [E.arrive - 0.4, 0.6, 0.15], [E.bonk, 0.5, 0.2], [E.tent, 0.6, 0.2], [E.alive, 1.6, 0.1], [E.bolt + 1.4, 0.6, 0.3], [E.purr, 4, 0.02], [E.laps, 10, 0.05], [E.leap, 4.2, 0.06]];
-const FLASH = [[E.snap, 0.2, '255,255,255'], [E.win, 0.3, '255,240,160'], [E.unveil, 0.25, '255,255,255'], [E.leap + 3.4, 0.4, '160,250,255']];
+const ZOOMS = [[E.whistle, 0.8, 1.12, 0.5, 0.5], [E.wisp + 1, 1.0, 1.12, 0.5, 0.45], [E.faint, 0.6, 1.1, 0.5, 0.6], [E.twist, 1.4, 1.1, 0.5, 0.5], [E.boo, 0.8, 1.2, 0.5, 0.4]];
+const SHAKES = [[E.midnight, 0.6, 0.1], [E.midnight + 1.6, 0.6, 0.1], [E.skull + 2, 1.4, 0.15], [E.drop, 4, 0.06], [E.boo + 1.1, 0.6, 0.25], [E.lever, 1.2, 0.2], [E.lever + 1.2, 63, 0.04], [E.derail, 1, 0.3]];
+const FLASH = [[E.midnight, 0.25, '160,250,255'], [E.trainIn + 4, 0.3, '160,250,255'], [E.hug + 0.6, 0.4, '255,160,220'], [E.boo, 0.2, '255,255,255']];
 function drawLog(t) {
   for (const [s, title, lines] of [[E.log1, "CAPTAIN'S LOG", ['Day 1 at sea.', 'Lost: one (1) sandwich.', 'Morale: low.']], [E.log2, "CAPTAIN'S LOG", ['Day 1, later.', 'Everything is fine.', 'NOTHING IS FINE.']]]) {
     if (!win(t, s, s + 5.4)) continue; const k = ss(seg(t, s, s + 0.35)) * (1 - ss(seg(t, s + 5.0, s + 5.4)));
@@ -1378,7 +1386,7 @@ function drawPrev(t) {
     if (Math.floor(t * 2) % 2) { ctx.fillStyle = '#ff2a4a'; ctx.beginPath(); ctx.arc(W - 300, 56, 9, 0, 7); ctx.fill(); } outlined('▶ PLAY   EP.1', W - 280, 57, 22, '#fff', '#000', 4, 'left'); ctx.restore(); }
   if (win(t, E.titleIn, E.titleIn + 4.6)) { const k = ss(seg(t, E.titleIn, E.titleIn + 0.35)) * (1 - ss(seg(t, E.titleIn + 3.4, E.titleIn + 3.8))); ctx.save(); ctx.globalAlpha = k; ctx.translate((1 - k) * -400, 0);
     rrect(40, H * 0.3, 560, 150, 18); ctx.fillStyle = 'rgba(20,14,50,.88)'; ctx.fill(); ctx.lineWidth = 5; ctx.strokeStyle = '#ff5cf0'; ctx.stroke();
-    outlined('EPISODE 21', 70, H * 0.3 + 45, 26, '#5ff7ff', '#000', 5, 'left'); outlined('THREE OF ME', 70, H * 0.3 + 92, 40, '#ffffff', '#000', 7, 'left'); outlined('(we need a bigger couch)', 70, H * 0.3 + 128, 20, '#ffe066', '#000', 4, 'left'); ctx.restore(); }
+    outlined('EPISODE 22', 70, H * 0.3 + 45, 26, '#5ff7ff', '#000', 5, 'left'); outlined('THE GHOST TRAIN', 70, H * 0.3 + 92, 40, '#ffffff', '#000', 7, 'left'); outlined('(next stop: AAAAH)', 70, H * 0.3 + 128, 20, '#ffe066', '#000', 4, 'left'); ctx.restore(); }
 }
 function drawLoading(t) {
   if (t > 3.0) return; const a = 1 - ss(seg(t, 2.4, 3.0));
@@ -1409,14 +1417,14 @@ function drawLogo(t) {
   const pressed = t > 296.2 && t < 296.5, subbed = t > 296.3;
   ctx.save(); ctx.translate(W / 2 - 260, H / 2 + 150); if (pressed) ctx.scale(0.92, 0.92); rrect(-110, -32, 220, 64, 32); ctx.fillStyle = subbed ? '#666' : '#ff2a4a'; ctx.fill(); outlined(subbed ? 'SUBSCRIBED ✓' : 'SUBSCRIBE', 0, 1, 24, '#fff', '#000', 4); ctx.restore();
   for (let i = 0; i < 2; i++) { const x = W / 2 + 40 + i * 250, y = H / 2 + 110; rrect(x, y, 220, 124, 12); ctx.fillStyle = i ? '#3a1d5c' : '#1d4a3a'; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = '#fff'; ctx.stroke();
-    outlined(i ? 'EP 22: THE GHOST TRAIN' : 'EP 20: THE TIME MACHINE', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(next stop: AAAAH)' : '(it works. really.)', x + 110, y + 80, 14, '#fff', '#000', 3); }
+    outlined(i ? 'EP 23: THE BAKE-OFF' : 'EP 21: THREE OF ME', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(the cake fights back)' : '(we need a bigger couch)', x + 110, y + 80, 14, '#fff', '#000', 3); }
   const c = track(t, [[E.logo + 3, W / 2 + 120, 0, H - 40], [296.2, W / 2 - 250, 0, H / 2 + 160], [300, W / 2 - 240, 0, H / 2 + 170]]).p; cursor(c[0], c[2], pressed);
   ctx.restore();
   ctx.fillStyle = `rgba(0,0,0,${seg(t, 299.3, 300)})`; ctx.fillRect(0, 0, W, H);
 }
 
 // ---------------------------------------------------------------- main
-const SECS = [[0, E.travel, yard, 'yard'], [E.travel, E.home, fair, 'fair'], [E.home, 1e9, yard, 'yard']];
+const SECS = [[0, E.arrive, yard, 'yard'], [E.arrive, E.tunnel, station, 'station'], [E.tunnel, E.prep, tunnel, 'tunnel'], [E.prep, 1e9, station, 'station']];
 window.renderAt = function (T) {
   let t = T; const frozen = T >= E.freeze && T < E.logo; if (frozen) t = E.freeze;
   let sec = SECS.find(s => t >= s[0] && t < s[1]);
@@ -1432,7 +1440,7 @@ window.renderAt = function (T) {
   const c = res.cam; const sh = shakeOffset(T);
   camera.position.set(c.p[0] + sh[0], c.p[1] + sh[1], c.p[2] + sh[2]); camera.lookAt(c.l[0] + sh[0] * 0.5, c.l[1] + sh[1] * 0.5, c.l[2]); camera.fov = c.fov; camera.updateProjectionMatrix();
   // sun & moons
-  const night = false;
+  const night = t > E.arrive - 6 && !cave;
   const sv = placeSky(S.sunAz, Math.max(S.sunEl, -0.2), sunMesh); placeSky(S.sunAz, Math.max(S.sunEl, -0.2), sunGlow, 385);
   sunMesh.visible = sunGlow.visible = !cave && S.sunEl > -0.05;
   moonA.visible = moonB.visible = !cave && night;
@@ -1453,32 +1461,30 @@ window.renderAt = function (T) {
   ctx.restore();
   // vignette
   const vg = ctx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.95);
-  const panic = win(T, E.snap, E.snap + 2) || win(T, E.alive, E.chaseEnd) || win(T, E.laps, E.freeze);
+  const panic = win(T, E.skull + 2, E.skull + 5) || win(T, E.boo, E.lever + 3) || win(T, E.warn, E.freeze);
   vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, panic ? `rgba(160,0,0,${0.45 + 0.15 * Math.sin(T * 12)})` : (cave ? 'rgba(0,0,0,.7)' : 'rgba(0,0,0,.35)'));
   ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
   for (const [s, d, col] of FLASH) if (T >= s && T < s + d) { const k = (T - s) / d; const a = col === '0,0,0' ? Math.sin(k * Math.PI) : (1 - k); ctx.fillStyle = `rgba(${col},${a})`; ctx.fillRect(0, 0, W, H); }
   if (T < E.logo) {
     if (res.hud && !frozen && T > E.titleIn + 4.6) drawHUD(T, res);
-    if (win(T, E.wagon, E.wagonEnd)) { const bl = Math.floor(T * 2) % 2; rrect(26, H - 140, 214, 44, 10); ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fill(); outlined((bl ? '▶▶ ' : '▶  ') + 'TIMELAPSE x20', 133, H - 117, 22, '#ffe066', '#000', 4); }
+    if (win(T, E.detector, E.detectorEnd) || win(T, E.prep, E.prepEnd)) { const bl = Math.floor(T * 2) % 2; rrect(26, H - 140, 214, 44, 10); ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fill(); outlined((bl ? '▶▶ ' : '▶  ') + 'TIMELAPSE x20', 133, H - 117, 22, '#ffe066', '#000', 4); }
     drawLog(T);
-    for (const [s, title, icon] of TOASTS) if (win(T, s, s + 2.6)) { const k = ss(seg(T, s, s + 0.25)) * (1 - ss(seg(T, s + 2.3, s + 2.6))); const x = W - 250 + (1 - k) * 280, y = 500; rrect(x, y, 234, 52, 12); ctx.fillStyle = 'rgba(15,20,40,.85)'; ctx.fill(); ctx.strokeStyle = '#5ff7ff'; ctx.lineWidth = 3; ctx.stroke(); ICON[icon](x + 30, y + 26, 12); outlined(title, x + 54, y + 27, 15, '#fff', '#000', 3, 'left'); }
+    for (const [s, title, icon] of TOASTS) if (win(T, s, s + 2.6)) { const k = ss(seg(T, s, s + 0.25)) * (1 - ss(seg(T, s + 2.3, s + 2.6))); const x = W - 250 + (1 - k) * 280, y = 186; rrect(x, y, 234, 52, 12); ctx.fillStyle = 'rgba(15,20,40,.85)'; ctx.fill(); ctx.strokeStyle = '#5ff7ff'; ctx.lineWidth = 3; ctx.stroke(); ICON[icon](x + 30, y + 26, 12); outlined(title, x + 54, y + 27, 15, '#fff', '#000', 3, 'left'); }
     for (const [s, title, sub] of FEATS) if (win(T, s, s + 3.6)) { const k = ss(seg(T, s, s + 0.35)) * (1 - ss(seg(T, s + 3.2, s + 3.6))); const y = -90 + k * 150; rrect(W / 2 - 230, y, 460, 76, 16); ctx.fillStyle = 'rgba(25,15,45,.92)'; ctx.fill(); ctx.strokeStyle = '#ffe066'; ctx.lineWidth = 4; ctx.stroke();
       hex(W / 2 - 190, y + 38, 26); ctx.fillStyle = '#ffe066'; ctx.fill(); outlined('★', W / 2 - 190, y + 39, 26, '#8a5a00', '#ffe066', 1); outlined('FEAT UNLOCKED!', W / 2 - 150, y + 24, 16, '#ffe066', '#000', 3, 'left'); outlined(title, W / 2 - 150, y + 48, 22, '#fff', '#000', 4, 'left'); outlined(sub, W / 2 - 150, y + 66, 12, '#cfd8ff', '#000', 3, 'left'); }
     if (!frozen) for (const [s, d, txt, x, y, col, size] of POPS) if (win(T, s, s + d)) { const k = (T - s) / d; const sc = backOut(Math.min(1, k * 4)); ctx.save(); ctx.globalAlpha = 1 - ss((k - 0.75) / 0.25); ctx.translate(x * W, y * H - k * 20); ctx.rotate(Math.sin(s * 9) * 0.15); ctx.scale(sc, sc); outlined(txt, 0, 0, size, col, '#000', size / 6); ctx.restore(); }
     if (win(T, 9999, 9999)) { const k = ss(seg(T, E.score, E.score + 0.4)) * (1 - ss(seg(T, E.score + 10.6, E.score + 11))); ctx.save(); ctx.globalAlpha = k; ctx.translate(40 + (1 - k) * -200, 200); rrect(0, 0, 400, 190, 16); ctx.fillStyle = 'rgba(20,14,50,.88)'; ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = '#ffe066'; ctx.stroke();
       outlined('SCOREBOARD', 200, 30, 26, '#ffe066', '#000', 5); [[1.0, 'Houses survived', '0', '#ff6b6b'], [2.4, 'Disasters', '6', '#ffb43a'], [4.4, 'New friends', '1 (spicy)', '#7cff6b']].forEach(([d, a, b2, c], i) => { if (T < E.score + d) return; outlined(a, 24, 76 + i * 40, 20, '#fff', '#000', 4, 'left'); outlined(b2, 376, 76 + i * 40, 22, c, '#000', 4, 'right'); }); ctx.restore(); }
-    stamp(T, E.snap + 0.8, 'COUCH: DECEASED');
-    stamp(T, E.squint + 7, 'TEAM ME, ME & ME');
-    stamp(T, E.win + 0.8, 'WINNERS (TECHNICALLY)');
-    stamp(T, E.alive + 0.6, 'PRIZE: ALIVE');
-    stamp(T, E.sitAll + 1.6, 'SEATS 12. BUTTS 6. FINALLY.');
-    drawFlyer(T);
+    stamp(T, E.midnight + 0.4, 'MIDNIGHT');
+    stamp(T, E.twist + 0.6, 'GHOST STATUS: LONELY');
+    stamp(T, E.hit + 3, 'RIDE STATUS: SOLD OUT');
+    drawTicket(T);
     if (frozen) { const k = ss(seg(T, E.freeze + 0.15, E.freeze + 0.5));
       ctx.save(); ctx.globalAlpha = k; ctx.lineWidth = 14; ctx.strokeStyle = '#fff'; ctx.strokeRect(7, 7, W - 14, H - 14);
-      ctx.translate(W * 0.4, H * 0.22); ctx.rotate(-0.06); outlined('yep. it fits.', 0, 0, 56, '#fff', '#000', 12); ctx.restore();
-      const k2 = ss(seg(T, E.freeze + 1.0, E.freeze + 1.4)); ctx.save(); ctx.globalAlpha = k2; outlined("all of us. in there.", W * 0.72, H * 0.62, 36, '#ffe066', '#000', 7);
+      ctx.translate(W * 0.4, H * 0.22); ctx.rotate(-0.06); outlined("yep. it's haunted.", 0, 0, 56, '#fff', '#000', 12); ctx.restore();
+      const k2 = ss(seg(T, E.freeze + 1.0, E.freeze + 1.4)); ctx.save(); ctx.globalAlpha = k2; outlined("by him.", W * 0.72, H * 0.62, 36, '#ffe066', '#000', 7);
       ctx.strokeStyle = '#ffe066'; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(W * 0.68, H * 0.57); ctx.lineTo(W * 0.62, H * 0.47); ctx.stroke(); ctx.beginPath(); ctx.moveTo(W * 0.62, H * 0.47); ctx.lineTo(W * 0.62, H * 0.53); ctx.moveTo(W * 0.62, H * 0.47); ctx.lineTo(W * 0.66, H * 0.49); ctx.stroke(); ctx.restore();
-      const k3 = ss(seg(T, E.freeze + 2.2, E.freeze + 2.6)); ctx.save(); ctx.globalAlpha = k3; outlined('(it does not fit)', W * 0.27, H * 0.74, 24, '#fff', '#000', 5); ctx.restore(); }
+      const k3 = ss(seg(T, E.freeze + 2.2, E.freeze + 2.6)); ctx.save(); ctx.globalAlpha = k3; outlined('(the ride: 10/10)', W * 0.27, H * 0.74, 24, '#fff', '#000', 5); ctx.restore(); }
     if (win(T, E.hours, E.hoursEnd)) { const k = ss(seg(T, E.hours, E.hours + 0.4)) * (1 - ss(seg(T, E.hoursEnd - 0.4, E.hoursEnd)));
       ctx.save(); ctx.globalAlpha = k; ctx.fillStyle = '#0b0820'; ctx.fillRect(0, 0, W, H);
       const words = ['several', 'terrifying', 'hours', 'later...']; words.forEach((w, i) => { ctx.save(); ctx.translate(W / 2, H / 2 - 60 + i * 52); ctx.rotate(Math.sin(T * 3 + i) * 0.04); outlined(w, 0, 0, 52, ['#ff5cf0', '#ffe066', '#5ff7ff', '#ffffff'][i], '#000', 8); ctx.restore(); });

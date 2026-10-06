@@ -51,7 +51,7 @@ rep("outlined('EPISODE 20', 70, H * 0.3 + 45, 26, '#5ff7ff', '#000', 5, 'left');
 rep("outlined(i ? 'EP 21: THREE OF ME' : 'EP 19: THE TREASURE MAP', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(we need a bigger couch)' : '(X marks the wrong spot)', x + 110, y + 80, 14",
     "outlined(i ? 'EP 22: THE GHOST TRAIN' : 'EP 20: THE TIME MACHINE', x + 110, y + 50, 17, '#ffe066', '#000', 4); outlined(i ? '(next stop: AAAAH)' : '(it works. really.)', x + 110, y + 80, 14")
 rep("outlined('yep. it works. too well.', 0, 0, 56", "outlined('yep. it fits.', 0, 0, 56")
-rep("\"that's me. and me. and me.\"", "\"all of us. in a phone booth.\"")
+rep("\"that's me. and me. and me.\"", "\"all of us. in there.\"")
 rep("'(the house is fine though)'", "'(it does not fit)'")
 rline("const SECS = ", "const SECS = [[0, E.travel, yard, 'yard'], [E.travel, E.home, fair, 'fair'], [E.home, 1e9, yard, 'yard']];")
 rline("const panic = ", "  const panic = win(T, E.snap, E.snap + 2) || win(T, E.alive, E.chaseEnd) || win(T, E.laps, E.freeze);")
