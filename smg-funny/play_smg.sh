@@ -24,6 +24,8 @@ else
     if ! flatpak info "$FLATPAK_DOLPHIN" >/dev/null 2>&1; then
         echo ">> installing Flathub Dolphin (only for its dolphin-tool helper)..."
         command -v flatpak >/dev/null || sudo pacman -S --needed --noconfirm flatpak
+        flatpak remote-add --user --if-not-exists flathub \
+            https://dl.flathub.org/repo/flathub.flatpakrepo
         flatpak install -y --user flathub "$FLATPAK_DOLPHIN"
     fi
     dolphin-tool() {
