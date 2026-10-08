@@ -6,6 +6,7 @@ usage: smg_cheats.py GAME_ID GAMESETTINGS_DIR DOLPHIN_INI
 import os
 import re
 import shutil
+import subprocess
 import sys
 import urllib.request
 
@@ -45,8 +46,13 @@ def enable_cheats(ini_path):
 def main(game_id, gs_dir, dolphin_ini):
     url = f"https://codes.rc24.xyz/txt.php?txt={game_id}"
     print(f">> downloading cheat codes for {game_id}")
-    with urllib.request.urlopen(url, timeout=30) as r:
-        codes = parse(r.read().decode("utf-8", "replace"))
+    try:
+        with urllib.request.urlopen(url, timeout=30) as r:
+            raw = r.read()
+    except Exception:  # e.g. python can't verify the site's certificate chain
+        raw = subprocess.run(["curl", "-fsSL", "--max-time", "30", url],
+                             check=True, capture_output=True).stdout
+    codes = parse(raw.decode("utf-8", "replace"))
     if not codes:
         sys.exit(f"no codes found for {game_id}")
 
