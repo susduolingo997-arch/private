@@ -16,7 +16,20 @@ mkdir -p "$WORK"
 if ! command -v dolphin-emu >/dev/null; then
     sudo pacman -Syy --needed --noconfirm dolphin-emu
 fi
-command -v dolphin-tool >/dev/null || { echo "dolphin-tool missing (should come with dolphin-emu)"; exit 1; }
+# dolphin-tool (Arch's package doesn't ship it -> use the Flathub build's copy)
+FLATPAK_DOLPHIN=org.DolphinEmu.dolphin-emu
+if command -v dolphin-tool >/dev/null; then
+    dolphin-tool() { command dolphin-tool "$@"; }
+else
+    if ! flatpak info "$FLATPAK_DOLPHIN" >/dev/null 2>&1; then
+        echo ">> installing Flathub Dolphin (only for its dolphin-tool helper)..."
+        command -v flatpak >/dev/null || sudo pacman -S --needed --noconfirm flatpak
+        flatpak install -y --user flathub "$FLATPAK_DOLPHIN"
+    fi
+    dolphin-tool() {
+        flatpak run --filesystem=home --filesystem=/tmp --command=dolphin-tool "$FLATPAK_DOLPHIN" "$@"
+    }
+fi
 
 # Dolphin user dir (new XDG location, or the old ~/.dolphin-emu)
 if [[ -d "$HOME/.dolphin-emu" ]]; then DUSER="$HOME/.dolphin-emu"
