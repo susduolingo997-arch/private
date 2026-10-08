@@ -130,7 +130,8 @@ echo ">> put ${#MODDED[@]} modded files into the game"
 cat > "$HERE/smg.sh" <<EOF
 #!/usr/bin/env bash
 # start funny Super Mario Galaxy directly
-exec dolphin-emu -b -e "$MAIN"
+# xcb: on Wayland, Dolphin only sees keyboard/mouse in X11 mode
+QT_QPA_PLATFORM=xcb exec dolphin-emu -b -e "$MAIN"
 EOF
 chmod +x "$HERE/smg.sh"
 
@@ -142,5 +143,5 @@ else
     echo "   Cheats: in Dolphin right-click game -> Properties -> Gecko Codes -> Download Codes,"
     echo "   tick what you want, and turn on Config -> General -> Enable Cheats."
 fi
-"$HERE/setup_controller.sh" || echo "   (controller not set up - run smg-funny/setup_controller.sh later)"
+"$HERE/setup_keyboard.sh"
 "$HERE/smg.sh" >/dev/null 2>&1 &
