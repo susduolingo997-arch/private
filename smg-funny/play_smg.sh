@@ -22,32 +22,46 @@ command -v dolphin-tool >/dev/null || { echo "dolphin-tool missing (should come 
 if [[ -d "$HOME/.dolphin-emu" ]]; then DUSER="$HOME/.dolphin-emu"
 else DUSER="${XDG_DATA_HOME:-$HOME/.local/share}/dolphin-emu"; fi
 
-# 2. Find and pull out the message archive
-echo ">> looking for the text file in your disc image..."
-MSG_PATH="$(dolphin-tool extract -i "$ISO" -p DATA -l 2>/dev/null \
-            | grep -io '[^ ]*MessageData/Message\.arc' | head -1 || true)"
+# 2. Pull the text file + Mario's model files out of the disc image
+echo ">> looking for files in your disc image..."
+LIST="$(dolphin-tool extract -i "$ISO" -p DATA -l 2>/dev/null || true)"
+WANT="$(grep -ioE '[^ ]*(MessageData/Message|ObjectData/[^/ ]*Mario[^/ ]*)\.arc' <<<"$LIST" \
+        | grep -viE 'anim|sound' | sort -u || true)"
 rm -rf "$WORK/extract"
-if [[ -n "$MSG_PATH" ]]; then
-    MSG_PATH="/${MSG_PATH#/}"
-    MSG_PATH="${MSG_PATH#/files}"
-    dolphin-tool extract -i "$ISO" -p DATA -s "$MSG_PATH" -o "$WORK/extract" -q
+if grep -qi 'Message\.arc' <<<"$WANT"; then
+    while read -r f; do
+        f="/${f#/}"; f="${f#/files}"
+        dolphin-tool extract -i "$ISO" -p DATA -s "$f" -o "$WORK/extract" -q
+    done <<<"$WANT"
 else
     echo ">> listing didn't work, extracting whole game (few GB, takes a minute)..."
     dolphin-tool extract -i "$ISO" -p DATA -o "$WORK/extract" -q
 fi
+disc_path() { local d="/${1#*/files/}"; [[ "$d" == "/$1" ]] && d="/${1#"$WORK/extract/"}"; echo "$d"; }
+
 FOUND="$(find "$WORK/extract" -ipath '*MessageData/Message.arc' | head -1)"
 [[ -n "$FOUND" ]] || { echo "couldn't find MessageData/Message.arc in the disc image"; exit 1; }
-DISC_PATH="/${FOUND#*/files/}"
-[[ "$DISC_PATH" == "/$FOUND" ]] && DISC_PATH="/${FOUND#"$WORK/extract/"}"
-echo ">> found $DISC_PATH"
 
-# 3. Make it funny
-python3 "$HERE/smg_funny.py" "$FOUND" "$WORK/Message.arc"
-
-# 4. Install as a Riivolution patch
 RIIV="$DUSER/Load/Riivolution"
-mkdir -p "$RIIV/riivolution" "$RIIV/smgfunny"
-cp "$WORK/Message.arc" "$RIIV/smgfunny/Message.arc"
+rm -rf "$RIIV/smgfunny"
+mkdir -p "$RIIV/riivolution" "$RIIV/smgfunny/green"
+
+# 3. Make the text funny
+python3 "$HERE/smg_funny.py" "$FOUND" "$RIIV/smgfunny/Message.arc"
+TEXT_XML="<file disc=\"$(disc_path "$FOUND")\" external=\"Message.arc\"/>"
+
+# 4. Make Mario green
+GREEN_XML=""
+while read -r m; do
+    [[ -z "$m" ]] && continue
+    case "${m,,}" in *anim*|*sound*) continue;; esac
+    name="$(basename "$m")"
+    echo ">> greening $name"
+    python3 "$HERE/smg_green.py" "$m" "$RIIV/smgfunny/green/$name"
+    GREEN_XML+="<file disc=\"$(disc_path "$m")\" external=\"green/$name\"/>"
+done < <(find "$WORK/extract" -ipath '*ObjectData/*Mario*.arc')
+[[ -n "$GREEN_XML" ]] || echo "   (no Mario model files found - green Mario skipped)"
+
 cat > "$RIIV/riivolution/smgfunny.xml" <<EOF
 <wiidisc version="1">
   <id game="RMG"/>
@@ -56,11 +70,13 @@ cat > "$RIIV/riivolution/smgfunny.xml" <<EOF
       <option name="Funny text">
         <choice name="Enabled"><patch id="funnytext"/></choice>
       </option>
+      <option name="Green Mario">
+        <choice name="Enabled"><patch id="greenmario"/></choice>
+      </option>
     </section>
   </options>
-  <patch id="funnytext" root="/smgfunny">
-    <file disc="$DISC_PATH" external="Message.arc"/>
-  </patch>
+  <patch id="funnytext" root="/smgfunny">$TEXT_XML</patch>
+  <patch id="greenmario" root="/smgfunny">$GREEN_XML</patch>
 </wiidisc>
 EOF
 rm -rf "$WORK/extract"
@@ -83,7 +99,7 @@ cat <<'EOF'
 >> Done! To play:
    1. Dolphin opens now. Add your game folder if the list is empty.
    2. Right-click Super Mario Galaxy -> "Start with Riivolution Patches..."
-   3. Set "Funny text" to Enabled -> Start.
+   3. Set "Funny text" and "Green Mario" to Enabled -> Start.
    Cheats are already on (list above). Toggle more in:
    right-click the game -> Properties -> Gecko Codes.
 EOF
