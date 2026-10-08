@@ -104,9 +104,10 @@ for off in 0 512; do  # raw .iso / .wbfs
 done
 if [[ -d "$HOME/.dolphin-emu" ]]; then DINI="$DUSER/Config/Dolphin.ini"
 else DINI="${XDG_CONFIG_HOME:-$HOME/.config}/dolphin-emu/Dolphin.ini"; fi
+CHEATS=0
 for id in ${GAME_ID:-RMGE01 RMGP01}; do
     python3 "$HERE/smg_cheats.py" "$id" "$DUSER/GameSettings" "$DINI" \
-        || echo "   (cheat download failed for $id - use Download Codes in Dolphin)"
+        && CHEATS=1 || echo "   (cheats not set up for $id - see below)"
 done
 
 cat <<'EOF'
@@ -115,7 +116,11 @@ cat <<'EOF'
    1. Dolphin opens now. Add your game folder if the list is empty.
    2. Right-click Super Mario Galaxy -> "Start with Riivolution Patches..."
    3. Set "Funny text" and "Green Mario" to Enabled -> Start.
-   Cheats are already on (list above). Toggle more in:
-   right-click the game -> Properties -> Gecko Codes.
 EOF
+if [[ $CHEATS == 1 ]]; then
+    echo "   Cheats are on (list above). More: right-click game -> Properties -> Gecko Codes."
+else
+    echo "   Cheats: right-click game -> Properties -> Gecko Codes -> Download Codes, tick what"
+    echo "   you want, and turn on Config -> General -> Enable Cheats."
+fi
 dolphin-emu >/dev/null 2>&1 &
