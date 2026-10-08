@@ -64,6 +64,7 @@ mkdir -p "$RIIV/riivolution" "$RIIV/smgfunny/green"
 # 3. Make the text funny
 python3 "$HERE/smg_funny.py" "$FOUND" "$RIIV/smgfunny/Message.arc"
 TEXT_XML="<file disc=\"$(disc_path "$FOUND")\" external=\"Message.arc\"/>"
+MODDED=("$(disc_path "$FOUND")=$RIIV/smgfunny/Message.arc")
 
 # 4. Make Mario green
 GREEN_XML=""
@@ -74,6 +75,7 @@ while read -r m; do
     echo ">> greening $name"
     python3 "$HERE/smg_green.py" "$m" "$RIIV/smgfunny/green/$name"
     GREEN_XML+="<file disc=\"$(disc_path "$m")\" external=\"green/$name\"/>"
+    MODDED+=("$(disc_path "$m")=$RIIV/smgfunny/green/$name")
 done < <(find "$WORK/extract" -ipath '*ObjectData/*Mario*.arc')
 [[ -n "$GREEN_XML" ]] || echo "   (no Mario model files found - green Mario skipped)"
 
@@ -110,17 +112,34 @@ for id in ${GAME_ID:-RMGE01 RMGP01}; do
         && CHEATS=1 || echo "   (cheats not set up for $id - see below)"
 done
 
-cat <<'EOF'
+# 6. Build a ready-to-play modded copy of the game and start it
+GAME="$WORK/game"
+if [[ ! -f "$GAME/DATA/sys/main.dol" ]]; then
+    echo ">> unpacking the whole game once into $GAME (3-4 GB, takes a minute)..."
+    rm -rf "$GAME"
+    dolphin-tool extract -i "$ISO" -o "$GAME" -q
+fi
+MAIN="$(find "$GAME" -path '*/sys/main.dol' | head -1)"
+[[ -n "$MAIN" ]] || { echo "unpacking failed (no main.dol)"; exit 1; }
+FILES="$(dirname "$(dirname "$MAIN")")/files"
+for pair in "${MODDED[@]}"; do
+    cp "${pair#*=}" "$FILES${pair%%=*}"
+done
+echo ">> put ${#MODDED[@]} modded files into the game"
 
->> Done! To play:
-   1. Dolphin opens now. Add your game folder if the list is empty.
-   2. Right-click Super Mario Galaxy -> "Start with Riivolution Patches..."
-   3. Set "Funny text" and "Green Mario" to Enabled -> Start.
+cat > "$HERE/smg.sh" <<EOF
+#!/usr/bin/env bash
+# start funny Super Mario Galaxy directly
+exec dolphin-emu -b -e "$MAIN"
 EOF
+chmod +x "$HERE/smg.sh"
+
+echo
+echo ">> Done! Starting the game. Next time just run: $HERE/smg.sh"
 if [[ $CHEATS == 1 ]]; then
     echo "   Cheats are on (list above). More: right-click game -> Properties -> Gecko Codes."
 else
-    echo "   Cheats: right-click game -> Properties -> Gecko Codes -> Download Codes, tick what"
-    echo "   you want, and turn on Config -> General -> Enable Cheats."
+    echo "   Cheats: in Dolphin right-click game -> Properties -> Gecko Codes -> Download Codes,"
+    echo "   tick what you want, and turn on Config -> General -> Enable Cheats."
 fi
-dolphin-emu >/dev/null 2>&1 &
+"$HERE/smg.sh" >/dev/null 2>&1 &
