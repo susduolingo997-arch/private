@@ -65,14 +65,26 @@ cat > "$RIIV/riivolution/smgfunny.xml" <<EOF
 EOF
 rm -rf "$WORK/extract"
 
+# 5. Cheats (incl. Luigi if the code database has it)
+GAME_ID="$(dolphin-tool header -i "$ISO" 2>/dev/null | grep -oE 'RMG[A-Z]01' | head -1 || true)"
+for off in 0 512; do  # raw .iso / .wbfs
+    [[ -n "$GAME_ID" ]] && break
+    GAME_ID="$(dd if="$ISO" bs=1 skip=$off count=6 2>/dev/null | grep -aoE 'RMG[A-Z]01' || true)"
+done
+if [[ -d "$HOME/.dolphin-emu" ]]; then DINI="$DUSER/Config/Dolphin.ini"
+else DINI="${XDG_CONFIG_HOME:-$HOME/.config}/dolphin-emu/Dolphin.ini"; fi
+for id in ${GAME_ID:-RMGE01 RMGP01}; do
+    python3 "$HERE/smg_cheats.py" "$id" "$DUSER/GameSettings" "$DINI" \
+        || echo "   (cheat download failed for $id - use Download Codes in Dolphin)"
+done
+
 cat <<'EOF'
 
 >> Done! To play:
    1. Dolphin opens now. Add your game folder if the list is empty.
    2. Right-click Super Mario Galaxy -> "Start with Riivolution Patches..."
    3. Set "Funny text" to Enabled -> Start.
-   Cheats: right-click the game -> Properties -> Gecko Codes -> "Download Codes",
-   tick what you want (moon jump, infinite lives, ...). Turn on
-   Config -> General -> "Enable Cheats" first.
+   Cheats are already on (list above). Toggle more in:
+   right-click the game -> Properties -> Gecko Codes.
 EOF
 dolphin-emu >/dev/null 2>&1 &

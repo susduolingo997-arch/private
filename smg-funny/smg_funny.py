@@ -15,6 +15,10 @@ import sys
 # (pattern, replacement). Applied in order, only to plain text (never to
 # control codes), so button icons / colors / player names keep working.
 REPLACEMENTS = [
+    # Mario <-> Luigi swap (via placeholder so they don't cancel out)
+    (r"Mario", "@@L@@"),
+    (r"Luigi", "Mario"),
+    (r"@@L@@", "Luigi"),
     (r"Power Stars", "Power Farts"),
     (r"Power Star", "Power Fart"),
     (r"Grand Stars", "Grand Toots"),
@@ -242,7 +246,7 @@ def selftest():
     def msg(s):
         return s.encode("utf-16-be")
     msgs = [msg("Collect the Power Star!") + b"\0\x1a\x06\x01\x00\x00" + msg(" Bowser is evil!"),
-            msg("Rosalina says thank you.")]
+            msg("Rosalina says thank you, Mario.")]
     dat = bytearray(b"\0\0")
     offs = []
     for m in msgs:
@@ -281,7 +285,7 @@ def selftest():
     secs = bmg_sections(out[ds + off:ds + off + size])
     text = secs[1][1].decode("utf-16-be", "replace")
     print(repr(text))
-    assert "Power Fart" in text and "Big Stinky Turtle" in text and "Space Mom" in text
+    assert "Power Fart" in text and "Big Stinky Turtle" in text and "Space Mom" in text and "Luigi" in text and "Mario" not in text
     assert b"\x00\x1a\x06\x01\x00\x00" in secs[1][1], "control code damaged"
     print("selftest OK")
 
