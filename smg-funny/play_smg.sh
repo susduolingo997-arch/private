@@ -142,4 +142,5 @@ else
     echo "   Cheats: in Dolphin right-click game -> Properties -> Gecko Codes -> Download Codes,"
     echo "   tick what you want, and turn on Config -> General -> Enable Cheats."
 fi
+"$HERE/setup_controller.sh" || echo "   (controller not set up - run smg-funny/setup_controller.sh later)"
 "$HERE/smg.sh" >/dev/null 2>&1 &
