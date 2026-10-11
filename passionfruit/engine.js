@@ -510,7 +510,7 @@ let curSet = null;
 const OUTDOOR = new Set(['campus', 'rooftop', 'park', 'beach', 'desert', 'snow', 'city']);
 const TIMES = {
   sunset: { top: '#3d4c8f', bot: '#ff9a5c', sunCol: '#ffb070', sunDir: [0.9, 0.08, -0.4], sun: ['#ffa060', 2.2], hemi: ['#c8a8c8', '#5a4030', 0.8], fog: ['#f2a676', 120, 1000], exp: 1.0, env: 0.55 },
-  night: { top: '#050a1e', bot: '#1c2550', sunCol: '#c8d4ff', sunDir: [-0.4, 0.35, -0.8], sun: ['#9fb4ff', 0.35], hemi: ['#4a5a9a', '#101018', 0.28], fog: ['#121a36', 60, 700], exp: 0.85, env: 0.12 },
+  night: { top: '#050a1e', bot: '#1c2550', sunCol: '#c8d4ff', sunDir: [-0.4, 0.35, -0.8], sun: ['#9fb4ff', 0.35], hemi: ['#6a7ac0', '#202434', 0.6], fog: ['#121a36', 60, 700], exp: 0.9, env: 0.15 },
   sunrise: { top: '#4a6fae', bot: '#ffb98a', sunCol: '#ffcf9a', sunDir: [-0.85, 0.1, -0.5], sun: ['#ffc58e', 2.6], hemi: ['#bcd0f0', '#5a5a3a', 0.9], fog: ['#f0c6a4', 150, 1300] } };
 let curTime = null;
 function useSet(name) {

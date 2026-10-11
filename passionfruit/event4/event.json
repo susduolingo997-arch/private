@@ -1,0 +1,1411 @@
+{
+ "number": 4,
+ "title": "Go Further",
+ "date": "October 11",
+ "cast": {
+  "ceo": {
+   "name": "Dana Pith",
+   "title": "Chief Executive Officer",
+   "voice": "am_michael",
+   "speed": 0.95,
+   "look": {
+    "style": "turtleneck",
+    "outfit": "#1b1b22",
+    "pants": "#2a2a33",
+    "hair": "short",
+    "hairColor": "#a9a9ad",
+    "glasses": "round",
+    "skin": "#e9be98"
+   }
+  },
+  "design": {
+   "name": "Imogen Rind",
+   "title": "Chief Design Officer",
+   "voice": "bf_emma",
+   "speed": 0.92,
+   "look": {
+    "style": "blazer",
+    "outfit": "#e9e4da",
+    "shirt": "#1b1b1b",
+    "pants": "#d8d2c6",
+    "hair": "bob",
+    "hairColor": "#d7b36a",
+    "skin": "#f1cfb0",
+    "shoes": "#1b1b1b"
+   }
+  },
+  "eng": {
+   "name": "Theo Seedling",
+   "title": "Senior Engineer, Thinness",
+   "voice": "am_adam",
+   "speed": 1.1,
+   "look": {
+    "style": "labcoat",
+    "shirt": "#6a8fd0",
+    "hair": "curly",
+    "hairColor": "#3a2414",
+    "skin": "#a8714a",
+    "nervous": true,
+    "glasses": "square",
+    "height": 0.96
+   }
+  },
+  "watch": {
+   "name": "Marco Nectar",
+   "title": "SVP, Wearables & Wanderables",
+   "voice": "am_liam",
+   "look": {
+    "style": "vest",
+    "outfit": "#f2f2f2",
+    "accent": "#26324a",
+    "pants": "#3a4a66",
+    "hair": "quiff",
+    "hairColor": "#4a2c18",
+    "skin": "#d9a27a",
+    "beard": true,
+    "height": 1.04
+   }
+  },
+  "health": {
+   "name": "Priya Zest",
+   "title": "VP, Health & Silence",
+   "voice": "af_heart",
+   "look": {
+    "style": "tee",
+    "outfit": "#5cc96b",
+    "pants": "#22252c",
+    "hair": "long",
+    "hairColor": "#1c1210",
+    "skin": "#b98260",
+    "shoes": "#ffffff"
+   }
+  },
+  "vo": {
+   "name": "The Voice of Passionfruit",
+   "voice": "bm_george",
+   "offscreen": true,
+   "speed": 0.95
+  },
+  "home": {
+   "name": "Bea Nectarine",
+   "title": "VP, Home & Ambience",
+   "voice": "af_nicole",
+   "look": {
+    "style": "hoodie",
+    "outfit": "#ff8a3d",
+    "accent": "#00000033",
+    "pants": "#2c2c34",
+    "hair": "bun",
+    "hairColor": "#6b3a1e",
+    "skin": "#f0c8a8",
+    "glasses": "gold",
+    "height": 0.97
+   }
+  },
+  "drive": {
+   "name": "Rafa Kernel",
+   "title": "SVP, Mobility & Going Places",
+   "voice": "am_eric",
+   "look": {
+    "style": "blazer",
+    "outfit": "#26324a",
+    "shirt": "#ffffff",
+    "pants": "#26324a",
+    "hair": "buzz",
+    "hairColor": "#1c1210",
+    "skin": "#8a5a3c",
+    "shoes": "#1b1b1b",
+    "height": 1.03
+   }
+  }
+ },
+ "products": {
+  "bottle": {
+   "name": "Zest Bottle",
+   "kind": "custom",
+   "shape": "cylinder",
+   "w": 0.6,
+   "h": 1.5,
+   "d": 0.6,
+   "color": "#5cc96b",
+   "material": "ceramic",
+   "features": [
+    "screen",
+    "handle",
+    "glow"
+   ],
+   "glow": "#9fd3ff",
+   "screen": [
+    "#0d2a3a",
+    "#2a7ab0"
+   ],
+   "screenText": "sip",
+   "colors": [
+    "#5cc96b",
+    "#ff8a3d",
+    "#ecebe6",
+    "#2a7ab0"
+   ],
+   "price": "$59",
+   "fine": "Hydration feedback may be sincere.",
+   "handSize": 0.14
+  },
+  "compass": {
+   "name": "Rind Compass",
+   "kind": "watch",
+   "color": "#c9a24a",
+   "material": "gold",
+   "band": "#6b4a32",
+   "bandMaterial": "matte",
+   "features": [
+    "crown"
+   ],
+   "screen": [
+    "#1d1d22",
+    "#3a2a10"
+   ],
+   "screenText": "N-ish",
+   "price": "$449",
+   "fine": "Points to passionfruit, home, or your car. Not always in that order.",
+   "handSize": 0.08
+  },
+  "translator": {
+   "name": "Pulp Polite",
+   "kind": "custom",
+   "shape": "egg",
+   "size": 0.8,
+   "color": "#ecebe6",
+   "material": "ceramic",
+   "features": [
+    "eyes",
+    "antenna",
+    "glow"
+   ],
+   "glow": "#ff8a3d",
+   "screen": [
+    "#1a0b24",
+    "#3a1046"
+   ],
+   "price": "$149",
+   "fine": "Translates 140 languages into polite. Rudeness not supported.",
+   "handSize": 0.12
+  },
+  "tent": {
+   "name": "Pulp Tent",
+   "kind": "custom",
+   "shape": "pyramid",
+   "size": 1.4,
+   "color": "#ff8a3d",
+   "material": "fabric",
+   "features": [
+    "glow",
+    "halo"
+   ],
+   "glow": "#ffd23f",
+   "colors": [
+    "#ff8a3d",
+    "#5cc96b",
+    "#6b3fa0"
+   ],
+   "price": "$699",
+   "fine": "Pitches itself. Un-pitching is a feeling, not a feature.",
+   "handSize": 0.25
+  },
+  "passport": {
+   "name": "Pulp Passport",
+   "kind": "card",
+   "size": 1.4,
+   "color": "#3a1046",
+   "material": "matte",
+   "features": [
+    "screen"
+   ],
+   "screen": [
+    "#3a1046",
+    "#7b2cbf"
+   ],
+   "screenText": "✈",
+   "price": "$19",
+   "fine": "Not a real passport. Please also bring a real passport.",
+   "handSize": 0.1
+  },
+  "cloudbox": {
+   "name": "Pulp Cloud Personal",
+   "kind": "cube",
+   "size": 0.9,
+   "color": "#d9d9de",
+   "material": "aluminum",
+   "features": [
+    "eyes",
+    "screen",
+    "fins",
+    "glow"
+   ],
+   "glow": "#38bdf8",
+   "screen": [
+    "#0b0f16",
+    "#1d2b55"
+   ],
+   "price": "$9.99 / month",
+   "fine": "Visiting hours Tuesdays, 2 to 4. Please don't feed the cloud.",
+   "handSize": 0.2
+  },
+  "carry": {
+   "name": "Pulp Carry",
+   "kind": "cube",
+   "w": 0.9,
+   "h": 1.3,
+   "d": 0.6,
+   "color": "#6b3fa0",
+   "material": "matte",
+   "features": [
+    "wheels",
+    "handle",
+    "eyes",
+    "screen"
+   ],
+   "screen": [
+    "#1a0b24",
+    "#3a1046"
+   ],
+   "handSize": 0.25
+  },
+  "sat": {
+   "name": "Pulp Orbit",
+   "kind": "cube",
+   "size": 0.7,
+   "color": "#e8e8ea",
+   "material": "titanium",
+   "features": [
+    "fins",
+    "antenna",
+    "camera:1",
+    "glow",
+    "halo"
+   ],
+   "glow": "#ffd23f",
+   "price": "$4,999 / year",
+   "fine": "Launch included. Landing not included. Earbud found separately.",
+   "handSize": 0.2
+  },
+  "shade": {
+   "name": "Pulp Shade",
+   "kind": "custom",
+   "shape": "donut",
+   "size": 1.2,
+   "color": "#ffd23f",
+   "material": "ceramic",
+   "features": [
+    "propeller",
+    "glow"
+   ],
+   "glow": "#ff8a3d",
+   "colors": [
+    "#ffd23f",
+    "#ecebe6",
+    "#ff8a3d"
+   ],
+   "price": "$229",
+   "fine": "Follows the sun. And you. Mostly the sun.",
+   "handSize": 0.16
+  },
+  "umbrella": {
+   "name": "Pulp Umbrella",
+   "kind": "custom",
+   "shape": "cone",
+   "w": 1.6,
+   "h": 0.7,
+   "d": 1.6,
+   "color": "#6b3fa0",
+   "material": "fabric",
+   "features": [
+    "handle",
+    "glow",
+    "tail"
+   ],
+   "glow": "#9fd3ff",
+   "colors": [
+    "#6b3fa0",
+    "#1d1d22",
+    "#ff8a3d"
+   ],
+   "price": "$149",
+   "fine": "Opens 3 minutes before rain. And before bad news.",
+   "handSize": 0.2
+  }
+ },
+ "segments": [
+  {
+   "location": "city",
+   "time": "sunrise",
+   "presenters": [
+    "drive"
+   ],
+   "walk": true,
+   "music": "uplift",
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Departing in 3… 2… 1…",
+     "sub": "Passionfruit Event 4",
+     "dur": 4
+    },
+    {
+     "shot": "walk",
+     "say": "Good morning, and welcome aboard. I'm Rafa. And today, Passionfruit is leaving the park."
+    },
+    {
+     "shot": "walk",
+     "say": "For three days, we've shown you products in our campus, our labs, our theater. Today, we're taking them out into the world. Because that's where you are. Mostly."
+    },
+    {
+     "shot": "wide",
+     "say": "This is Event Four. We call it Go Further. Every segment, a new place. Every place, a new product. And one very tired camera crew.",
+     "text": "Go Further",
+     "sub": "Event 4"
+    },
+    {
+     "shot": "walk",
+     "say": "Dana is still at the campus. Dana says hi. Dana also says to please bring back the camera crew. They have families."
+    },
+    {
+     "shot": "walk",
+     "say": "Every product today was tested where you'll actually use it. Not in a lab. Well. Also in a lab. But then outside. Where the weather is. And the people. And the pigeons."
+    },
+    {
+     "shot": "close",
+     "say": "We'll start right here, on a city street, at sunrise. Our store is behind me. It's open. It's always open. We're not sure how to close it."
+    },
+    {
+     "shot": "walk",
+     "say": "Our first stop is the beach. Because the first rule of travel is hydration. And the second rule of travel is also hydration. We checked with Priya."
+    }
+   ]
+  },
+  {
+   "location": "beach",
+   "presenters": [
+    "health"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "talk",
+     "say": "Hi! Priya. Health. Welcome to the beach. Where the sun is warm, the sand is everywhere, and you are, almost certainly, dehydrated."
+    },
+    {
+     "shot": "close",
+     "say": "Most people don't drink enough water. And when they travel, it gets worse. Flights. Coffee. Ice cream. Ice cream doesn't count. We looked into it."
+    },
+    {
+     "shot": "demo",
+     "say": "So we made Zest Bottle. It's a water bottle. It holds water. And it has a small screen, which reminds you, gently, to drink it.",
+     "product": "bottle"
+    },
+    {
+     "shot": "talk",
+     "say": "If you forget, the reminders get a little less gentle. First it says, sip. Then it says, sip please. Then it starts showing you photos of raisins. Very sad raisins."
+    },
+    {
+     "shot": "close",
+     "say": "We call this Hydration Feedback. In testing, people drank forty percent more water. And looked at forty percent fewer raisins. Which we consider the real win."
+    },
+    {
+     "shot": "talk",
+     "say": "And it's fully waterproof. Which, for a water bottle, took us an embarrassingly long time to get right. Version one leaked. Version two leaked inward. Don't ask."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Zest Bottle.",
+     "product": "bottle",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Double-walled ceramic. Keeps cold things cold, warm things warm, and you, gently, accountable.",
+     "product": "bottle",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "A display that only ever shows one word. Sip. In over forty fonts. Depending on how long it's been.",
+     "product": "bottle",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In four colors. All of them thirsty for you to be less thirsty.",
+     "product": "bottle",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "bottle",
+     "text": "Drink up.",
+     "sub": "It's watching. Kindly.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "bottle",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "desert",
+   "time": "sunset",
+   "presenters": [
+    "watch"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "walk",
+     "say": "Marco here. Wearables. We're in the desert. At sunset. Which, I'm told, is the most beautiful place to get lost. So let's not."
+    },
+    {
+     "shot": "walk",
+     "say": "Phones tell you where you are. Maps tell you where to go. But nothing tells you where you actually want to be. Until now."
+    },
+    {
+     "shot": "close",
+     "say": "Introducing Rind Compass. It looks like a watch. It is, technically, a watch. But it doesn't point north. It points to what matters."
+    },
+    {
+     "shot": "demo",
+     "say": "Tap once, it points home. Tap twice, it points to your car. Tap three times, it points to the nearest passionfruit. Which is usually in my pocket. Sorry. That's on me.",
+     "product": "compass"
+    },
+    {
+     "shot": "walk",
+     "say": "We tested it here, in the desert, for three weeks. It pointed home every time. Even when home was very, very far away. It was a little emotional."
+    },
+    {
+     "shot": "close",
+     "say": "There's also a hidden fourth mode. Tap four times, and it points to whoever you're thinking about. We're not going to explain how that works. Because we don't know."
+    },
+    {
+     "shot": "walk",
+     "say": "Our legal team asked us to remove it. Rind Compass pointed at them. They left it in."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Rind Compass.",
+     "product": "compass",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A gold case. A leather band. And a needle that has never once pointed north, on purpose.",
+     "product": "compass",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, a magnetometer, a gyroscope, and a tiny, very confident sense of direction.",
+     "product": "compass",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "compass",
+     "text": "It knows the way.",
+     "sub": "Home. Car. Fruit.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "compass",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "desert",
+   "presenters": [
+    "drive"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Still in the desert. Still very hot. Which brings me to a problem every traveler knows. The sun. It's lovely. It's also trying to cook you. Gently. All day."
+    },
+    {
+     "shot": "close",
+     "say": "Hats help. But hats blow away. Umbrellas help. But you have to hold them. And then you look like you're waiting for someone who isn't coming."
+    },
+    {
+     "shot": "table",
+     "say": "So this is Pulp Shade. It's a ring. It floats above your head, on a tiny propeller. And it moves, all day, to keep you in the shade.",
+     "product": "shade"
+    },
+    {
+     "shot": "talk",
+     "say": "It tracks the sun, it tracks you, and it calculates the perfect spot, every second. You walk, it follows. You sit, it hovers. You nap, it hums. Quietly. Like a little halo."
+    },
+    {
+     "shot": "close",
+     "say": "People in our tests said it made them feel protected. A few said it made them feel holy. One man started a small religion. We've asked him to stop. He says Pulp Shade told him to continue."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Shade.",
+     "product": "shade",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A ceramic ring that blocks ninety-eight percent of sunlight, and one hundred percent of sunburn-related regret.",
+     "product": "shade",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In three colors. Sun, Pith and Zest. All of them flattering from below.",
+     "product": "shade",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "shade",
+     "text": "Your own little cloud.",
+     "sub": "That's not the cloud. That's a different event.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "shade",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "beach",
+   "time": "sunset",
+   "presenters": [
+    "health",
+    "watch"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "two",
+     "say": "Marco, should we tell them about the waterproof test?",
+     "who": "health"
+    },
+    {
+     "shot": "two",
+     "say": "Let's tell them. Every product you've seen today, we threw into the sea. Here. At sunset. On purpose. For science.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "Zest Bottle floated, and reminded the fish to drink water. The fish did not need that reminder. But they appreciated it.",
+     "who": "health"
+    },
+    {
+     "shot": "two",
+     "say": "Pulp Polite washed up on the beach and apologized to the sand. The sand accepted.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "And Rind Compass pointed home the entire time. From the bottom of the sea. Which was honestly the most moving thing I've seen all year.",
+     "who": "health"
+    },
+    {
+     "shot": "two",
+     "say": "Everything survived. Everything. Except Pulp Passport, which got a stamp from a country we don't think exists. We're looking into it.",
+     "who": "watch"
+    }
+   ]
+  },
+  {
+   "location": "cafe",
+   "presenters": [
+    "home",
+    "design"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Imogen, we're in a cafe. Should we order something?",
+     "who": "home"
+    },
+    {
+     "shot": "close",
+     "say": "Yes. But first, let's talk about the hardest part of travel. Talking to people. In other languages. Without accidentally insulting them.",
+     "who": "design"
+    },
+    {
+     "shot": "table",
+     "say": "This is Pulp Polite. It's a translator. You speak, it listens, and it translates whatever you said, into any language, but more politely.",
+     "who": "home",
+     "product": "translator"
+    },
+    {
+     "shot": "two",
+     "say": "Much more politely. If you say, where is my coffee, it says, excuse me, when you have a moment, I would love to know how my coffee is doing.",
+     "who": "design"
+    },
+    {
+     "shot": "close",
+     "say": "If you say, this is wrong, it says, what a fascinating interpretation of my order. I'm so grateful you tried.",
+     "who": "home"
+    },
+    {
+     "shot": "two",
+     "say": "We tested it in forty countries. Nobody was ever offended. Some people were a little confused. One waiter cried. In a good way. We think.",
+     "who": "design"
+    },
+    {
+     "shot": "two",
+     "say": "And our order? Pulp Polite ordered for us. It asked for two coffees, please, if it's not too much trouble, and only if you have a moment, and thank you so much for everything you do.",
+     "who": "design"
+    },
+    {
+     "shot": "close",
+     "say": "The barista gave us the coffees for free. And a hug. We didn't ask for the hug. Pulp Polite might have.",
+     "who": "home"
+    },
+    {
+     "shot": "close",
+     "say": "And it works in reverse. When someone's rude to you, it translates them into polite as well. So you never have to know. Travel has never felt so warm.",
+     "who": "home"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Polite.",
+     "product": "translator",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "One hundred and forty languages. Zero bad moods. A pair of eyes that always look slightly apologetic.",
+     "product": "translator",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "An antenna tuned to the frequency of good manners.",
+     "product": "translator",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "translator",
+     "text": "Say anything.",
+     "sub": "Nicely.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "translator",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "city",
+   "time": "night",
+   "presenters": [
+    "watch"
+   ],
+   "walk": true,
+   "walkStart": 6,
+   "beats": [
+    {
+     "shot": "walk",
+     "say": "Marco again. Back in the city. Night has fallen. And the forecast says rain. Which is perfect. Because we brought something for the rain."
+    },
+    {
+     "shot": "walk",
+     "say": "Here's the thing about umbrellas. You never have one when it rains. And when you do have one, it doesn't rain. Ever. Umbrellas cancel rain. It's science."
+    },
+    {
+     "shot": "close",
+     "say": "So we made Pulp Umbrella. It knows the weather. It opens itself, three minutes before the rain starts. So you're always ready. And always a little bit smug."
+    },
+    {
+     "shot": "demo",
+     "say": "It also opens before bad news. We don't know how. In testing, it opened right before someone's flight was delayed. And right before a group chat said, we need to talk.",
+     "product": "umbrella"
+    },
+    {
+     "shot": "walk",
+     "say": "Our testers said it was like having a friend who sees things coming. A tall, purple friend. Who is always dry."
+    },
+    {
+     "shot": "close",
+     "say": "And when the rain stops, it closes itself, shakes off, and says, you're welcome. Not out loud. It just glows. You know what it means."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Umbrella.",
+     "product": "umbrella",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A canopy woven from recycled raincoats. A handle that knows the forecast. And a small glow that means, told you so.",
+     "product": "umbrella",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In three colors. All of them better than a wet sock.",
+     "product": "umbrella",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "umbrella",
+     "text": "Always ready.",
+     "sub": "Three minutes early.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "umbrella",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "Go Further",
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "talk",
+     "say": "Hi. Dana here. Back at the campus. In our empty theater. Watching the whole thing on the big screen. Alone. With popcorn. Rafa said I couldn't come. Rafa was right."
+    },
+    {
+     "shot": "close",
+     "say": "I just want to say, I'm very proud of the team. They've been to a beach, a desert, a cafe, and a city at night. I have been to the snack drawer. Twice."
+    },
+    {
+     "shot": "talk",
+     "say": "People sometimes ask me why we make so many products. And the answer is simple. Because every place in the world deserves something a little bit better. And a little bit purple."
+    },
+    {
+     "shot": "talk",
+     "say": "And I want to say thank you to everyone who visited our stores this week. Especially the man who has been sitting in the Nap Corner since Monday. We see you. We support you. Please go home."
+    },
+    {
+     "shot": "close",
+     "say": "Okay. Back to Rafa. Please send the crew home soon. One of them texted me a picture of a cactus and just wrote, help."
+    }
+   ]
+  },
+  {
+   "location": "snow",
+   "time": "night",
+   "presenters": [
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "talk",
+     "say": "Hi. Theo. I'm, um, on a mountain. At night. In the snow. I asked for the factory. They gave me the mountain. It's very cold."
+    },
+    {
+     "shot": "close",
+     "say": "So, camping. A lot of people love camping. A lot of people also hate setting up the tent. I am both of those people. At the same time. Right now."
+    },
+    {
+     "shot": "table",
+     "say": "This is Pulp Tent. You put it on the ground, you say, Pulp Tent, please. And it pitches itself. In eleven seconds. I've timed it. I've timed it a lot. I had a lot of nights.",
+     "product": "tent"
+    },
+    {
+     "shot": "talk",
+     "say": "And inside, the roof shows you the stars. Not the real stars. Better stars. If it's cloudy, you still see stars. If you're in a city, stars. If you're in your living room. Stars."
+    },
+    {
+     "shot": "close",
+     "say": "We call it Sky Mode. It's the most peaceful thing I've ever experienced. I fell asleep in it during the demo. The demo was for my manager. She also fell asleep. Great review."
+    },
+    {
+     "shot": "close",
+     "say": "Also, it has a heater. A very small one. I didn't know about the heater until today. I've been cold for three weeks. Nobody told me about the heater."
+    },
+    {
+     "shot": "talk",
+     "say": "Folding it back up is also automatic. It just takes a bit longer. About a week. It doesn't really want to leave. Honestly, neither did I."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Tent.",
+     "product": "tent",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A shell woven from recycled sails, shaped by wind tunnels, and approved by one very sleepy engineer.",
+     "product": "tent",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, carbon poles that unfold themselves, and a ceiling with ten thousand tiny stars, individually placed, in alphabetical order.",
+     "product": "tent",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In three colors. Each one visible from space. We checked. Ask Marco.",
+     "product": "tent",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "tent",
+     "text": "Sleep under better stars.",
+     "sub": "Anywhere.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "tent",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "city",
+   "time": "sunset",
+   "presenters": [
+    "drive",
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Bea, welcome to the Passionfruit Store. The flagship. The glass one. We built it out of one piece of glass. Then we built a door. Then we broke the glass. Then we built it again, with a door.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "It's beautiful. And I love that it's open twenty-four hours. Who closes it?",
+     "who": "home"
+    },
+    {
+     "shot": "two",
+     "say": "Nobody. We can't. There's no lock. We designed it without a lock, because locks felt unwelcoming. Now it's just open. Forever. People come in at four a.m. and just sit.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "And inside, you can talk to our experts. At the Pith Bar. They know everything about every product. And if they don't know, they say, that's a great question, with a lot of confidence.",
+     "who": "home"
+    },
+    {
+     "shot": "two",
+     "say": "Starting today, every store also has a Nap Corner. With a Pulp Tent. Set to Sky Mode. You can come in, lie down, and see the stars. In the middle of the city. For free.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "We're told the Nap Corner is already fully booked until spring. Theo booked most of it.",
+     "who": "home"
+    }
+   ]
+  },
+  {
+   "location": "factory",
+   "presenters": [
+    "eng",
+    "design"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Theo, you made it to the factory.",
+     "who": "design"
+    },
+    {
+     "shot": "close",
+     "say": "I made it. I'm warm. I've never been so happy to see a conveyor belt.",
+     "who": "eng"
+    },
+    {
+     "shot": "talk",
+     "say": "Every single product passes through forty-two stations. At each station, a person looks at it, and nods. If someone doesn't nod, it goes back. We've had products go around for weeks.",
+     "who": "design"
+    },
+    {
+     "shot": "close",
+     "say": "One phone went around so many times it got thinner. That's how we discovered thin. True story. Mostly true.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "We wanted to show everyone how our products are made. Because we believe the making is part of the product. Every product we make, starts here.",
+     "who": "design"
+    },
+    {
+     "shot": "table",
+     "say": "Including this. Pulp Passport. It's not a real passport. Please bring a real passport. It's a beautiful card that collects digital stamps, wherever you go.",
+     "who": "eng",
+     "product": "passport"
+    },
+    {
+     "shot": "close",
+     "say": "When you arrive in a new place, it stamps itself, with a tiny, soft, satisfying sound. Thunk. Very satisfying. We tested the thunk for a year.",
+     "who": "design"
+    },
+    {
+     "shot": "two",
+     "say": "And with Jet Lag Cancellation, it shows you a gentle clock that slowly, very slowly, convinces you that it's whatever time you need it to be.",
+     "who": "eng"
+    },
+    {
+     "shot": "close",
+     "say": "It also has a page called Places You Meant To Go. It fills up quickly. We try not to look at it.",
+     "who": "design"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "spin",
+     "say": "Pulp Passport. Bound in recycled cloth. Stamped by itself.",
+     "product": "passport",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "A display so thin it fits inside a stamp. We're very good at thin. You may remember.",
+     "product": "passport",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "passport",
+     "text": "Go places.",
+     "sub": "Thunk.",
+     "dur": 4.5
+    },
+    {
+     "shot": "price",
+     "product": "passport",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "datacenter",
+   "presenters": [
+    "home"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "walk",
+     "say": "Hi! Bea. Home and Ambience. And today, I'm in the cloud. This is the cloud. People always ask where it is. It's here. It's a room. It's very loud."
+    },
+    {
+     "shot": "walk",
+     "say": "When you travel, you take photos, notes, memories. And they all go into the cloud. But you've never been able to visit them. Until today."
+    },
+    {
+     "shot": "close",
+     "say": "Introducing Pulp Cloud Personal. It's your own little piece of the cloud. A real box, in this real room. With your stuff in it. And a little face."
+    },
+    {
+     "shot": "table",
+     "say": "You can come visit it. Tuesdays, from two to four. You can say hello. You can see your photos in person. Some people bring flowers. Please don't bring flowers. It's a datacenter.",
+     "product": "cloudbox"
+    },
+    {
+     "shot": "walk",
+     "say": "Each cloud also has a name. You can pick it. The most popular names are Fluffy, Cloud, and, for some reason, Gerald. There are eleven thousand Geralds in this room."
+    },
+    {
+     "shot": "walk",
+     "say": "We found that people trust the cloud a lot more once they've met it. One customer visited every week. Her cloud waves when she comes in. It's very sweet."
+    },
+    {
+     "shot": "close",
+     "say": "And if you ever feel like your data is far away, just remember. It's right here. Humming. Thinking of you. Also thinking of about a hundred thousand other people. But mostly you."
+    },
+    {
+     "shot": "walk",
+     "say": "Before we go, I want to say hi to my own cloud. Hi, Gerald. Gerald is waving. Gerald has all my photos from the last three events. Gerald has seen a lot of Theo."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Cloud Personal.",
+     "product": "cloudbox",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Brushed aluminum. Cooling fins. And a small screen for waving at visitors.",
+     "product": "cloudbox",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, two terabytes of your life, carefully stored, and occasionally reread with fondness.",
+     "product": "cloudbox",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "cloudbox",
+     "text": "Meet your cloud.",
+     "sub": "Tuesdays, two to four.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "cloudbox",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "time": "sunset",
+   "presenters": [
+    "health",
+    "drive"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "walk",
+     "say": "Rafa, before we get to the big thing, can we talk about travel software?",
+     "who": "health"
+    },
+    {
+     "shot": "walk",
+     "say": "Please. Pulp OS Four comes out today, and it's built for going further. Starting with Jet Lag Mode.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "Jet Lag Mode doesn't fix your jet lag. It just adjusts every clock on every device you own to match how you feel. So if you feel like it's three a.m., it is three a.m. Officially.",
+     "who": "health"
+    },
+    {
+     "shot": "walk",
+     "say": "There's also Postcard Mode. When you take a photo of a nice view, it automatically writes a postcard to someone you haven't talked to in a while. And sends it. Before you can stop it.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "Our testers reconnected with old friends, distant cousins, and in one case, a former landlord. They're friends now. They went on a trip together.",
+     "who": "health"
+    },
+    {
+     "shot": "walk",
+     "say": "And finally, Lost Luggage Live. If your bag is lost, you can follow it on a map. In real time. With a little narration. Thanks to last event's Pulp Narrator. It's very dramatic.",
+     "who": "drive"
+    },
+    {
+     "shot": "walk",
+     "say": "And for long flights, there's Window Seat Mode. Your screen shows the view from a window seat. Even if you're in the middle. Even if you're on a bus.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "Here we see the suitcase. Alone, in a foreign land. It is brave. It is strong. It will find its way home.",
+     "who": "vo"
+    }
+   ]
+  },
+  {
+   "location": "rooftop",
+   "time": "night",
+   "presenters": [
+    "ceo",
+    "drive"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "two",
+     "say": "Rafa! You made it back. How was the world?",
+     "who": "ceo"
+    },
+    {
+     "shot": "two",
+     "say": "Big. Very big. We went to the beach, the desert, a mountain, a cafe, a factory and the cloud. In one day. The crew is asleep in the elevator.",
+     "who": "drive"
+    },
+    {
+     "shot": "two",
+     "say": "And how's the crew?",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "Hydrated, polite, shaded, and very well rested. Theo is still in the Nap Corner. We've decided to let him stay.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "And, I have news. Do you remember Seeds Air, from Event Two? The earbud with the propeller?",
+     "who": "drive"
+    },
+    {
+     "shot": "two",
+     "say": "The one that flew to Portugal? Or the one that went to orbit?",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "The one in orbit. We found it. And we found it, because of the thing we're about to show you.",
+     "who": "drive"
+    },
+    {
+     "shot": "two",
+     "say": "Then I think it's time. Rafa, would you like to do the honors?",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "I would. There is one more thing.",
+     "who": "drive"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "onemore",
+     "dur": 5
+    },
+    {
+     "shot": "hero",
+     "product": "sat",
+     "dur": 7
+    },
+    {
+     "shot": "spin",
+     "say": "This is Pulp Orbit. Your own personal satellite.",
+     "product": "sat",
+     "who": "drive"
+    },
+    {
+     "shot": "macro",
+     "say": "It follows you around the planet, about four hundred kilometers up. So wherever you go, you always have signal. And someone looking out for you.",
+     "product": "sat",
+     "who": "drive"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, solar panels, a long-range antenna, a single camera that only ever takes one photo per day: a photo of you, from space, looking small and brave.",
+     "product": "sat",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "sat",
+     "text": "Someone up there likes you.",
+     "sub": "It's us. It's a satellite.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "sat",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "space",
+   "presenters": [
+    "watch",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 5
+    },
+    {
+     "shot": "two",
+     "say": "Theo. We're in space.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "We are in space. I asked for the factory. Again. They sent me to space. This is a lot of places for one Theo.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "And look who Pulp Orbit found up here. Floating. Spinning. Still playing music. One very independent earbud.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "It's been playing the same song for two days. To nobody. With perfect noise cancellation. Honestly? Living its best life.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "We're going to bring it home. It's going to fly back down with its little propeller. Should take about a year.",
+     "who": "watch"
+    },
+    {
+     "shot": "two",
+     "say": "Theo, while we're here. Look down. That's everywhere we went today. The beach. The desert. The mountain. All of it. From up here, it's all one place.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "That's beautiful, Marco. Also, I can see the factory. I can see my desk. I left my mug on it. Somebody please wash my mug.",
+     "who": "eng"
+    },
+    {
+     "shot": "close",
+     "say": "Is the suitcase still in Lisbon? Can it pick it up? I feel like they'd get along.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "Okay. Let's head back. Pulp Orbit will follow us. It always does. It's very loyal. Like a dog. A dog in space.",
+     "who": "watch"
+    }
+   ]
+  },
+  {
+   "location": "beach",
+   "time": "night",
+   "presenters": [
+    "drive",
+    "health",
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "two",
+     "say": "Pre-orders open today. Pulp Tent pitches itself on Friday. Pulp Orbit launches next spring. Weather permitting. Space weather.",
+     "who": "drive"
+    },
+    {
+     "shot": "talk",
+     "say": "Please remember to drink water on your travels. Zest Bottle will remind you. Many times. With raisins.",
+     "who": "health"
+    },
+    {
+     "shot": "close",
+     "say": "And if you're ever far from home, visit your cloud. It misses you. Tuesdays, two to four.",
+     "who": "home"
+    },
+    {
+     "shot": "two",
+     "say": "And Theo will be staying in the Nap Corner. Under better stars. Indefinitely. He's earned it.",
+     "who": "home"
+    },
+    {
+     "shot": "talk",
+     "say": "From all of us, all around the world, and one of us in space. Thank you for going further with Passionfruit. See you tomorrow.",
+     "who": "drive"
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "end",
+     "dur": 12,
+     "text": "Bon voyage.",
+     "sub": "Passionfruit is a fictional company. Products shown do not exist. One earbud is still in orbit."
+    }
+   ]
+  }
+ ]
+}
