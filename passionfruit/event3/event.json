@@ -1,0 +1,1337 @@
+{
+ "number": 3,
+ "title": "Ripe for Change",
+ "date": "October 11",
+ "cast": {
+  "ceo": {
+   "name": "Dana Pith",
+   "title": "Chief Executive Officer",
+   "voice": "am_michael",
+   "speed": 0.95,
+   "look": {
+    "style": "turtleneck",
+    "outfit": "#1b1b22",
+    "pants": "#2a2a33",
+    "hair": "short",
+    "hairColor": "#a9a9ad",
+    "glasses": "round",
+    "skin": "#e9be98"
+   }
+  },
+  "design": {
+   "name": "Imogen Rind",
+   "title": "Chief Design Officer",
+   "voice": "bf_emma",
+   "speed": 0.92,
+   "look": {
+    "style": "blazer",
+    "outfit": "#e9e4da",
+    "shirt": "#1b1b1b",
+    "pants": "#d8d2c6",
+    "hair": "bob",
+    "hairColor": "#d7b36a",
+    "skin": "#f1cfb0",
+    "shoes": "#1b1b1b"
+   }
+  },
+  "eng": {
+   "name": "Theo Seedling",
+   "title": "Senior Engineer, Thinness",
+   "voice": "am_adam",
+   "speed": 1.1,
+   "look": {
+    "style": "labcoat",
+    "shirt": "#6a8fd0",
+    "hair": "curly",
+    "hairColor": "#3a2414",
+    "skin": "#a8714a",
+    "nervous": true,
+    "glasses": "square",
+    "height": 0.96
+   }
+  },
+  "watch": {
+   "name": "Marco Nectar",
+   "title": "SVP, Wearables & Wanderables",
+   "voice": "am_liam",
+   "look": {
+    "style": "vest",
+    "outfit": "#f2f2f2",
+    "accent": "#26324a",
+    "pants": "#3a4a66",
+    "hair": "quiff",
+    "hairColor": "#4a2c18",
+    "skin": "#d9a27a",
+    "beard": true,
+    "height": 1.04
+   }
+  },
+  "health": {
+   "name": "Priya Zest",
+   "title": "VP, Health & Silence",
+   "voice": "af_heart",
+   "look": {
+    "style": "tee",
+    "outfit": "#5cc96b",
+    "pants": "#22252c",
+    "hair": "long",
+    "hairColor": "#1c1210",
+    "skin": "#b98260",
+    "shoes": "#ffffff"
+   }
+  },
+  "vo": {
+   "name": "The Voice of Passionfruit",
+   "voice": "bm_george",
+   "offscreen": true,
+   "speed": 0.95
+  },
+  "home": {
+   "name": "Bea Nectarine",
+   "title": "VP, Home & Ambience",
+   "voice": "af_nicole",
+   "look": {
+    "style": "hoodie",
+    "outfit": "#ff8a3d",
+    "accent": "#00000033",
+    "pants": "#2c2c34",
+    "hair": "bun",
+    "hairColor": "#6b3a1e",
+    "skin": "#f0c8a8",
+    "glasses": "gold",
+    "height": 0.97
+   }
+  },
+  "drive": {
+   "name": "Rafa Kernel",
+   "title": "SVP, Mobility & Going Places",
+   "voice": "am_eric",
+   "look": {
+    "style": "blazer",
+    "outfit": "#26324a",
+    "shirt": "#ffffff",
+    "pants": "#26324a",
+    "hair": "buzz",
+    "hairColor": "#1c1210",
+    "skin": "#8a5a3c",
+    "shoes": "#1b1b1b",
+    "height": 1.03
+   }
+  }
+ },
+ "products": {
+  "pulp3": {
+   "name": "Pulp Phone 3",
+   "kind": "phone",
+   "color": "#5cc96b",
+   "material": "titanium",
+   "thickness": 0.6,
+   "features": [
+    "camera:4",
+    "notch",
+    "glow"
+   ],
+   "glow": "#ffd23f",
+   "colors": [
+    "#5cc96b",
+    "#ff8a3d",
+    "#6b3fa0",
+    "#ecebe6",
+    "#1d1d22"
+   ],
+   "price": "$1,399",
+   "fine": "Third side is the edge. The edge was always there. We just noticed it.",
+   "handSize": 0.12
+  },
+  "remote": {
+   "name": "Pulp Remote",
+   "kind": "slab",
+   "w": 0.45,
+   "h": 1.5,
+   "d": 0.18,
+   "color": "#1d1d22",
+   "material": "matte",
+   "features": [
+    "button"
+   ],
+   "buttonColor": "#ff8a3d",
+   "screen": [
+    "#1d1d22",
+    "#1d1d22"
+   ],
+   "screenText": "",
+   "price": "$69",
+   "fine": "One button. No refunds. Fine.",
+   "handSize": 0.12
+  },
+  "kettle": {
+   "name": "Zest Kettle",
+   "kind": "custom",
+   "shape": "cylinder",
+   "h": 1.1,
+   "color": "#ecebe6",
+   "material": "ceramic",
+   "features": [
+    "spout",
+    "handle",
+    "glow"
+   ],
+   "glow": "#ff8a3d",
+   "colors": [
+    "#ecebe6",
+    "#5cc96b",
+    "#ff8a3d",
+    "#1d1d22"
+   ],
+   "price": "$249",
+   "fine": "Boils to the temperature of your mood. Mood not included.",
+   "handSize": 0.18
+  },
+  "drone": {
+   "name": "Pulp Narrator",
+   "kind": "custom",
+   "shape": "orb",
+   "size": 0.8,
+   "color": "#d9d9de",
+   "material": "aluminum",
+   "features": [
+    "propeller",
+    "camera:1",
+    "antenna"
+   ],
+   "glow": "#5cc96b",
+   "price": "$499",
+   "fine": "Narration may be dramatic. Your life may not be.",
+   "handSize": 0.14
+  },
+  "pillow": {
+   "name": "Pulp Pillow",
+   "kind": "custom",
+   "shape": "pebble",
+   "size": 1.3,
+   "color": "#c9b6e4",
+   "material": "fabric",
+   "features": [
+    "glow"
+   ],
+   "glow": "#9fd3ff",
+   "colors": [
+    "#c9b6e4",
+    "#ecebe6",
+    "#ffd7a8"
+   ],
+   "price": "$179",
+   "fine": "Dream Backup requires Pulp Cloud. Nightmares stored separately.",
+   "handSize": 0.2
+  },
+  "carry": {
+   "name": "Pulp Carry",
+   "kind": "cube",
+   "w": 0.9,
+   "h": 1.3,
+   "d": 0.6,
+   "color": "#6b3fa0",
+   "material": "matte",
+   "features": [
+    "wheels",
+    "handle",
+    "eyes",
+    "screen"
+   ],
+   "screen": [
+    "#1a0b24",
+    "#3a1046"
+   ],
+   "price": "$899",
+   "fine": "Follows you. Complains, quietly.",
+   "handSize": 0.25
+  },
+  "nope": {
+   "name": "Nope",
+   "kind": "custom",
+   "shape": "orb",
+   "color": "#1d1d22",
+   "material": "matte",
+   "features": [
+    "eyes",
+    "legs:3",
+    "antenna"
+   ],
+   "screen": [
+    "#2a0a10",
+    "#5a1420"
+   ],
+   "handSize": 0.14
+  },
+  "car": {
+   "name": "Pulp Drive",
+   "kind": "slab",
+   "size": 2,
+   "w": 1.1,
+   "h": 0.5,
+   "d": 0.55,
+   "color": "#9b5de5",
+   "material": "ceramic",
+   "features": [
+    "wheels",
+    "glow",
+    "screen",
+    "eyes"
+   ],
+   "glow": "#ffd23f",
+   "screen": [
+    "#0d0d12",
+    "#1d1d22"
+   ],
+   "price": "$89,000",
+   "fine": "One seat. Drives itself to the store. Buys passionfruit. Comes back. Mostly.",
+   "handSize": 0.35
+  },
+  "chip3": {
+   "name": "P3 Pith",
+   "kind": "slab",
+   "w": 1.0,
+   "h": 1.0,
+   "d": 0.12,
+   "color": "#1d3a26",
+   "material": "titanium",
+   "features": [
+    "glow",
+    "screen"
+   ],
+   "glow": "#ffd23f",
+   "screen": [
+    "#0d1a12",
+    "#1d3a26"
+   ],
+   "screenText": "P3",
+   "price": "Inside Pulp Phone 3",
+   "fine": "Optimism cores not available in all regions."
+  }
+ },
+ "segments": [
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo"
+   ],
+   "music": "warm",
+   "beats": [
+    {
+     "shot": "flyover",
+     "dur": 16,
+     "text": "passionfruit",
+     "sub": "Event 3 · Ripe for Change"
+    },
+    {
+     "shot": "wide",
+     "say": "Good morning. And welcome, once again, to Passionfruit Park."
+    },
+    {
+     "shot": "talk",
+     "say": "This is our third event in three days. Some people have asked if we're okay. We are fine. We are better than fine. We are on a roll. A thin, juicy roll."
+    },
+    {
+     "shot": "close",
+     "say": "Our teams have been working around the clock. Theo hasn't been home since Tuesday. We sent him a pillow. You'll see the pillow later. It's a very good pillow."
+    },
+    {
+     "shot": "talk",
+     "say": "Today is about change. Changing how you watch. How you sleep. How you travel. And how you make tea. Which, we believe, has been done wrong for about four thousand years."
+    },
+    {
+     "shot": "talk",
+     "say": "We also want to say thank you. Yesterday, more of you watched our event than ever before. And thousands of you wrote to Nope. Nope replied to every one of you. Nope said no. To all of you. Personally."
+    },
+    {
+     "shot": "close",
+     "say": "Let's get started. And as always, let's walk."
+    }
+   ]
+  },
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo"
+   ],
+   "walk": true,
+   "walkStart": 25,
+   "beats": [
+    {
+     "shot": "walk",
+     "say": "Three days ago, we had a phone with one side. Yesterday, we gave it a second side. And something wonderful happened. People found their phones."
+    },
+    {
+     "shot": "walk",
+     "say": "Lost phone reports dropped by ninety-eight percent. The remaining two percent were in the couch. We're working with the couch industry."
+    },
+    {
+     "shot": "wide",
+     "say": "But one of our engineers noticed something. When you hold a phone with two sides, there's a third thing. Running all the way around. Between the sides."
+    },
+    {
+     "shot": "walk",
+     "say": "It had been there the whole time. In every phone we've ever made. Quietly. Holding the sides together. Asking for nothing."
+    },
+    {
+     "shot": "close",
+     "say": "It's called the edge. And today, the edge gets its moment."
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "design"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "For years, the edge has been a supporting character. It frames the screen. It meets your hand. It never gets a lower third. It never gets a tagline."
+    },
+    {
+     "shot": "close",
+     "say": "We wanted to give the edge a voice. So we made it the third side. A side in its own right. With its own display. Running all the way around."
+    },
+    {
+     "shot": "talk",
+     "say": "We call it Edge Feed. A tiny, glowing ticker, wrapped around your phone. And it shows you only good news. Nothing else. Just good news."
+    },
+    {
+     "shot": "demo",
+     "say": "Your friend got a new job. A dog somewhere learned a trick. It's sunny in a place you'll never visit. It's all happening, right there, on the edge.",
+     "product": "pulp3"
+    },
+    {
+     "shot": "close",
+     "say": "If there is no good news, the edge simply glows. Warmly. Until there is. In testing, it glowed a lot. We think that says something about the world. And about our testers."
+    },
+    {
+     "shot": "talk",
+     "say": "One side for looking. One side for putting down. And one side, for feeling a little bit better. That's Pulp Phone Three."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "pulp3",
+     "dur": 7
+    },
+    {
+     "shot": "spin",
+     "say": "Introducing Pulp Phone Three.",
+     "product": "pulp3",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "The third side. A continuous ribbon of light, running the full length of the edge, and then, out of politeness, back again.",
+     "product": "pulp3",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Four cameras. Down from nine. Because sometimes, less is more. And because nine was, frankly, a cry for help.",
+     "product": "pulp3",
+     "back": true,
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, a battery shaped like a ring, so the edge never has to feel alone.",
+     "product": "pulp3",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "pulp3",
+     "text": "Live on the edge.",
+     "sub": "Only the good parts.",
+     "dur": 5
+    },
+    {
+     "shot": "lineup",
+     "say": "In five colors. Including Zest, which you loved yesterday, and loved even more after we told you it was green.",
+     "product": "pulp3",
+     "who": "vo"
+    },
+    {
+     "shot": "price",
+     "product": "pulp3",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "rooftop",
+   "presenters": [
+    "watch"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "walk",
+     "say": "Marco here. Up on the roof. Let's talk cameras. Yesterday, nine cameras. Today, four. People ask, Marco, isn't that fewer cameras? And yes. It is."
+    },
+    {
+     "shot": "walk",
+     "say": "But each of these four cameras is smarter than the nine combined. They hold meetings. They make decisions. Sometimes they take a photo. When they all agree."
+    },
+    {
+     "shot": "close",
+     "say": "The biggest new feature is Good Angle. Pulp Phone Three now knows your good side. And when you take a selfie, it gently rotates the world, until you're on it."
+    },
+    {
+     "shot": "demo",
+     "say": "Look. Bad angle. Good angle. Bad angle. And good angle. It's subtle. It's tasteful. Some of the buildings behind me are now slightly tilted. That's the price of beauty.",
+     "product": "pulp3"
+    },
+    {
+     "shot": "walk",
+     "say": "And with Group Mode, every person in a group photo gets their own good angle. At the same time. The result is a photo that is technically impossible, and emotionally perfect."
+    },
+    {
+     "shot": "close",
+     "say": "Our testers said they had never looked better. Their friends said the photos looked, quote, slightly haunted. We're calling that a win."
+    }
+   ]
+  },
+  {
+   "location": "robotlab",
+   "presenters": [
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Hi. Hello. Theo. Again. I got the pillow. Thank you. I'm using it right now, actually. Not right now. Earlier. And later."
+    },
+    {
+     "shot": "close",
+     "say": "So. Three sides is a lot of sides. And each side needed testing. Which meant three times the robots. Which meant three times the robot feelings."
+    },
+    {
+     "shot": "table",
+     "say": "We dropped Pulp Phone Three on all three sides. It survives on the front. It survives on the back. And when it lands on the edge, it doesn't fall over. It just stands there. Like it's waiting for something.",
+     "product": "pulp3"
+    },
+    {
+     "shot": "talk",
+     "say": "One of the robots stood it up on its edge, and walked away. And it was still standing, the next morning. Showing good news. To nobody. We all agreed that was beautiful."
+    },
+    {
+     "shot": "close",
+     "say": "Also, very important. The phone tells you when you have news, but it can't tell you how to feel about it. That's still up to you. We tried. It was not a good feature."
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "P3 Pith",
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "Pulp Phone Three is powered by P3 Pith. Our third chip in three days. Our chip team would like everyone to know that they are fine, and that they would like to go outside."
+    },
+    {
+     "shot": "close",
+     "say": "P3 Pith introduces a new kind of core. In addition to performance cores and efficiency cores, we've added optimism cores."
+    },
+    {
+     "shot": "talk",
+     "say": "Optimism cores run Edge Feed. They look for good news, all day, in the background, using almost no power. Because good news, it turns out, is very lightweight."
+    },
+    {
+     "shot": "close",
+     "say": "And battery life is better than ever. Pulp Phone Three lasts all month. A month, of course, being defined as the rest of this month. Which ends in about three weeks."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "P3 Pith.",
+     "product": "chip3",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "One hundred and twenty billion transistors. Twenty billion of them, hopeful.",
+     "product": "chip3",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "chip3",
+     "text": "Powered by optimism.",
+     "sub": "Cores included.",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "Pulp Remote",
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "talk",
+     "say": "Next, let's talk about the living room. Where, every night, millions of people sit down, and spend forty-five minutes deciding what to watch."
+    },
+    {
+     "shot": "close",
+     "say": "Then they watch something they've already seen. Then they fall asleep. Then they wake up, and it's asking if they're still watching. They're not. They never were."
+    },
+    {
+     "shot": "talk",
+     "say": "We studied this problem for two years. And we realized the issue isn't the content. The issue is the choice."
+    },
+    {
+     "shot": "demo",
+     "say": "So this is Pulp Remote. It has one button. The button says fine. You press it, the remote picks something, and you watch it. That's it. You said fine.",
+     "product": "remote"
+    },
+    {
+     "shot": "close",
+     "say": "No browsing. No scrolling. No trailer that starts playing on its own and shouts at you. Just you, a decision you didn't have to make, and peace."
+    },
+    {
+     "shot": "talk",
+     "say": "In early testing, couples using Pulp Remote reported forty percent fewer arguments. And sixty percent more documentaries about bridges. Nobody knows why. The remote really likes bridges."
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "design"
+   ],
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "I'd like to say a few words about the button. Because a button with one job has nowhere to hide."
+    },
+    {
+     "shot": "close",
+     "say": "We made four hundred buttons. Some were round. Some were softer round. One was a square, briefly, during a difficult week."
+    },
+    {
+     "shot": "talk",
+     "say": "We tested the word on the button, too. Okay. Sure. Whatever. Yes, fine. In the end, only fine felt right. It's the word you say when you've given up. But in a nice way."
+    },
+    {
+     "shot": "demo",
+     "say": "When you press it, there's a small, warm click. We tuned that click for nine months. It sounds like someone you trust saying, I'll handle it.",
+     "product": "remote"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Remote.",
+     "product": "remote",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "One button. Machined with the same care as everything we make, and labeled, with great restraint, fine.",
+     "product": "remote",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Powered by an all-new recommendation engine that has watched everything, and has opinions about bridges.",
+     "product": "remote",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "remote",
+     "text": "Just press fine.",
+     "sub": "It'll be fine.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "remote",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Hi, everyone. Bea again. Home and Ambience. Yesterday was my first event. Today is my second. I'm still looking at the dot. The dot and I are close now."
+    },
+    {
+     "shot": "close",
+     "say": "Today I want to talk about something we've been passionate about since day one. Tea."
+    },
+    {
+     "shot": "table",
+     "say": "This is Zest Kettle. It boils water. But it doesn't boil water to a temperature. It boils water to a mood.",
+     "product": "kettle"
+    },
+    {
+     "shot": "talk",
+     "say": "It gently senses how you're feeling, using a tiny sensor in the handle. And it chooses the right temperature for the moment. Calm, ninety degrees. Stressed, eighty. Monday, one hundred and five. Which shouldn't be possible. And yet."
+    },
+    {
+     "shot": "close",
+     "say": "And with Steam Notifications, Zest Kettle can send you a message, written in steam, on your kitchen window. It says things like, you've got this. Or, the water is ready. Mostly the second one."
+    },
+    {
+     "shot": "talk",
+     "say": "We've also included a whistle. But it doesn't whistle. It hums. A short, encouraging melody. We commissioned it from a composer. She cried when she heard it boil."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Zest Kettle.",
+     "product": "kettle",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Sculpted ceramic. A spout designed in collaboration with a team of fluid engineers and one very calm grandmother.",
+     "product": "kettle",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "A soft glowing ring that shows your mood. Orange for warm. Green for calm. And for Mondays, a color we had to invent.",
+     "product": "kettle",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In four colors. Each one boils water. We checked.",
+     "product": "kettle",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "kettle",
+     "text": "Boil how you feel.",
+     "sub": "Steep accordingly.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "kettle",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "presenters": [
+    "health"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "walk",
+     "say": "Hi. Priya. Health. On day one we talked about silence. On day two, your finger. Today, I want to talk about the most important thing you do every day."
+    },
+    {
+     "shot": "walk",
+     "say": "No, not walking. Sleeping. You spend a third of your life asleep. And until now, none of it has been backed up."
+    },
+    {
+     "shot": "close",
+     "say": "Think about it. Every night, you have amazing dreams. And every morning, they're gone. Forever. That's a lot of lost data."
+    },
+    {
+     "shot": "walk",
+     "say": "So we made Pulp Pillow. It looks like a pillow. It feels like a pillow. And while you sleep, it gently uploads your dreams to Pulp Cloud."
+    },
+    {
+     "shot": "demo",
+     "say": "In the morning, you open the Dreams app, and there they are. Organized by night. Searchable. You can share them with friends. Your friends probably won't watch them. That's fine.",
+     "product": "pillow"
+    },
+    {
+     "shot": "walk",
+     "say": "With Dream Memories, Pulp Pillow even makes a little slideshow of your best dreams, set to gentle music. Mine was mostly about being late for a meeting. Very moving."
+    },
+    {
+     "shot": "close",
+     "say": "Nightmares are stored separately, in an encrypted folder, that even we can't open. We tried. We were curious. It's locked. Good."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Pillow.",
+     "product": "pillow",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A breathable knit, woven around a custom chip that never sleeps. So that you can.",
+     "product": "pillow",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, memory foam. And memory. Two kinds of memory. Working together.",
+     "product": "pillow",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In three colors. Lavender, Pith and Peach. All of them soft. All of them listening, quietly, for dreams.",
+     "product": "pillow",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "pillow",
+     "text": "Sleep. Synced.",
+     "sub": "Your dreams, backed up.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "pillow",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "robotlab",
+   "presenters": [
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "Hi. It's me. I was the main tester for Pulp Pillow. Mostly because I was the only person on the team who was already asleep at work."
+    },
+    {
+     "shot": "close",
+     "say": "I slept on it for forty nights. Pulp Pillow backed up every single dream. Thirty-nine of them were about this lab. One of them was about a sandwich. That was a good night."
+    },
+    {
+     "shot": "table",
+     "say": "The Dreams app also tells you your Dream Score. It's out of a hundred. Mine is eleven. The pillow added a note. It said, please take a vacation.",
+     "product": "pillow"
+    },
+    {
+     "shot": "talk",
+     "say": "I showed the note to Dana. Dana said yes. Pip also said yes. Nope said no. So I'm going on vacation. After this. Right after this. Or tomorrow. Probably tomorrow."
+    },
+    {
+     "shot": "close",
+     "say": "Okay. Back to you. I'm going to go lie down on the pillow. For testing. It's still testing."
+    }
+   ]
+  },
+  {
+   "location": "rooftop",
+   "presenters": [
+    "watch",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Theo! The roof again. We need to stop meeting like this.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "I know. I'm afraid of heights. Nobody asked. It's fine. What are we showing them?",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "This is the Pulp Narrator. It's a small, silent drone. It follows you around, all day, and it narrates your life. Out loud. Like a nature documentary.",
+     "who": "watch"
+    },
+    {
+     "shot": "table",
+     "say": "Here we see the engineer, in his natural habitat. Nervous. Holding the drone. He has not slept in four days. He is doing his best.",
+     "who": "vo",
+     "product": "drone"
+    },
+    {
+     "shot": "close",
+     "say": "That's. Okay. That's very accurate. That's actually really nice to hear. Can it say that again?",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "It can say it whenever you want. Walk into a meeting. Here comes the leader, entering the clearing. Make a sandwich. A rare moment of triumph. Truly remarkable.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "It also works for sad moments. If you drop your ice cream, it says, nature can be cruel. And then it plays violin. Very softly.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "We think everyone deserves to feel like the star of their own documentary. Even on a Wednesday. Especially on a Wednesday.",
+     "who": "watch"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Narrator.",
+     "product": "drone",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A propeller so quiet, the only thing you'll hear is your own story.",
+     "product": "drone",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "A single camera that sees you the way a very kind wildlife filmmaker would.",
+     "product": "drone",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, a battery, a microphone, and a library of four hundred thousand dramatic pauses.",
+     "product": "drone",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "drone",
+     "text": "You're the documentary.",
+     "sub": "Remarkable. Truly.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "drone",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "robotlab",
+   "presenters": [
+    "eng",
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "two",
+     "say": "Theo, should we tell them about Nope?",
+     "who": "home"
+    },
+    {
+     "shot": "close",
+     "say": "Yes. So. Yesterday we introduced Nope. Nope disagrees with everything. And a lot of you bought Nope. More than we expected. Way more.",
+     "who": "eng"
+    },
+    {
+     "shot": "table",
+     "say": "And we got an email from Nope. Not about Nope. From Nope. Nope wrote to us. Nope said, quote, I disagree with being a product.",
+     "who": "eng",
+     "product": "nope"
+    },
+    {
+     "shot": "two",
+     "say": "So, we listened. Starting today, Nope is not a product. Nope is a team member. Nope has a desk. Nope attends meetings. Nope disagrees in all of them.",
+     "who": "home"
+    },
+    {
+     "shot": "close",
+     "say": "Nope has already blocked six features. Some of them were bad. Some of them were mine. Nope is right about most of them. I hate that.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "We also asked Nope to present something today. Nope said no. Which, honestly, we should have seen coming.",
+     "who": "home"
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "presenters": [
+    "drive"
+   ],
+   "walk": true,
+   "walkStart": 10,
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "walk",
+     "say": "Hello. I'm Rafa. I lead Mobility, which means I think about how things move. People. Bags. Feelings. Mostly bags."
+    },
+    {
+     "shot": "walk",
+     "say": "Travel is beautiful. But it comes with a burden. Literally. You carry it. Through airports. Up stairs. Down other stairs. Into the wrong taxi."
+    },
+    {
+     "shot": "close",
+     "say": "So we asked, what if your luggage carried itself? And then, what if it also had some thoughts about the trip?"
+    },
+    {
+     "shot": "table",
+     "say": "This is Pulp Carry. It's a suitcase. It has wheels. It follows you everywhere, about two steps behind. And it has a small screen, with eyes. So you know it's paying attention.",
+     "product": "carry"
+    },
+    {
+     "shot": "walk",
+     "say": "It tracks your every move. It never gets lost. And it comments, softly, about your packing. Four sweaters, for a beach trip? Bold. Very bold."
+    },
+    {
+     "shot": "close",
+     "say": "If you walk too fast, it sighs. If you leave it alone at the airport, it calls your mother. We added that one after a very long meeting with legal."
+    },
+    {
+     "shot": "walk",
+     "say": "In early testing, Pulp Carry followed one engineer to the airport, onto the plane, and all the way to Lisbon. Where it found an earbud, that had been missing since yesterday. They're traveling together now. They seem happy."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Carry.",
+     "product": "carry",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Aerospace-grade materials. Silent wheels. And a handle that you will never, ever, need to touch.",
+     "product": "carry",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, sensors, motors, a battery that lasts a full trip, and a small but firm opinion about your sweaters.",
+     "product": "carry",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "carry",
+     "text": "Travel light.",
+     "sub": "Let your luggage carry the weight. And the judgment.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "carry",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "presenters": [
+    "health",
+    "drive"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Rafa, can I ask about the health side of Pulp Carry? Because I have notes.",
+     "who": "health"
+    },
+    {
+     "shot": "two",
+     "say": "Of course. Pulp Carry walks about twelve thousand steps on a normal trip. And it counts them. For you. So your step goal is always met.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "Which, as the head of health, I have concerns about. The suitcase is getting fitter than our customers.",
+     "who": "health"
+    },
+    {
+     "shot": "two",
+     "say": "That's true. One of our suitcases ran a half marathon last week. Unofficially. Its owner was asleep in a hotel.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "So starting today, Pulp Carry has a new mode. Walk With Me. It moves slightly slower, so you have to keep up. And then it slightly faster. It's a personal trainer, with wheels, and your clothes inside.",
+     "who": "health"
+    }
+   ]
+  },
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo",
+    "design"
+   ],
+   "walk": true,
+   "walkStart": 45,
+   "beats": [
+    {
+     "shot": "walk",
+     "say": "Imogen, three events in three days. How are you feeling?",
+     "who": "ceo"
+    },
+    {
+     "shot": "two",
+     "say": "Honestly? Wonderful. Tired. Mostly wonderful. I found myself designing a corner in my sleep last night. My pillow uploaded it. It's beautiful.",
+     "who": "design"
+    },
+    {
+     "shot": "walk",
+     "say": "Our planet commitments continue, too. Pulp Phone Three is made with one hundred percent recycled titanium. Some of it was Pulp Phone One. Which, as you know, was very easy to recycle. Because there wasn't much of it.",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "And Pulp Carry is the first suitcase that offsets its own carbon. It just refuses to go on short flights. It sits by the door. Looking at you. Until you take the train.",
+     "who": "design"
+    },
+    {
+     "shot": "walk",
+     "say": "Before we go inside, I want to thank everyone who watched these past three days. Even if you watched them on a phone you couldn't find. We appreciate the effort.",
+     "who": "ceo"
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "Before we wrap up, a quick word about Pulp OS Three. It's available today, as a free update. It's our third update in three days. We've been very busy."
+    },
+    {
+     "shot": "close",
+     "say": "The biggest change is something we call Gentle Mornings. Your alarm no longer rings. It just slowly turns up the good news on the edge of your phone, until you're ready to face the day."
+    },
+    {
+     "shot": "talk",
+     "say": "We've also redesigned the Weather app. It now shows the weather, and then tells you it's going to be okay. Even if it's raining. Especially if it's raining."
+    },
+    {
+     "shot": "close",
+     "say": "And Messages gets a new feature called Read Later, Really. It marks a message as read, and then actually reminds you to read it. In about a week. When you're ready."
+    },
+    {
+     "shot": "talk",
+     "say": "Pulp OS Three. It's designed to feel like a deep breath. In software form."
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "",
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "So that's Pulp Phone Three. Pulp Remote. Zest Kettle. Pulp Pillow. Pulp Narrator. And Pulp Carry. Plus our newest team member, Nope, who disagreed with this list."
+    },
+    {
+     "shot": "close",
+     "say": "It's been an amazing three days. We have shown you more products than ever before. Several of our competitors have called to ask if we're okay. We said fine. We pressed the button."
+    },
+    {
+     "shot": "talk",
+     "say": "But there's one thing we've never made. One thing people have asked about for years. They asked quietly. In forums. At dinner parties. In a lot of very long videos."
+    },
+    {
+     "shot": "close",
+     "say": "And today, we're ready. There is one more thing."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "onemore",
+     "dur": 5
+    },
+    {
+     "shot": "hero",
+     "product": "car",
+     "dur": 7
+    },
+    {
+     "shot": "spin",
+     "say": "This is Pulp Drive. Our very first car.",
+     "product": "car",
+     "who": "ceo"
+    },
+    {
+     "shot": "macro",
+     "say": "It has one seat. One wheel at every corner. And a single, beautiful purpose.",
+     "product": "car",
+     "who": "ceo"
+    },
+    {
+     "shot": "spin",
+     "say": "Every morning, Pulp Drive leaves your house, drives to the store, buys passionfruit, and comes back. That's it. That's what it does. It does it perfectly.",
+     "product": "car",
+     "who": "drive"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, a battery, an electric motor, a very small trunk shaped exactly like a passionfruit, and room for one passionfruit. Two, if they're small.",
+     "product": "car",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "It cannot drive you anywhere. We tried. It drove to the store. It bought passionfruit. It came back. You were still in it. You were confused.",
+     "product": "car",
+     "back": true,
+     "who": "drive"
+    },
+    {
+     "shot": "tagline",
+     "product": "car",
+     "text": "It drives to the store.",
+     "sub": "That's the whole car.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "car",
+     "dur": 5,
+     "scale": 0.7
+    }
+   ]
+  },
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo",
+    "eng",
+    "drive"
+   ],
+   "beats": [
+    {
+     "shot": "two",
+     "say": "Pre-orders open today. Pulp Phone Three ships Friday. Pulp Drive ships in the spring. It drives itself to your house. It may stop at the store on the way.",
+     "who": "ceo"
+    },
+    {
+     "shot": "talk",
+     "say": "Thank you all. I'm going to go home now. I have a pillow. It's going to back up the best dream I've had in years. It's this. It's today.",
+     "who": "eng"
+    },
+    {
+     "shot": "close",
+     "say": "And if you see a suitcase and an earbud traveling together in Lisbon. Please, let them be.",
+     "who": "drive"
+    },
+    {
+     "shot": "two",
+     "say": "And Theo, enjoy that vacation. You've earned it. Three events. Three sides. Zero sleep.",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "I'm leaving right now. Pulp Carry is already packed. It packed itself. It brought four sweaters. It's judging me for it.",
+     "who": "eng"
+    },
+    {
+     "shot": "talk",
+     "say": "From all of us here at Passionfruit Park. Thank you. Stay ripe. See you tomorrow.",
+     "who": "ceo"
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "end",
+     "dur": 12,
+     "text": "Thank you.",
+     "sub": "Passionfruit is a fictional company. Products shown do not exist. Nope reviewed this disclaimer and disagrees."
+    }
+   ]
+  }
+ ]
+}
