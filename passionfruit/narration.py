@@ -5,7 +5,7 @@ Writes eventN/build/timeline.json (every shot with start/end; total duration com
 eventN/build/cues.json and eventN/build/vo/*.wav."""
 import sys, os, json
 
-FPS = 30
+FPS = 24
 # default length of a beat that has no speech (seconds)
 DEF = dict(flyover=14, wide=5, talk=4, close=4, walk=5, two=4, demo=5, table=5, spin=7, hero=7, explode=8, macro=5,
            lineup=7, tagline=4.5, price=4.5, title=3.5, logo=6, onemore=5, end=12)

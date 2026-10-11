@@ -93,7 +93,7 @@ jobs:
           P=${{ matrix.part }}; cd $D
           if [ $K = sw ]; then a=$(( P * 15 )); b=$(( a + 15 )); PAGE=$D/index.html node ../render.mjs $a $b part$P.mp4
           else read a b < <(jq -r --argjson p $P '.duration as $d | "\($d*$p/20) \($d*($p+1)/20)"' build/timeline.json)
-            PAGE="passionfruit/index.html?ev=$N" node ../../letsplay/render.mjs $a $b part$P.mp4 30; fi
+            PAGE="passionfruit/index.html?ev=$N" node ../../letsplay/render.mjs $a $b part$P.mp4 24; fi
       - uses: actions/upload-artifact@v4
         with: { name: 'part-${{ matrix.ep }}-${{ matrix.part }}', path: '${{ env.D }}/part${{ matrix.part }}.mp4' }
   publish:
