@@ -506,9 +506,16 @@ for (const s of SHOTS) { const sh = s.shot; if (!s.who || LT[s.who] || !PEOPLE[s
 function findShot(t) { let lo = 0, hi = SHOTS.length - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (SHOTS[m].start <= t) lo = m; else hi = m - 1; } return lo; }
 
 let curSet = null;
+// segment "time": re-light outdoor sets (sunrise / day = the set's own look)
+const OUTDOOR = new Set(['campus', 'rooftop', 'park', 'beach', 'desert', 'snow', 'city']);
+const TIMES = {
+  sunset: { top: '#3d4c8f', bot: '#ff9a5c', sunCol: '#ffb070', sunDir: [0.9, 0.08, -0.4], sun: ['#ffa060', 2.2], hemi: ['#c8a8c8', '#5a4030', 0.8], fog: ['#f2a676', 120, 1000], exp: 1.0, env: 0.55 },
+  night: { top: '#050a1e', bot: '#1c2550', sunCol: '#c8d4ff', sunDir: [-0.4, 0.35, -0.8], sun: ['#9fb4ff', 0.35], hemi: ['#4a5a9a', '#101018', 0.28], fog: ['#121a36', 60, 700], exp: 0.85, env: 0.12 },
+  sunrise: { top: '#4a6fae', bot: '#ffb98a', sunCol: '#ffcf9a', sunDir: [-0.85, 0.1, -0.5], sun: ['#ffc58e', 2.6], hemi: ['#bcd0f0', '#5a5a3a', 0.9], fog: ['#f0c6a4', 150, 1300] } };
+let curTime = null;
 function useSet(name) {
   if (curSet !== name) { for (const k in SETS) SETS[k].g.visible = k === name; curSet = name; }
-  const L = SETS[name].look; skyMat.uniforms.top.value.set(L.top); skyMat.uniforms.bot.value.set(L.bot); skyMat.uniforms.sunCol.value.set(L.sunCol); skyMat.uniforms.sunDir.value.set(...L.sunDir);
+  const L = OUTDOOR.has(name) && TIMES[curTime] ? { ...SETS[name].look, ...TIMES[curTime] } : SETS[name].look; skyMat.uniforms.top.value.set(L.top); skyMat.uniforms.bot.value.set(L.bot); skyMat.uniforms.sunCol.value.set(L.sunCol); skyMat.uniforms.sunDir.value.set(...L.sunDir);
   sun.color.set(L.sun[0]); sun.intensity = L.sun[1]; hemi.color.set(L.hemi[0]); hemi.groundColor.set(L.hemi[1]); hemi.intensity = L.hemi[2];
   scene.fog.color.set(L.fog[0]); scene.fog.near = L.fog[1]; scene.fog.far = L.fog[2]; scene.environmentIntensity = L.env; renderer.toneMappingExposure = L.exp;
   const S = sun.shadow.camera; S.left = S.bottom = -L.shadow; S.right = S.top = L.shadow; S.updateProjectionMatrix();
@@ -597,6 +604,7 @@ window.renderAt = function (t) {
   const i = findShot(t), S = SHOTS[i], seg0 = EV.segments[S.si], B = seg0.beats[S.bi]; const u = clamp((t - S.start) / (S.end - S.start), 0, 1);
   for (const id in PEOPLE) PEOPLE[id].root.visible = false; for (const k in PRODUCTS) PRODUCTS[k].g.visible = false; LOGO3D.visible = false; pedestal.visible = false; sweep.intensity = 0;
   const sh = S.shot; let cam = null, set = null, focus = V3();
+  curTime = seg0.time || EV.time || null;
   if (CARD_SHOTS.has(sh)) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); }
   else {
     if (sh === 'flyover') { set = useSet('campus'); const k = ss(u) * .85 + u * .15; cam = { p: FLY.getPoint(k), l: FLYL.getPoint(Math.min(1, k * 1.02)), fov: 42 }; focus.copy(cam.l); if (seg0.presenters) setupPeople(t, S.si, S, B); }

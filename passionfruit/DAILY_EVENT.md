@@ -24,7 +24,15 @@ The film is a deadpan parody of a modern **pre-recorded** tech launch film by th
 - **Structure**: open with a `flyover` (campus at sunrise, `text`/`sub` overlay), CEO intro, then alternate *presenter segment in a location* → *studio beauty segment for the product* (hero/spin/macro/explode/lineup/tagline/price). End with `onemore` → a surprise product → closing on campus → `end` card (its `sub` is fine print).
 - **Fresh absurd products every day** (5–8 + the one-more-thing). Over-serious speeches about ridiculous features, said with a straight face. Callbacks to earlier events are welcome (the very thin phone that can't be found, Pip agreeing, the helium laptop, Pebble doing nothing…) — max 3 per event.
 - **Vary**: use at least 8 different locations (from Event 4 on: at least 4 of the newer ones — beach, desert, cafe, datacenter, factory, snow, city, space) and give each place a reason in the script (waterproof test on the beach, car on the desert track, the cloud in the datacenter, launch in space…), rotate who presents, use walk-and-talk (`"walk": true`) in 2–4 segments, mix shot types, ~1 tagline per product.
-- **ORIGINAL ONLY**: no real company names, product names, people, slogans or logos (no "Mac", "Pro Max", "AirPods", "Siri", etc.). Use the fruit vocabulary: Pulp, Rind, Pith, Seed(s), Nectar, Zest, Juice.
+- **Variety (Event 5 onward — every event must feel different from the last three)**. Before writing, list the previous 3 events' theme, opening, host, products and locations, then pick differently:
+  - **Theme / format** — pick one not used in the last 3 events: Home event · Health & Wellness event · Travel event · Back-to-School · Holiday / Winter special · Developer conference parody (for app makers) · Anniversary / retro event · The Apology Event (a recall of a past product, played totally straight) · Sustainability special · "Small Things" (only tiny products) · "Big Things" (only huge products) · a city-tour event (every segment a different place) · Pets event · Kitchen event · Office/Work event · a mystery event (nobody knows what's being launched until the end).
+  - **Opening** — rotate: drone flyover at sunrise · cold open on a product hero shot · the host already mid-walk · a `title` card with a fake countdown · opening in space/desert/beach at night · a presenter other than the CEO opens.
+  - **Host** — the CEO hosts at most every other event; otherwise another presenter (or a new one) hosts and the CEO cameos.
+  - **Products** — no product *category* repeated from the previous event (phone, watch, earbuds, laptop, home assistant, chip, kettle, …). At least half the products must be new kinds of objects (use `custom` shapes + features). A phone appears at most every other event.
+  - **Places & light** — at least 8 locations, no two segments in a row in the same place, at least 2 segments with `"time": "sunset"` or `"night"`, and the opening/closing places differ from the previous event.
+  - **Ending** — vary the "one more thing": sometimes two more things, sometimes the one more thing is cancelled live, sometimes it's tiny, sometimes it's a callback paid off.
+  - **Running gags** — at most 3 callbacks; invent at least 3 brand-new recurring-style gags per event.
+: no real company names, product names, people, slogans or logos (no "Mac", "Pro Max", "AirPods", "Siri", etc.). Use the fruit vocabulary: Pulp, Rind, Pith, Seed(s), Nectar, Zest, Juice.
 - Cast: reuse event 1's cast (same ids/looks/voices) so presenters stay recognizable; you may add 1 new presenter per event (new id, `look`, unused Kokoro voice).
 - Keep lines ≤ ~40 words; one idea per beat; jokes land at the END of a line.
 
@@ -69,6 +77,7 @@ Finish with a 3-line summary and `https://github.com/susduolingo997-arch/private
   "segments": [ { "location": "campus|lab|robotlab|rooftop|park|theater|studio|beach|desert|cafe|datacenter|factory|snow|city|space",
       "presenters": ["ceo", "design"],       // who is on set (first = default speaker)
       "walk": false, "walkStart": 0,         // walk-and-talk along the set's path for the whole segment
+      "time": "sunrise|day|sunset|night",     // re-lights outdoor places (campus rooftop park beach desert snow city); omit = the place's own light
       "screen": "text on the theater screen", "music": "uplift|minimal|pulse|warm|gentle|piano|dark",
       "beats": [ { "shot": "...", "say": "spoken line", "who": "<cast id>", "voice": "override", "speed": 1.0,
                    "product": "<id>", "products": ["<id>", ...], "text": "overlay / tagline", "sub": "small line",
