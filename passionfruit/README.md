@@ -3,8 +3,9 @@
 A daily, fully generated parody of a pre-recorded tech launch film by **Passionfruit**, a fictional company
 (original characters, products, logo and typography — any resemblance to real launch films is the joke).
 
-- `engine.js` — the whole film engine (Three.js, deterministic `window.renderAt(t)`): 7 sets (campus with the round
-  glass building, design lab, robot test lab, rooftop, park, empty theater, dark product studio), blocky presenter rig
+- `engine.js` — the whole film engine (Three.js, deterministic `window.renderAt(t)`): 15 sets (campus with the round
+  glass building, design lab, robot test lab, rooftop, park, empty theater, dark product studio, beach, desert test
+  track, cafe, datacenter, factory line, snowy mountain, city street with the store, space station), blocky presenter rig
   with lip-sync, parametric product generator, camera moves (drone flyover, walk-and-talk, orbit/spin, macro, exploded
   view, push-ins, fly-through transitions), taglines, price cards, lower-thirds, subtitles.
 - `narration.py` — Kokoro TTS with one voice per presenter; lays out the timeline, so the film length comes from the script.

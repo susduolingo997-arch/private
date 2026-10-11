@@ -50,7 +50,8 @@ def put(x, t, g=1.0, pan=0.0, buf=None):
     mixL[i:i + len(x)] += x * g * np.sqrt((1 - pan) / 2) * 1.414; mixR[i:i + len(x)] += x * g * np.sqrt((1 + pan) / 2) * 1.414
 
 # ---------------------------------------------------------------- music: one generated cue per segment, mood by location
-MOODS = dict(campus=(104, 60, 'uplift'), lab=(96, 62, 'minimal'), robotlab=(118, 57, 'pulse'), rooftop=(92, 65, 'warm'),
+MOODS = dict(beach=(96, 65, 'warm'), desert=(110, 57, 'pulse'), cafe=(84, 62, 'piano'), datacenter=(120, 50, 'pulse'), factory=(116, 60, 'minimal'),
+             snow=(80, 64, 'gentle'), city=(102, 60, 'uplift'), space=(66, 48, 'dark'), campus=(104, 60, 'uplift'), lab=(96, 62, 'minimal'), robotlab=(118, 57, 'pulse'), rooftop=(92, 65, 'warm'),
              park=(88, 67, 'gentle'), theater=(80, 60, 'piano'), studio=(70, 50, 'dark'))
 PROGS = dict(uplift=[(0, 'M'), (7, 'M'), (9, 'm'), (5, 'M')], minimal=[(0, 'M'), (5, 'M'), (9, 'm'), (7, 'M')], pulse=[(0, 'm'), (8, 'M'), (3, 'M'), (10, 'M')],
              warm=[(0, 'M'), (9, 'm'), (5, 'M'), (7, 'M')], gentle=[(0, 'M'), (4, 'm'), (5, 'M'), (7, 'M')], piano=[(0, 'M'), (5, 'M'), (9, 'm'), (7, 'M')], dark=[(0, 'm'), (8, 'M'), (5, 'm'), (7, 'M')])
@@ -111,10 +112,11 @@ for s in TL['shots']:
     if k in ('talk', 'walk', 'wide', 'close', 'two', 'demo', 'table'):
         t = a
         while t < b:
-            if loc in ('park', 'campus'): put(s_chirp(), t + rs.uniform(0, 2), 0.25, rs.uniform(-.8, .8))
+            if loc in ('park', 'campus', 'city', 'beach'): put(s_chirp(), t + rs.uniform(0, 2), 0.25, rs.uniform(-.8, .8))
             if loc == 'robotlab': put(s_servo(), t + rs.uniform(0, 2), 0.35, rs.uniform(-.8, .8))
             t += 2.5
-        if loc == 'rooftop': put(fade(lp(noise(b - a), 350), 0.5, 0.5) * 0.25, a)
+        if loc in ('rooftop', 'desert', 'snow'): put(fade(lp(noise(b - a), 350), 0.5, 0.5) * 0.25, a)
+        if loc == 'beach': put(fade(lp(noise(b - a), 600) * (0.5 + 0.5 * np.sin(2 * np.pi * 0.12 * T(b - a)) ** 2), 0.5, 0.5) * 0.35, a)
 for a, b in ONE_MORE:  # silence the music for "one more thing"
     i, j = int(a * SR), int(b * SR); e = np.ones(j - i, np.float32); r = min(int(SR * 0.6), len(e) // 2); e[:r] = np.linspace(1, 0, r); e[r:] = 0; music[i:j] *= e
 

@@ -209,6 +209,109 @@ function drawScreen(text) {
   screenTex.needsUpdate = true;
 }
 Object.assign(SETS, { campus: mkCampus(), lab: mkLab(), robotlab: mkRobot(), rooftop: mkRooftop(), park: mkPark(), studio: mkStudio(), theater: mkTheater() });
+// ---- more locations (event 4+)
+function palms(g, pts) { for (const [x, z, s] of pts) { const p = new THREE.Group(); p.position.set(x, 0, z); p.scale.setScalar(s || 1); p.rotation.y = x * 1.7; g.add(p);
+  for (let k = 0; k < 6; k++) { const seg = box(.35, 1, .35, M('#8a6a44', .9), k * .12, .5 + k, 0, p); seg.rotation.z = -.06 * k; }
+  for (let k = 0; k < 6; k++) { const f = box(.5, .08, 2.6, M('#3f9a4a', .8), .7, 6.1, 0, p); f.geometry = BOXG; f.rotation.set(-.35, k * Math.PI / 3, 0); f.position.set(.7 + Math.sin(k * Math.PI / 3) * 1.1, 6.0, Math.cos(k * Math.PI / 3) * 1.1); } } }
+function mkBeach() {
+  const g = new THREE.Group(); mesh(new THREE.PlaneGeometry(400, 200).rotateX(-Math.PI / 2), M('#ecd9a8', .95), 0, 0, -40, g);
+  mesh(new THREE.PlaneGeometry(3000, 2000).rotateX(-Math.PI / 2), M('#2f8fb8', .2, .3), 0, -.05, -1060, g);
+  mesh(new THREE.PlaneGeometry(400, 6).rotateX(-Math.PI / 2), M('#f7f2e4', .6), 0, .02, -58, g);
+  palms(g, [[-9, -6, 1], [-14, 2, 1.1], [11, -8, .9], [16, 1, 1.2], [-22, -12, 1], [24, -14, 1.1]]);
+  const um = new THREE.Group(); um.position.set(5, 0, -3); g.add(um); mesh(new THREE.CylinderGeometry(.05, .05, 2.6, 8), M('#eeeeee', .5), 0, 1.3, 0, um); mesh(new THREE.ConeGeometry(1.8, .7, 12), M(BRAND.orange, .7), 0, 2.7, 0, um);
+  box(1.2, .03, 2.2, M('#7b2cbf', .8), 5.4, .02, -1.5, g); box(.6, .4, .4, M('#ffffff', .5), 3.8, .2, -2.4, g);
+  const path = [[-12, 0, 2], [12, 0, 2]];
+  return { g, look: look({ top: '#3f86d8', bot: '#cfeeff', sunDir: [0.4, 0.6, -0.8], sunCol: '#fff3d0', sun: ['#fff1d6', 2.4], hemi: ['#d6eeff', '#c9b88a', 1.1], fog: ['#cfeeff', 150, 1500] }),
+    marks: [[0, 0, 2, 0], [1.6, 0, 2.3, -.2], [-1.6, 0, 2.3, .2]], path, wide: [[-8, 3, 12], [0, 1.3, -6], 44] };
+}
+function mkDesert() {
+  const g = new THREE.Group(); mesh(new THREE.PlaneGeometry(3000, 3000).rotateX(-Math.PI / 2), M('#d9a46a', .95), 0, 0, 0, g);
+  mesh(new THREE.PlaneGeometry(10, 3000).rotateX(-Math.PI / 2), M('#3a3a3e', .9), 0, .02, 0, g);
+  instanced(BOXG, M('#f4f4f0', .6), Array.from({ length: 120 }, (_, i) => ({ p: [0, .03, -600 + i * 10], s: [.25, .02, 4] })), g);
+  const mesas = scatter(51, 16, r => { const a = r() * 6.283, d = 250 + r() * 500; return { p: [Math.cos(a) * d, 0, Math.sin(a) * d], s: [40 + r() * 80, 30 + r() * 60, 40 + r() * 80], r: r() * 3, c: ['#b8693e', '#c97b4a', '#a85a34'][Math.floor(r() * 3)] }; });
+  instanced(new THREE.CylinderGeometry(.8, 1, 1, 7).translate(0, .5, 0), new THREE.MeshLambertMaterial({ flatShading: true }), mesas, g);
+  instanced(new THREE.ConeGeometry(.18, .5, 10).translate(0, .25, 0), M('#ff6a00', .6), Array.from({ length: 30 }, (_, i) => ({ p: [i % 2 ? 6 : -6, 0, -60 + i * 4] })), g);
+  for (const x of [-12, 12]) { const c = new THREE.Group(); c.position.set(x, 0, -15); g.add(c); box(.5, 3, .5, M('#4f8f3e', .8), 0, 1.5, 0, c); box(.4, 1.2, .4, M('#4f8f3e', .8), .5, 2, 0, c); }
+  const flag = new THREE.Group(); flag.position.set(8, 0, -2); g.add(flag); box(.08, 4, .08, M('#ccc', .4, .8), 0, 2, 0, flag); box(1.4, .8, .03, M(BRAND.purple, .7), .7, 3.5, 0, flag);
+  return { g, look: look({ top: '#5f9fe0', bot: '#f6dcb4', sunDir: [0.3, 0.8, 0.4], sun: ['#fff0d0', 2.8], hemi: ['#e8f0ff', '#b07a4a', 1.0], fog: ['#f3d9b5', 120, 1400] }),
+    marks: [[3, 0, 2, 0], [4.6, 0, 2.3, -.2], [1.4, 0, 2.3, .2]], path: [[8, 0, 0], [8, 0, -40]], wide: [[14, 4, 18], [0, 1, -10], 46] };
+}
+function mkCafe() {
+  const g = new THREE.Group();
+  const fl = ctex(256, 256, (c, w, h) => { for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) { c.fillStyle = (x + y) % 2 ? '#e9ddc8' : '#5a4636'; c.fillRect(x * 32, y * 32, 32, 32); } }); fl.wrapS = fl.wrapT = THREE.RepeatWrapping; fl.repeat.set(10, 10);
+  mesh(new THREE.PlaneGeometry(40, 40).rotateX(-Math.PI / 2), new THREE.MeshLambertMaterial({ map: fl }), 0, 0, 0, g);
+  box(30, 6, .3, M('#c9a27a', .8), 0, 3, -8, g); box(.3, 6, 20, M('#d9c4a6', .8), -12, 3, 0, g);
+  box(12, 4, .1, M('#bfe3ff', .1, 0, { emissive: '#bfe3ff', emissiveIntensity: .6 }), 4, 3, -7.8, g);
+  box(8, 1.1, 1.2, M('#3a2a20', .6), -6, .55, -5.5, g); box(8.2, .08, 1.4, M('#f2efe8', .3), -6, 1.12, -5.5, g);
+  mesh(new THREE.CylinderGeometry(.3, .3, .6, 16), M('#c8ccd2', .2, .9), -8, 1.46, -5.6, g); box(.8, .8, .6, M('#c8ccd2', .2, .9), -4.5, 1.56, -5.6, g);
+  for (const [x, z] of [[2, -3], [6, -2], [3, 2], [7, 3], [-3, 3]]) { mesh(new THREE.CylinderGeometry(.6, .6, .05, 20), M('#f2efe8', .4), x, .78, z, g); box(.08, .75, .08, M('#222', .5, .7), x, .38, z, g); for (const s of [-1, 1]) box(.45, .45, .45, M('#8a5a3a', .8), x + s * .9, .23, z, g); mesh(new THREE.CylinderGeometry(.07, .06, .14, 10), M('#ffffff', .4), x + .15, .88, z, g); }
+  for (let i = 0; i < 6; i++) { const l = mesh(new THREE.SphereGeometry(.18, 12, 8), M('#fff2c8', .5, 0, { emissive: '#ffd48a', emissiveIntensity: 1.5 }), -10 + i * 4, 4.2, -2, g); box(.02, 1.6, .02, M('#222', .5), -10 + i * 4, 5.0, -2, g); }
+  return { g, look: look({ top: '#2a1e16', bot: '#2a1e16', sun: ['#ffe2b8', 1.2], sunDir: [0.4, 1, 0.8], hemi: ['#ffe6c8', '#5a4030', 1.1], fog: ['#2a1e16', 25, 60], env: .5 }),
+    marks: [[0, 0, 0, 0], [1.6, 0, .3, -.2], [-1.6, 0, .3, .2]], path: [[-6, 0, 1], [8, 0, 1]], wide: [[9, 3, 9], [-1, 1.2, -3], 44] };
+}
+const LEDS = [];
+function mkDatacenter() {
+  const g = new THREE.Group(); mesh(new THREE.PlaneGeometry(80, 80).rotateX(-Math.PI / 2), M('#20242c', .4, .4), 0, 0, 0, g);
+  const racks = [], leds = []; const r = rng(61);
+  for (const x of [-4.5, -2.5, 2.5, 4.5]) for (let z = -30; z < 0; z += 1.3) { racks.push({ p: [x, 1.4, z], s: [1.1, 2.8, 1.2] }); for (let k = 0; k < 6; k++) leds.push({ p: [x + (x < 0 ? .56 : -.56), .5 + k * .38, z + (r() - .5) * .8], s: [.02, .05, .12], c: ['#38bdf8', '#5cc96b', '#ffd23f', '#7b2cbf'][Math.floor(r() * 4)] }); }
+  instanced(BOXG, M('#2b3038', .4, .6), racks, g);
+  const L = instanced(BOXG, new THREE.MeshBasicMaterial({ toneMapped: false }), leds, g); LEDS.push(L);
+  box(14, .1, 40, M('#cfe8ff', .3, 0, { emissive: '#9fd3ff', emissiveIntensity: .35 }), 0, 4.5, -14, g);
+  return { g, look: look({ top: '#0b0f16', bot: '#0b0f16', sun: ['#bfe0ff', .8], sunDir: [0, 1, .3], hemi: ['#9fc8ff', '#101820', .9], fog: ['#0b0f16', 12, 45], env: .5 }),
+    marks: [[0, 0, 2, 0], [1.5, 0, 2.3, -.2], [-1.5, 0, 2.3, .2]], path: [[0, 0, 2], [0, 0, -24]], wide: [[0, 2.2, 6], [0, 1.4, -14], 50],
+    update(t) { L.material.color.setScalar(.7 + .3 * Math.sin(t * 9)); } };
+}
+const BELT = [];
+function mkFactory() {
+  const g = new THREE.Group(); mesh(new THREE.PlaneGeometry(80, 80).rotateX(-Math.PI / 2), M('#d6d9de', .5), 0, 0, 0, g);
+  box(60, 12, .4, M('#eef0f2', .7), 0, 6, -12, g);
+  box(24, .8, 1.4, M('#3a3f46', .6, .3), 0, .4, -4, g); box(24, .05, 1.2, M('#16181c', .9), 0, .83, -4, g);
+  for (let i = 0; i < 14; i++) { const o = mesh(new RoundedBoxGeometry(.5, .08, .9, 3, .03), M(i % 3 ? '#c9c9d0' : BRAND.purple, .3, .5), 0, .9, -4, g); BELT.push(o); }
+  for (const x of [-6, 0, 6]) { box(.3, 5, .3, M('#ff8a3d', .5), x - 1.5, 2.5, -5.5, g); box(.3, 5, .3, M('#ff8a3d', .5), x + 1.5, 2.5, -5.5, g); box(3.3, .3, .3, M('#ff8a3d', .5), x, 5, -5.5, g); box(.3, 1.6, .3, M('#2b2f36', .5), x, 4.1, -4.4, g); }
+  instanced(BOXG, M('#ffffff', .2, 0, { emissive: '#ffffff', emissiveIntensity: 1.2 }), Array.from({ length: 10 }, (_, i) => ({ p: [-18 + i * 4, 9, -2], s: [2.5, .1, 1] })), g);
+  return { g, look: look({ top: '#e8ebef', bot: '#e8ebef', sun: ['#ffffff', 1.2], sunDir: [.2, 1, .5], hemi: ['#ffffff', '#b8bcc4', 1.0], fog: ['#e3e6ea', 25, 70], env: .6, exp: .9 }),
+    marks: [[0, 0, -1.4, 0], [1.6, 0, -1.1, -.2], [-1.6, 0, -1.1, .2]], path: [[-10, 0, -1.6], [10, 0, -1.6]], wide: [[9, 3.5, 7], [0, 1, -4], 46],
+    update(t) { BELT.forEach((o, i) => { o.position.x = ((i * 1.8 + t * 1.2) % 25.2) - 12.6; }); } };
+}
+function mkSnow() {
+  const g = new THREE.Group(); mesh(new THREE.PlaneGeometry(3000, 3000).rotateX(-Math.PI / 2), M('#e2eaf6', .9), 0, 0, 0, g);
+  const peaks = scatter(71, 22, r => { const a = r() * 6.283, d = 200 + r() * 600; const hh = 120 + r() * 260; return { p: [Math.cos(a) * d, 0, Math.sin(a) * d], s: [hh * .9, hh, hh * .9], r: r() * 3, c: ['#dfe8f5', '#c9d6e8', '#f2f6fc'][Math.floor(r() * 3)] }; });
+  instanced(new THREE.ConeGeometry(1, 1, 6).translate(0, .5, 0), new THREE.MeshLambertMaterial({ flatShading: true }), peaks, g);
+  const pines = scatter(73, 160, r => { const x = (r() - .5) * 240, z = -10 - r() * 200; return Math.abs(x) < 8 && z > -30 ? null : { p: [x, 0, z], s: [1 + r(), 2 + r() * 2, 1 + r()], r: r() * 3, c: ['#2f5a3a', '#3a6a46', '#24503a'][Math.floor(r() * 3)] }; });
+  instanced(new THREE.ConeGeometry(1.4, 3, 7).translate(0, 1.5, 0), new THREE.MeshLambertMaterial({ flatShading: true }), pines, g);
+  const cab = new THREE.Group(); cab.position.set(-7, 0, -8); g.add(cab); box(5, 3, 4, M('#7a4a2a', .9), 0, 1.5, 0, cab); const roof = box(5.6, .3, 3, M('#ffffff', .8), 0, 3.6, -.9, cab); roof.rotation.x = .6; const roof2 = box(5.6, .3, 3, M('#ffffff', .8), 0, 3.6, .9, cab); roof2.rotation.x = -.6; box(1.2, 1, .1, M('#ffd48a', .5, 0, { emissive: '#ffb84a', emissiveIntensity: 1 }), 1.2, 1.6, 2.02, cab);
+  return { g, look: look({ top: '#7fa8dc', bot: '#eef4ff', sunDir: [-.5, .5, -.6], sun: ['#ffffff', 2.0], hemi: ['#e6eefa', '#9fb0c8', 0.85], fog: ['#e3ecf8', 300, 1400], exp: .78 }),
+    marks: [[0, 0, 2, 0], [1.6, 0, 2.3, -.2], [-1.6, 0, 2.3, .2]], path: [[-10, 0, 3], [10, 0, 3]], wide: [[8, 3, 12], [-2, 1.4, -4], 44] };
+}
+function mkCity() {
+  const g = new THREE.Group(); mesh(new THREE.PlaneGeometry(400, 400).rotateX(-Math.PI / 2), M('#4a4d55', .9), 0, 0, 0, g);
+  box(400, .2, 6, M('#b9b4aa', .9), 0, .1, 8, g); box(400, .2, 6, M('#b9b4aa', .9), 0, .1, -12, g);
+  instanced(BOXG, M('#f2f2f2', .6), Array.from({ length: 8 }, (_, i) => ({ p: [-6 + i * 1.2, .02, 0], s: [.6, .02, 6] })), g);
+  const r = rng(81); const bl = [];
+  for (let x = -120; x < 120; x += 12) { if (Math.abs(x) < 10) continue; for (const z of [-22, 18]) { const hh = 10 + r() * 40; bl.push({ p: [x, hh / 2, z + (z < 0 ? -r() * 4 : r() * 4)], s: [10, hh, 8], c: ['#c9b6a0', '#a7b4c4', '#d8d2c6', '#8fa1b8', '#b98a6a'][Math.floor(r() * 5)] }); } }
+  instanced(BOXG, new THREE.MeshLambertMaterial(), bl, g);
+  const store = new THREE.Group(); store.position.set(0, 0, -19); g.add(store);
+  box(14, 7, 10, M('#d8ecf8', .05, .3, { transparent: true, opacity: .55 }), 0, 3.6, 0, store); box(14.2, .3, 10.2, M('#f4f4f4', .4), 0, 7.2, 0, store);
+  mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshBasicMaterial({ map: logoTex, transparent: true }), 0, 5, 5.05, store);
+  for (const x of [-4, 0, 4]) box(3, .1, 1.4, M('#e8e4dc', .5), x, 1, 1, store);
+  for (const x of [-14, 14]) { box(.15, 5, .15, M('#333', .5, .7), x, 2.5, 5.5, g); mesh(new THREE.SphereGeometry(.3, 10, 8), M('#fff2c8', .5, 0, { emissive: '#ffd48a', emissiveIntensity: .6 }), x, 5, 5.5, g); }
+  return { g, look: look({ top: '#6f9ad8', bot: '#f4dcc0', sunDir: [.8, .35, .3], sunCol: '#ffe0b0', sun: ['#ffe0b8', 2.2], hemi: ['#dfe8f8', '#6a6a70', 1.0], fog: ['#efd9c2', 80, 500] }),
+    marks: [[0, 0, 6, 0], [1.6, 0, 6.3, -.2], [-1.6, 0, 6.3, .2]], path: [[-14, 0, 7], [14, 0, 7]], wide: [[12, 4, 16], [0, 3, -12], 48] };
+}
+function mkSpace() {
+  const g = new THREE.Group();
+  const stars = []; const r = rng(91); for (let i = 0; i < 500; i++) { const a = r() * 6.283, b = Math.acos(r() * 2 - 1), d = 900; stars.push({ p: [Math.sin(b) * Math.cos(a) * d, Math.cos(b) * d, Math.sin(b) * Math.sin(a) * d], s: [2, 2, 2] }); }
+  instanced(new THREE.IcosahedronGeometry(1, 0), new THREE.MeshBasicMaterial({ color: '#ffffff', fog: false }), stars, g);
+  const earth = mesh(new THREE.SphereGeometry(120, 64, 40), new THREE.MeshLambertMaterial({ map: ctex(512, 256, (c, w, h) => { c.fillStyle = '#1f5fa8'; c.fillRect(0, 0, w, h); const rr = rng(93); c.fillStyle = '#4f8f3e'; for (let i = 0; i < 40; i++) { c.beginPath(); c.ellipse(rr() * w, h * .2 + rr() * h * .6, 10 + rr() * 40, 6 + rr() * 20, rr() * 3, 0, 7); c.fill(); } c.fillStyle = 'rgba(255,255,255,.7)'; for (let i = 0; i < 60; i++) { c.beginPath(); c.ellipse(rr() * w, rr() * h, 8 + rr() * 30, 2 + rr() * 5, 0, 0, 7); c.fill(); } }) }), 0, -135, -60, g);
+  const st = new THREE.Group(); g.add(st); box(8, .3, 6, M('#d9d9de', .3, .8), 0, -.15, 0, st);
+  for (const s of [-1, 1]) { box(10, .05, 3, M('#1d2b55', .3, .6), s * 10, 1, -1, st); box(1, .2, .2, M('#d9d9de', .3, .8), s * 4.5, 1, -1, st); }
+  box(8, 3, .2, M('#d9d9de', .3, .8), 0, 1.5, -3, st); box(4, 2, .05, M('#000', .1, 0, { emissive: '#9fd3ff', emissiveIntensity: .2 }), 0, 1.6, -2.88, st);
+  return { g, look: look({ top: '#000004', bot: '#02020a', sun: ['#ffffff', 2.6], sunDir: [.8, .4, .4], hemi: ['#6070a0', '#102040', .5], fog: ['#000004', 2000, 4000], env: .6 }),
+    marks: [[0, 0, 1, 0], [1.6, 0, 1.3, -.2], [-1.6, 0, 1.3, .2]], path: [[-3, 0, 1.5], [3, 0, 1.5]], wide: [[6, 2.5, 8], [0, 0, -20], 50],
+    update(t) { earth.rotation.y = t * .01; } };
+}
+Object.assign(SETS, { beach: mkBeach(), desert: mkDesert(), cafe: mkCafe(), datacenter: mkDatacenter(), factory: mkFactory(), snow: mkSnow(), city: mkCity(), space: mkSpace() });
+
 for (const k in SETS) { SETS[k].g.visible = false; scene.add(SETS[k].g); }
 
 // ---------------------------------------------------------------- PRESENTER RIG (blocky, original characters)

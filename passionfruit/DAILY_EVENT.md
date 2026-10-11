@@ -23,7 +23,7 @@ The film is a deadpan parody of a modern **pre-recorded** tech launch film by th
 - **Length 20–30 min.** Duration is computed from the narration: aim for **2,700–3,400 spoken words** in ~120–170 beats, ~20–28 segments. Check with the estimate in step 4 and add/trim until the estimate is 22–29 min.
 - **Structure**: open with a `flyover` (campus at sunrise, `text`/`sub` overlay), CEO intro, then alternate *presenter segment in a location* → *studio beauty segment for the product* (hero/spin/macro/explode/lineup/tagline/price). End with `onemore` → a surprise product → closing on campus → `end` card (its `sub` is fine print).
 - **Fresh absurd products every day** (5–8 + the one-more-thing). Over-serious speeches about ridiculous features, said with a straight face. Callbacks to earlier events are welcome (the very thin phone that can't be found, Pip agreeing, the helium laptop, Pebble doing nothing…) — max 3 per event.
-- **Vary**: use at least 5 different locations, rotate who presents, use walk-and-talk (`"walk": true`) in 2–4 segments, mix shot types, ~1 tagline per product.
+- **Vary**: use at least 8 different locations (from Event 4 on: at least 4 of the newer ones — beach, desert, cafe, datacenter, factory, snow, city, space) and give each place a reason in the script (waterproof test on the beach, car on the desert track, the cloud in the datacenter, launch in space…), rotate who presents, use walk-and-talk (`"walk": true`) in 2–4 segments, mix shot types, ~1 tagline per product.
 - **ORIGINAL ONLY**: no real company names, product names, people, slogans or logos (no "Mac", "Pro Max", "AirPods", "Siri", etc.). Use the fruit vocabulary: Pulp, Rind, Pith, Seed(s), Nectar, Zest, Juice.
 - Cast: reuse event 1's cast (same ids/looks/voices) so presenters stay recognizable; you may add 1 new presenter per event (new id, `look`, unused Kokoro voice).
 - Keep lines ≤ ~40 words; one idea per beat; jokes land at the END of a line.
@@ -66,7 +66,7 @@ Finish with a 3-line summary and `https://github.com/susduolingo997-arch/private
                    "crown", "fins", "halo", "tail", "spout", "strap"],
       "colors": ["#hex", ...],               // for "lineup" of one product
       "handSize": 0.13 } },                   // size when held / on a pedestal
-  "segments": [ { "location": "campus|lab|robotlab|rooftop|park|theater|studio",
+  "segments": [ { "location": "campus|lab|robotlab|rooftop|park|theater|studio|beach|desert|cafe|datacenter|factory|snow|city|space",
       "presenters": ["ceo", "design"],       // who is on set (first = default speaker)
       "walk": false, "walkStart": 0,         // walk-and-talk along the set's path for the whole segment
       "screen": "text on the theater screen", "music": "uplift|minimal|pulse|warm|gentle|piano|dark",
