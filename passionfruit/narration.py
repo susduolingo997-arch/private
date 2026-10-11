@@ -34,7 +34,7 @@ if __name__ == '__main__':
     evdir = sys.argv[1].rstrip('/'); ev = json.load(open(f'{evdir}/event.json'))
     os.makedirs(f'{evdir}/build/vo', exist_ok=True)
     if sys.argv[2] == '--estimate':
-        def synth(i, txt, voice, speed): return len(txt.split()) / 2.95 / speed + 0.25, None
+        def synth(i, txt, voice, speed): return len(txt.split()) / 3.1 / speed + 0.25, None
     else:
         import soundfile as sf
         from kokoro_onnx import Kokoro

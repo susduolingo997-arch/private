@@ -20,7 +20,7 @@ If cloning/pushing is refused, call `add_repo` (claude-code-remote) for susduoli
 
 ## 3. Write `passionfruit/eventN/event.json`
 The film is a deadpan parody of a modern **pre-recorded** tech launch film by the fictional company Passionfruit. No audience, no applause, no ad breaks.
-- **Length 20–30 min.** Duration is computed from the narration: aim for **2,300–3,200 spoken words** in ~120–170 beats, ~20–28 segments. Check with the estimate in step 4 and add/trim until 21–29 min.
+- **Length 20–30 min.** Duration is computed from the narration: aim for **2,700–3,400 spoken words** in ~120–170 beats, ~20–28 segments. Check with the estimate in step 4 and add/trim until the estimate is 22–29 min.
 - **Structure**: open with a `flyover` (campus at sunrise, `text`/`sub` overlay), CEO intro, then alternate *presenter segment in a location* → *studio beauty segment for the product* (hero/spin/macro/explode/lineup/tagline/price). End with `onemore` → a surprise product → closing on campus → `end` card (its `sub` is fine print).
 - **Fresh absurd products every day** (5–8 + the one-more-thing). Over-serious speeches about ridiculous features, said with a straight face. Callbacks to earlier events are welcome (the very thin phone that can't be found, Pip agreeing, the helium laptop, Pebble doing nothing…) — max 3 per event.
 - **Vary**: use at least 5 different locations, rotate who presents, use walk-and-talk (`"walk": true`) in 2–4 segments, mix shot types, ~1 tagline per product.
@@ -32,7 +32,7 @@ The film is a deadpan parody of a modern **pre-recorded** tech launch film by th
 From `passionfruit/` (needs `npm i three playwright-core` at repo root if `node_modules` is missing):
 ```
 python3 -c "import json;json.load(open('eventN/event.json'))"              # valid JSON
-python3 narration.py eventN --estimate                                      # prints shots / lines / minutes — must be 21–29 min
+python3 narration.py eventN --estimate                                      # prints shots / lines / minutes — must be 22–29 min (real TTS lands a little shorter)
 cd eventN && PAGE="passionfruit/index.html?ev=N" node ../../letsplay/render.mjs --stills T1,T2,...   # ~9 times, one per segment type
 python3 ../sheet.py /tmp/sheet.jpg && rm -rf build                          # look at the sheet once
 ```
