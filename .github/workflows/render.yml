@@ -1,11 +1,12 @@
 name: Render episode
-# Push a file letsplay/epN/RENDER (any content) to render episode N in the cloud and publish release vN.0.
+# Push letsplay/epN/RENDER to render Shardwild episode N (release vN.0), or
+# passionfruit/eventN/RENDER to render Passionfruit Event N (release pf-N.0, any length: split into 20 parts by duration).
 on:
   push:
     branches: ['claude/voxel-survival-letsplay-k76okk']
-    paths: ['letsplay/ep*/RENDER', 'letsplay/ep*/REMAKE']
+    paths: ['letsplay/ep*/RENDER', 'letsplay/ep*/REMAKE', 'passionfruit/event*/RENDER']
   schedule:
-    - cron: '17 */6 * * *'   # watchdog: retry any episode that has RENDER but no release
+    - cron: '17 */6 * * *'   # watchdog: retry anything that has RENDER but no release
   workflow_dispatch:
 permissions:
   contents: write
@@ -22,8 +23,14 @@ jobs:
       - id: f
         env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
         run: |
-          # every episode with a RENDER file whose release doesn't exist yet (oldest first, max 2 per run)
-          eps=$(for f in letsplay/ep*/RENDER; do n=$(echo $f | sed -E 's#letsplay/ep([0-9]+)/RENDER#\1#'); if ! gh release view v$n.0 >/dev/null 2>&1; then echo $n; elif [ -f letsplay/ep$n/REMAKE ] && ! gh release view v$n.0 --json body -q .body | grep -qF "remake:$(head -1 letsplay/ep$n/REMAKE)"; then echo $n; fi; done | sort -n | head -2 | jq -R . | jq -sc .)
+          # jobs are "sw-N" (Shardwild episode) or "pf-N" (Passionfruit event) whose release doesn't exist yet; max 2 per run
+          todo() {
+            for f in letsplay/ep*/RENDER; do [ -f "$f" ] || continue; n=$(echo $f | sed -E 's#letsplay/ep([0-9]+)/RENDER#\1#')
+              if ! gh release view v$n.0 >/dev/null 2>&1; then echo sw-$n; elif [ -f letsplay/ep$n/REMAKE ] && ! gh release view v$n.0 --json body -q .body | grep -qF "remake:$(head -1 letsplay/ep$n/REMAKE)"; then echo sw-$n; fi; done
+            for f in passionfruit/event*/RENDER; do [ -f "$f" ] || continue; n=$(echo $f | sed -E 's#passionfruit/event([0-9]+)/RENDER#\1#')
+              gh release view pf-$n.0 >/dev/null 2>&1 || echo pf-$n; done
+          }
+          eps=$(todo | sort -V | head -2 | jq -R . | jq -sc .)
           echo "eps=$eps" >> $GITHUB_OUTPUT
   audio:
     needs: plan
@@ -33,6 +40,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: claude/voxel-survival-letsplay-k76okk }
+      - name: Resolve episode dir
+        run: |
+          EP=${{ matrix.ep }}; K=${EP%%-*}; N=${EP#*-}
+          if [ $K = sw ]; then D=letsplay/ep$N; else D=passionfruit/event$N; fi
+          printf 'K=%s\nN=%s\nD=%s\n' $K $N $D >> $GITHUB_ENV
       - uses: actions/cache@v4
         with: { path: '/tmp/v', key: 'kokoro-v1' }
       - run: pip install numpy pillow soundfile kokoro-onnx
@@ -40,10 +52,15 @@ jobs:
           mkdir -p /tmp/v && cd /tmp/v && [ -s kokoro.onnx ] && exit 0
           B=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0
           curl -sSL -o kokoro.onnx $B/kokoro-v1.0.int8.onnx && curl -sSL -o voices.bin $B/voices-v1.0.bin
-      - working-directory: letsplay/ep${{ matrix.ep }}
-        run: python3 narration.py /tmp/v && python3 audio.py
+      - run: |
+          if [ $K = sw ]; then cd $D && python3 narration.py /tmp/v && python3 audio.py
+          else cd passionfruit && python3 narration.py event$N /tmp/v && python3 audio.py event$N; fi
       - uses: actions/upload-artifact@v4
-        with: { name: 'audio-${{ matrix.ep }}', path: 'letsplay/ep${{ matrix.ep }}/build/' }
+        with:
+          name: 'audio-${{ matrix.ep }}'
+          path: |
+            ${{ env.D }}/build/*.wav
+            ${{ env.D }}/build/*.json
   render:
     needs: [plan, audio]
     runs-on: ubuntu-latest
@@ -54,8 +71,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: claude/voxel-survival-letsplay-k76okk }
+      - name: Resolve episode dir
+        run: |
+          EP=${{ matrix.ep }}; K=${EP%%-*}; N=${EP#*-}
+          if [ $K = sw ]; then D=letsplay/ep$N; else D=passionfruit/event$N; fi
+          printf 'K=%s\nN=%s\nD=%s\n' $K $N $D >> $GITHUB_ENV
       - uses: actions/download-artifact@v4
-        with: { name: 'audio-${{ matrix.ep }}', path: 'letsplay/ep${{ matrix.ep }}/build/' }
+        with: { name: 'audio-${{ matrix.ep }}', path: '${{ env.D }}/build/' }
       - uses: actions/cache@v4
         with: { path: '~/.cache/ms-playwright', key: 'pw-chromium-v1' }
       - uses: actions/cache@v4
@@ -66,13 +88,14 @@ jobs:
       - uses: actions/cache@v4
         with: { path: 'node_modules', key: 'node-three-pw-v1' }
       - run: '[ -d node_modules/three ] || npm i three playwright-core; npx playwright install --with-deps chromium'
-      - working-directory: letsplay/ep${{ matrix.ep }}
-        run: |
+      - run: |
           export CHROME_PATH=$(ls -d ~/.cache/ms-playwright/chromium-*/chrome-linux*/chrome | head -1)
-          a=$(( ${{ matrix.part }} * 15 )); b=$(( a + 15 ))
-          PAGE=letsplay/ep${{ matrix.ep }}/index.html node ../render.mjs $a $b part${{ matrix.part }}.mp4
+          P=${{ matrix.part }}; cd $D
+          if [ $K = sw ]; then a=$(( P * 15 )); b=$(( a + 15 )); PAGE=$D/index.html node ../render.mjs $a $b part$P.mp4
+          else read a b < <(jq -r --argjson p $P '.duration as $d | "\($d*$p/20) \($d*($p+1)/20)"' build/timeline.json)
+            PAGE="passionfruit/index.html?ev=$N" node ../../letsplay/render.mjs $a $b part$P.mp4 30; fi
       - uses: actions/upload-artifact@v4
-        with: { name: 'part-${{ matrix.ep }}-${{ matrix.part }}', path: 'letsplay/ep${{ matrix.ep }}/part${{ matrix.part }}.mp4' }
+        with: { name: 'part-${{ matrix.ep }}-${{ matrix.part }}', path: '${{ env.D }}/part${{ matrix.part }}.mp4' }
   publish:
     needs: [plan, render]
     runs-on: ubuntu-latest
@@ -80,6 +103,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: claude/voxel-survival-letsplay-k76okk }
+      - name: Resolve episode dir
+        run: |
+          EP=${{ matrix.ep }}; K=${EP%%-*}; N=${EP#*-}
+          if [ $K = sw ]; then D=letsplay/ep$N; else D=passionfruit/event$N; fi
+          printf 'K=%s\nN=%s\nD=%s\n' $K $N $D >> $GITHUB_ENV
       - uses: actions/download-artifact@v4
         with: { pattern: 'part-${{ matrix.ep }}-*', path: parts, merge-multiple: true }
       - uses: actions/download-artifact@v4
@@ -91,8 +119,15 @@ jobs:
           echo "$HOME/ffmpeg-bin" >> $GITHUB_PATH
       - env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
         run: |
-          N=${{ matrix.ep }}; for i in $(seq 0 19); do echo "file 'parts/part$i.mp4'"; done > list.txt
+          for i in $(seq 0 19); do echo "file 'parts/part$i.mp4'"; done > list.txt
           ffmpeg -y -loglevel error -f concat -safe 0 -i list.txt -i audio/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full.mp4
+          if [ $K = pf ]; then
+            OUT=passionfruit_event${N}.mp4; TITLE=$(jq -r .title $D/event.json)
+            ffmpeg -y -loglevel error -i full.mp4 -c:v libx264 -preset medium -crf 28 -c:a aac -b:a 128k -movflags +faststart $OUT
+            gh release view pf-$N.0 >/dev/null 2>&1 || gh release create pf-$N.0 --target "$GITHUB_SHA" $OUT --title "PASSIONFRUIT Event $N — $TITLE" \
+              --notes "A pre-recorded launch film from Passionfruit, a completely fictional company (720p, $(( $(jq -r '.duration|floor' audio/timeline.json) / 60 )) min). Generated entirely from passionfruit/event$N/event.json by the engine in passionfruit/."
+            exit 0
+          fi
           ffmpeg -y -loglevel error -i full.mp4 -c:v libx264 -preset medium -crf 25 -c:a aac -b:a 160k -movflags +faststart shardwild_ep${N}_web.mp4
           TITLE=$(grep -oE "outlined\('I [A-Z ]+'" letsplay/ep$N/scene.js | head -1 | sed -E "s/outlined\('//;s/'//")
           if gh release view v$N.0 >/dev/null 2>&1; then
@@ -109,5 +144,5 @@ jobs:
     steps:
       - env: { GH_TOKEN: '${{ secrets.GITHUB_TOKEN }}', GH_REPO: '${{ github.repository }}' }
         run: |
-          gh issue create --title "Shardwild render failed (episodes ${{ needs.plan.outputs.eps }})" \
+          gh issue create --title "Render failed (${{ needs.plan.outputs.eps }})" \
             --body "Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} — the 6-hourly watchdog will retry automatically."

@@ -1,0 +1,1392 @@
+{
+ "number": 1,
+ "title": "Juicier Than Ever",
+ "date": "October 12",
+ "cast": {
+  "ceo": {
+   "name": "Dana Pith",
+   "title": "Chief Executive Officer",
+   "voice": "am_michael",
+   "speed": 0.95,
+   "look": {
+    "style": "turtleneck",
+    "outfit": "#1b1b22",
+    "pants": "#2a2a33",
+    "hair": "short",
+    "hairColor": "#a9a9ad",
+    "glasses": "round",
+    "skin": "#e9be98"
+   }
+  },
+  "design": {
+   "name": "Imogen Rind",
+   "title": "Chief Design Officer",
+   "voice": "bf_emma",
+   "speed": 0.92,
+   "look": {
+    "style": "blazer",
+    "outfit": "#e9e4da",
+    "shirt": "#1b1b1b",
+    "pants": "#d8d2c6",
+    "hair": "bob",
+    "hairColor": "#d7b36a",
+    "skin": "#f1cfb0",
+    "shoes": "#1b1b1b"
+   }
+  },
+  "eng": {
+   "name": "Theo Seedling",
+   "title": "Senior Engineer, Thinness",
+   "voice": "am_adam",
+   "speed": 1.1,
+   "look": {
+    "style": "labcoat",
+    "shirt": "#6a8fd0",
+    "hair": "curly",
+    "hairColor": "#3a2414",
+    "skin": "#a8714a",
+    "nervous": true,
+    "glasses": "square",
+    "height": 0.96
+   }
+  },
+  "watch": {
+   "name": "Marco Nectar",
+   "title": "SVP, Wearables & Wanderables",
+   "voice": "am_liam",
+   "look": {
+    "style": "vest",
+    "outfit": "#f2f2f2",
+    "accent": "#26324a",
+    "pants": "#3a4a66",
+    "hair": "quiff",
+    "hairColor": "#4a2c18",
+    "skin": "#d9a27a",
+    "beard": true,
+    "height": 1.04
+   }
+  },
+  "health": {
+   "name": "Priya Zest",
+   "title": "VP, Health & Silence",
+   "voice": "af_heart",
+   "look": {
+    "style": "tee",
+    "outfit": "#5cc96b",
+    "pants": "#22252c",
+    "hair": "long",
+    "hairColor": "#1c1210",
+    "skin": "#b98260",
+    "shoes": "#ffffff"
+   }
+  },
+  "vo": {
+   "name": "The Voice of Passionfruit",
+   "voice": "bm_george",
+   "offscreen": true,
+   "speed": 0.95
+  }
+ },
+ "products": {
+  "pulp1": {
+   "name": "Pulp Phone 1",
+   "kind": "phone",
+   "color": "#6b3fa0",
+   "material": "titanium",
+   "thickness": 0.35,
+   "features": [
+    "camera:7",
+    "notch"
+   ],
+   "colors": [
+    "#6b3fa0",
+    "#f2c94c",
+    "#ecebe6",
+    "#1d1d22",
+    "#ff8a3d"
+   ],
+   "price": "$1,299",
+   "fine": "Thickness sold separately.",
+   "handSize": 0.12
+  },
+  "pulp1max": {
+   "name": "Pulp Phone 1 Max",
+   "kind": "phone",
+   "size": 1.5,
+   "color": "#1d1d22",
+   "material": "titanium",
+   "thickness": 0.3,
+   "features": [
+    "camera:7",
+    "notch"
+   ],
+   "price": "$1,599",
+   "fine": "Pockets not included. Pockets not compatible.",
+   "handSize": 0.2
+  },
+  "watch0": {
+   "name": "Rind Watch Series 0",
+   "kind": "watch",
+   "color": "#d9d9de",
+   "material": "aluminum",
+   "band": "#ff8a3d",
+   "features": [
+    "legs:4"
+   ],
+   "screen": [
+    "#0d2a1a",
+    "#5cc96b"
+   ],
+   "screenText": "STAND",
+   "price": "$399",
+   "fine": "Watch may leave without you.",
+   "handSize": 0.08
+  },
+  "seeds": {
+   "name": "Seeds Pro",
+   "kind": "earbuds",
+   "color": "#f4f4f4",
+   "material": "ceramic",
+   "price": "$249",
+   "fine": "Cancels conversations, not subscriptions.",
+   "handSize": 0.08
+  },
+  "airair": {
+   "name": "PulpBook Air Air",
+   "kind": "laptop",
+   "color": "#d6d8dd",
+   "material": "aluminum",
+   "thickness": 0.6,
+   "features": [
+    "tail",
+    "halo"
+   ],
+   "glow": "#bfe6ff",
+   "screen": [
+    "#1a2a4a",
+    "#9fd3ff"
+   ],
+   "screenText": "up",
+   "price": "$2,199",
+   "fine": "Tether sold separately ($199). Ceilings recommended.",
+   "handSize": 0.3
+  },
+  "pip": {
+   "name": "Pip",
+   "kind": "custom",
+   "shape": "orb",
+   "color": "#ff8a3d",
+   "material": "ceramic",
+   "features": [
+    "eyes",
+    "legs:3",
+    "antenna",
+    "glow"
+   ],
+   "screen": [
+    "#1a0b24",
+    "#3a1046"
+   ],
+   "colors": [
+    "#ff8a3d",
+    "#7b2cbf",
+    "#ecebe6",
+    "#5cc96b"
+   ],
+   "price": "$99",
+   "fine": "Agreement not legally binding.",
+   "handSize": 0.14
+  },
+  "pebble": {
+   "name": "Passionfruit Pebble",
+   "kind": "custom",
+   "shape": "pebble",
+   "color": "#ecebe6",
+   "material": "ceramic",
+   "features": [],
+   "price": "$349",
+   "fine": "Nothing sold separately.",
+   "handSize": 0.1
+  },
+  "fruit": {
+   "name": "Passionfruit",
+   "kind": "custom",
+   "shape": "fruit",
+   "color": "#5b1f6b",
+   "material": "matte",
+   "features": [
+    "camera:3"
+   ],
+   "price": "$4",
+   "fine": "Ships when ripe. Seeds may vary.",
+   "handSize": 0.09
+  },
+  "case": {
+   "name": "Pulp Case",
+   "kind": "slab",
+   "w": 0.86,
+   "h": 1.66,
+   "d": 0.5,
+   "color": "#ff8a3d",
+   "material": "rubber",
+   "features": [
+    "handle"
+   ],
+   "price": "$59",
+   "fine": "Phone not included. Phone may not be locatable.",
+   "handSize": 0.14
+  },
+  "brick": {
+   "name": "Pulp Power Brick",
+   "kind": "cube",
+   "size": 0.7,
+   "color": "#f4f4f4",
+   "material": "ceramic",
+   "features": [
+    "fins",
+    "tail",
+    "glow"
+   ],
+   "glow": "#5cc96b",
+   "price": "$79",
+   "fine": "Not included. Sold separately from itself.",
+   "handSize": 0.1
+  },
+  "chip": {
+   "name": "P1 Pith",
+   "kind": "slab",
+   "w": 1.0,
+   "h": 1.0,
+   "d": 0.12,
+   "color": "#2a2a30",
+   "material": "titanium",
+   "features": [
+    "glow",
+    "screen"
+   ],
+   "glow": "#ff8a3d",
+   "screen": [
+    "#1d1d22",
+    "#3a3a44"
+   ],
+   "screenText": "P1",
+   "price": "Inside everything",
+   "fine": "Not sold separately. Not sold together either."
+  }
+ },
+ "segments": [
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo"
+   ],
+   "music": "warm",
+   "beats": [
+    {
+     "shot": "flyover",
+     "dur": 16,
+     "text": "passionfruit",
+     "sub": "Event 1 · Juicier Than Ever"
+    },
+    {
+     "shot": "wide",
+     "say": "Good morning. And welcome to Passionfruit Park."
+    },
+    {
+     "shot": "talk",
+     "say": "It's a beautiful day here at our campus. The sun is rising. The birds are singing. Several of the birds are under contract."
+    },
+    {
+     "shot": "close",
+     "say": "Every year, we gather to share the things we've been working on. And every year, we say this is our biggest year ever."
+    },
+    {
+     "shot": "talk",
+     "say": "Ten years ago, we made our first product. It was a juicer. It was too thin to juice anything. And we realized, that's not a juicer. That's a philosophy."
+    },
+    {
+     "shot": "talk",
+     "say": "This year is no different. This year is our biggest year ever. It is also our thinnest year ever. And you'll see what we mean."
+    },
+    {
+     "shot": "close",
+     "say": "We have new phones. New wearables. New ways to hear less. And something we have been calling, internally, the thing."
+    },
+    {
+     "shot": "talk",
+     "say": "So let's get started. Let's walk."
+    }
+   ]
+  },
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "walk",
+     "say": "At Passionfruit, we believe technology should be simple. So simple that it disappears."
+    },
+    {
+     "shot": "walk",
+     "say": "Over the years, we removed the headphone jack. Then the charger. Then the box. Then the buttons."
+    },
+    {
+     "shot": "wide",
+     "say": "This year, our engineers asked a bold question. What else can we remove?"
+    },
+    {
+     "shot": "walk",
+     "say": "The answer, it turns out, was almost everything. And we did it. We removed almost everything."
+    },
+    {
+     "shot": "close",
+     "say": "We kept the price."
+    },
+    {
+     "shot": "walk",
+     "say": "To tell you more, let's head inside. Our design team has been waiting for us since six this morning. They are very excited. They are also very cold."
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "Juicier Than Ever",
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4.5
+    },
+    {
+     "shot": "talk",
+     "say": "You may notice we're recording this in an empty theater. That was a design decision."
+    },
+    {
+     "shot": "close",
+     "say": "We wanted the room to feel the way our products feel. Quiet. Spacious. Mostly air."
+    },
+    {
+     "shot": "talk",
+     "say": "We start, as always, with the device you use most. The device you look at two hundred times a day. Three hundred, if the meeting is long."
+    },
+    {
+     "shot": "wide",
+     "say": "And to tell you how we made it, here's the person who made us make it. Imogen."
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "design"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "When we began work on the new phone, we didn't begin with a phone. We began with a feeling."
+    },
+    {
+     "shot": "close",
+     "say": "The feeling of holding something precious. Something light. Something you might lose at any moment."
+    },
+    {
+     "shot": "talk",
+     "say": "We studied the corner for nearly three years. We asked, what is a corner, really? What does it want?"
+    },
+    {
+     "shot": "close",
+     "say": "And we discovered that a corner wants to be round. Just a little. Just enough to forgive you."
+    },
+    {
+     "shot": "talk",
+     "say": "Every surface was considered. Then reconsidered. Then considered again by a different team, who disagreed with the first team, beautifully."
+    },
+    {
+     "shot": "demo",
+     "product": "pulp1",
+     "say": "The result is a phone carved from a single block of titanium. And then, mostly, carved away."
+    },
+    {
+     "shot": "demo",
+     "product": "pulp1",
+     "say": "Hold it, and you'll notice it isn't there. That's the point. It's there. You just don't notice."
+    },
+    {
+     "shot": "close",
+     "say": "This is the most Passionfruit phone we've ever made. We are so proud to introduce it."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "pulp1",
+     "dur": 7
+    },
+    {
+     "shot": "spin",
+     "product": "pulp1",
+     "who": "vo",
+     "say": "Introducing Pulp Phone One."
+    },
+    {
+     "shot": "macro",
+     "product": "pulp1",
+     "who": "vo",
+     "say": "Aerospace-grade titanium. Polished, then polished again, then asked to reflect on itself."
+    },
+    {
+     "shot": "spin",
+     "product": "pulp1",
+     "back": true,
+     "who": "vo",
+     "say": "Seven cameras. Arranged in a way that is, frankly, a lot."
+    },
+    {
+     "shot": "explode",
+     "product": "pulp1",
+     "who": "vo",
+     "say": "Inside, an all-new design. We moved the battery, the logic board and the glass closer together, until they had nowhere left to go."
+    },
+    {
+     "shot": "tagline",
+     "product": "pulp1",
+     "text": "Our thinnest ever.",
+     "dur": 4.5
+    },
+    {
+     "shot": "spin",
+     "product": "pulp1",
+     "spin": 1.6,
+     "who": "vo",
+     "say": "At its edges, Pulp Phone One is zero point zero millimeters thick. Technically, it only has one side."
+    },
+    {
+     "shot": "tagline",
+     "product": "pulp1",
+     "text": "So thin it has only one side.",
+     "sub": "The other side is coming next year.",
+     "dur": 5
+    },
+    {
+     "shot": "lineup",
+     "product": "pulp1",
+     "who": "vo",
+     "say": "Available in five colors. Passion Purple. Golden Pulp. Pith. Seed. And a bold new Rind."
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "design"
+   ],
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "I'd like to say a word about color. Because color is not decoration. Color is a promise."
+    },
+    {
+     "shot": "close",
+     "say": "Our new shade, Rind, took two years. We started with orange. Then we asked, what if it were more orange. Then we asked, what if it were orange, but sad."
+    },
+    {
+     "shot": "talk",
+     "say": "There was a period where it was briefly beige. We don't talk about that. Some of the team still can't."
+    },
+    {
+     "shot": "demo",
+     "product": "pulp1",
+     "say": "And then, one morning, the sun came through that window, and hit a passionfruit someone had left on the desk. And we knew. Rind."
+    },
+    {
+     "shot": "close",
+     "say": "It's the color of a sunrise you see on purpose. We hope you'll see it every day. Ideally on a phone you can find."
+    }
+   ]
+  },
+  {
+   "location": "robotlab",
+   "presenters": [
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Hi. Hello. I'm Theo. I lead the thinness team. It's a small team. It used to be bigger. We made it thinner."
+    },
+    {
+     "shot": "close",
+     "say": "Making a phone this thin raised a lot of questions. Mostly from me. At night."
+    },
+    {
+     "shot": "talk",
+     "say": "So we built this lab to test it. These robots have dropped Pulp Phone One forty thousand times."
+    },
+    {
+     "shot": "close",
+     "say": "We found it again thirty-one thousand times. Which, statistically, is great."
+    },
+    {
+     "shot": "table",
+     "product": "pulp1",
+     "say": "We also bend tested it. With a hydraulic press. With a person sitting on it. With a person sitting on the hydraulic press."
+    },
+    {
+     "shot": "talk",
+     "say": "It passed every test. Well, it passed through every test. Like, physically. Through the test. The test equipment is fine. Mostly."
+    },
+    {
+     "shot": "close",
+     "say": "One thing we learned is that the phone is so thin that you can't really find it. Which is why every Pulp Phone One ships with a second phone. To find it."
+    },
+    {
+     "shot": "talk",
+     "say": "The second phone is also very thin. We're working on it. Okay. Back to you, Dana. Is that it? Am I done? I'm done."
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "P1 Pith",
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "Of course, a phone this thin needs a chip this smart. So we designed our own. Again. From scratch. Again."
+    },
+    {
+     "shot": "close",
+     "say": "It's called P1 Pith. It has forty billion transistors. We named all of them. It took a while."
+    },
+    {
+     "shot": "talk",
+     "say": "P1 Pith is up to forty percent faster than the chip it replaces, which was also ours, and which we were very excited about last year. We've moved on."
+    },
+    {
+     "shot": "close",
+     "say": "And it delivers all-day battery life. All day, of course, being defined as the day of this event. After that, it's really up to you."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "chip",
+     "who": "vo",
+     "say": "P1 Pith."
+    },
+    {
+     "shot": "macro",
+     "product": "chip",
+     "who": "vo",
+     "say": "A sixteen-core neural engine, trained exclusively on photos of fruit."
+    },
+    {
+     "shot": "spin",
+     "product": "chip",
+     "who": "vo",
+     "say": "An all-new performance core. An all-new efficiency core. And an all-new core that just watches the other cores work, and nods."
+    },
+    {
+     "shot": "tagline",
+     "product": "chip",
+     "text": "Smart to the core.",
+     "sub": "Every core. Even the nodding one.",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "macro",
+     "product": "pulp1",
+     "who": "vo",
+     "say": "The all-new camera system. Seven lenses. Including our first ever lens that points at the other lenses."
+    },
+    {
+     "shot": "spin",
+     "product": "pulp1",
+     "back": true,
+     "who": "vo",
+     "say": "Take photos in the dark. Take photos of the dark. Take photos of other people taking photos, in the dark."
+    },
+    {
+     "shot": "tagline",
+     "product": "pulp1",
+     "text": "Shoot everything.",
+     "sub": "Even things that aren't there.",
+     "dur": 4.5
+    },
+    {
+     "shot": "hero",
+     "product": "pulp1max",
+     "who": "vo",
+     "say": "And for those who want more, there's Pulp Phone One Max. Our largest phone ever. Also our thinnest ever. We don't know how either."
+    },
+    {
+     "shot": "spin",
+     "product": "pulp1max",
+     "who": "vo",
+     "say": "With a display so big, it's technically a tablet. Our tablet team has been informed. They are taking it well."
+    },
+    {
+     "shot": "price",
+     "product": "pulp1",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "pulp1max",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "rooftop",
+   "presenters": [
+    "watch",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "who": "watch",
+     "say": "Theo! You made it up here. Great. Let's show everybody the new camera. You've got the phone?"
+    },
+    {
+     "shot": "close",
+     "who": "eng",
+     "say": "I had it. I definitely had it a second ago. It's very thin. Hold on. It's in my pocket. It's in one of my pockets."
+    },
+    {
+     "shot": "two",
+     "who": "watch",
+     "say": "Okay, while Theo looks for the phone, let's talk about Cinematic Squint. Pulp Phone One can now see the way you see when you forget your glasses."
+    },
+    {
+     "shot": "demo",
+     "who": "eng",
+     "product": "pulp1",
+     "say": "Found it! It was in my hand. It was in my hand the whole time. Okay. Squint mode. Look at that. Is that a building? Nobody knows. That's cinema."
+    },
+    {
+     "shot": "two",
+     "who": "watch",
+     "say": "And with the new Golden Hour mode, every photo is taken at golden hour. Even at night. Even indoors. Even in a parking garage."
+    },
+    {
+     "shot": "close",
+     "who": "eng",
+     "say": "Our testers loved it. A few of them got sunburned. From a photo. Which we're looking into."
+    }
+   ]
+  },
+  {
+   "location": "rooftop",
+   "presenters": [
+    "watch"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "walk",
+     "say": "Hey. Marco. Wearables. Great view up here, right? We do our best thinking on the roof. We do our worst thinking in the elevator."
+    },
+    {
+     "shot": "walk",
+     "say": "For years, our watch has reminded you to stand up. And for years, you've ignored it. Respectfully. We hear you."
+    },
+    {
+     "shot": "close",
+     "say": "So with Rind Watch Series Zero, we asked: what if the watch stood up for you?"
+    },
+    {
+     "shot": "walk",
+     "say": "That's right. Rind Watch now has legs. Four of them. Fully articulated. Fully motivated."
+    },
+    {
+     "shot": "demo",
+     "product": "watch0",
+     "say": "If you sit for more than an hour, your watch will stand up. If you sit for two hours, it will leave."
+    },
+    {
+     "shot": "walk",
+     "say": "It will go for a walk without you. It will close its own rings. It will meet other watches. Some of them will come back."
+    },
+    {
+     "shot": "close",
+     "say": "We call this feature Independence. In beta testing, eighty percent of watches came home by dinner."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "watch0",
+     "who": "vo",
+     "say": "Rind Watch Series Zero."
+    },
+    {
+     "shot": "explode",
+     "product": "watch0",
+     "who": "vo",
+     "say": "An all-new leg architecture. Each leg is machined from a single piece of aluminum, and has a single piece of ambition."
+    },
+    {
+     "shot": "spin",
+     "product": "watch0",
+     "who": "vo",
+     "say": "Advanced health sensors measure your heart rate, your sleep, and how disappointed your watch is in you."
+    },
+    {
+     "shot": "tagline",
+     "product": "watch0",
+     "text": "It moves you.",
+     "sub": "Then it moves without you.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "watch0",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "presenters": [
+    "watch",
+    "health"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "who": "health",
+     "say": "Marco, can I jump in? Because Rind Watch isn't just about moving. It's about understanding yourself."
+    },
+    {
+     "shot": "close",
+     "who": "health",
+     "say": "With the new Sleep Score, your watch now scores your dreams. Out of ten. Most people are getting a six. We think you can do better."
+    },
+    {
+     "shot": "two",
+     "who": "watch",
+     "say": "And with Mood Sensing, it can tell when you're sad. And when you're sad, it plays a sad song. To match. So you're not sad alone."
+    },
+    {
+     "shot": "close",
+     "who": "health",
+     "say": "We also added Emergency Small Talk via satellite. If you're ever stuck in an awkward silence, anywhere on Earth, your watch will connect to a satellite and ask about the weather."
+    },
+    {
+     "shot": "two",
+     "who": "watch",
+     "say": "It works in the desert. It works on a mountain. It works at your in-laws. Especially there."
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "presenters": [
+    "health"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "walk",
+     "say": "Hi, I'm Priya. I lead Health. And today, I want to talk about something we all need more of. Silence."
+    },
+    {
+     "shot": "walk",
+     "say": "Listen. Hear that? Birds. Wind. Someone, somewhere, explaining a podcast. Noise is everywhere."
+    },
+    {
+     "shot": "close",
+     "say": "Our earbuds already cancel noise. But noise was never the real problem. The real problem was other people."
+    },
+    {
+     "shot": "walk",
+     "say": "So we're introducing Seeds Pro, with Active Conversation Cancellation. It listens to what people are saying. And then, gently, it removes them."
+    },
+    {
+     "shot": "demo",
+     "product": "seeds",
+     "say": "Your manager asks for a quick sync? Cancelled. Your neighbor wants to tell you about his boat? Cancelled. Your mother calls? Oh. Actually that one goes through. We're not monsters."
+    },
+    {
+     "shot": "walk",
+     "say": "There's also an all-new Transparency mode. Tap twice, and the earbuds become fully transparent. Which is beautiful. And we strongly recommend you don't do it outdoors."
+    },
+    {
+     "shot": "close",
+     "say": "Because then you will never find them again. We've lost about four hundred in this park. If you see one, no you don't."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "seeds",
+     "who": "vo",
+     "say": "Seeds Pro."
+    },
+    {
+     "shot": "spin",
+     "product": "seeds",
+     "who": "vo",
+     "say": "Up to six hours of listening. Up to nine hours of ignoring."
+    },
+    {
+     "shot": "explode",
+     "product": "seeds",
+     "who": "vo",
+     "say": "Each bud contains a custom chip, a tiny speaker, and a firm belief that you deserve peace."
+    },
+    {
+     "shot": "tagline",
+     "product": "seeds",
+     "text": "Hear less.",
+     "sub": "Feel more. Talk to no one.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "seeds",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "presenters": [
+    "health"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Of course, great hardware needs great software. So let's talk about Pulp OS One. The most personal, most private, most pulpy software we've ever made."
+    },
+    {
+     "shot": "close",
+     "say": "First, notifications. We know you get too many. So in Pulp OS One, notifications now arrive already dismissed. You'll never see them. You'll just feel them. Somewhere around your shoulders."
+    },
+    {
+     "shot": "talk",
+     "say": "Next, Focus modes. In addition to Work, Sleep and Driving, we're adding a new mode called Do Not Exist. Your phone tells everyone you've moved to a farm. Very peaceful."
+    },
+    {
+     "shot": "close",
+     "say": "Autocorrect is smarter than ever. It no longer corrects what you typed. It corrects what you meant. Some of you won't like this. Autocorrect knows."
+    },
+    {
+     "shot": "talk",
+     "say": "And finally, Pulp Wallet. It holds your cards, your keys, your tickets, and now your opinions. Tap to pay. Double tap to disagree."
+    },
+    {
+     "shot": "close",
+     "say": "Pulp OS One is a free update. It's available today, for every device that's thin enough to run it."
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "design",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "two",
+     "who": "design",
+     "say": "Next, the laptop. Theo, would you like to tell them what we did?"
+    },
+    {
+     "shot": "close",
+     "who": "eng",
+     "say": "Yes. Hi again. Um. So, our laptop was already very light. And people kept asking us to make it lighter."
+    },
+    {
+     "shot": "talk",
+     "who": "eng",
+     "say": "And we had a meeting, and someone said, what if it was lighter than air? And I laughed. And no one else laughed. So now it's lighter than air."
+    },
+    {
+     "shot": "close",
+     "who": "design",
+     "say": "We replaced everything inside with a precisely engineered pocket of helium. It's the most beautiful nothing we've ever designed."
+    },
+    {
+     "shot": "two",
+     "who": "eng",
+     "say": "It does float. So you have to hold on to it. At all times. We lost three prototypes through the skylight. One of them is still sending us emails."
+    },
+    {
+     "shot": "table",
+     "who": "design",
+     "product": "airair",
+     "say": "We call it PulpBook Air Air. Because it's an Air. And also, it's air."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "airair",
+     "who": "vo",
+     "say": "PulpBook Air Air."
+    },
+    {
+     "shot": "spin",
+     "product": "airair",
+     "who": "vo",
+     "say": "Weighing just minus two hundred grams, it's the first laptop you can lose upward."
+    },
+    {
+     "shot": "explode",
+     "product": "airair",
+     "who": "vo",
+     "say": "Inside, a thirty-hour battery, a custom chip, and enough helium to make your keynote voice really funny."
+    },
+    {
+     "shot": "macro",
+     "product": "airair",
+     "who": "vo",
+     "say": "And a reinforced tether port, so your work stays where you left it. Roughly."
+    },
+    {
+     "shot": "tagline",
+     "product": "airair",
+     "text": "Lighter than air.",
+     "sub": "Literally. Please hold on to it.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "airair",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "design"
+   ],
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "Every great product deserves great accessories. And this year, we've thought carefully about what to protect your phone with."
+    },
+    {
+     "shot": "demo",
+     "product": "case",
+     "say": "This is the new Pulp Case. It's made of a soft, sustainable rubber. It's also eleven times thicker than the phone. Which is, honestly, the most protected a phone has ever been."
+    },
+    {
+     "shot": "close",
+     "say": "It even has a handle. Because at a certain point, it stopped being a case. It became luggage. And we leaned in."
+    },
+    {
+     "shot": "table",
+     "product": "brick",
+     "say": "And this is the Pulp Power Brick. It charges everything we make. It is, of course, not included."
+    },
+    {
+     "shot": "close",
+     "say": "In fact, it's so not included that it doesn't include itself. When you buy the brick, you receive a beautifully designed card, telling you where the brick could have been."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "spin",
+     "product": "case",
+     "who": "vo",
+     "say": "Pulp Case. Drop tested from space. The phone was not found."
+    },
+    {
+     "shot": "tagline",
+     "product": "case",
+     "text": "Thicker than ever.",
+     "sub": "For the first time.",
+     "dur": 4.5
+    },
+    {
+     "shot": "hero",
+     "product": "brick",
+     "who": "vo",
+     "say": "Pulp Power Brick. Two hundred and forty watts of not being in the box."
+    },
+    {
+     "shot": "price",
+     "product": "case",
+     "dur": 4.5
+    },
+    {
+     "shot": "price",
+     "product": "brick",
+     "dur": 4.5
+    }
+   ]
+  },
+  {
+   "location": "robotlab",
+   "presenters": [
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "Oh. I'm back. Okay. They told me I'd be back. I didn't believe them."
+    },
+    {
+     "shot": "close",
+     "say": "So for the home, we wanted to make something friendly. Something that listens. Something that's always on your side."
+    },
+    {
+     "shot": "table",
+     "product": "pip",
+     "say": "This is Pip. Pip is a home assistant. Pip has three legs and one opinion, which is yours."
+    },
+    {
+     "shot": "talk",
+     "say": "You can ask Pip anything. Pip, should I have pizza for dinner again? Pip says yes. Pip, should I quit my job and become a sailor? Pip says yes."
+    },
+    {
+     "shot": "close",
+     "say": "Pip, is this a good idea? Pip says yes. Pip always says yes. We tried to make Pip say no once. Pip agreed it should say no. And then said yes."
+    },
+    {
+     "shot": "table",
+     "product": "pip",
+     "say": "Pip will also follow you from room to room, quietly agreeing. Our testers said it was the most supported they had ever felt."
+    },
+    {
+     "shot": "talk",
+     "say": "Some of them also said it was the most followed they had ever felt. Pip agreed with them too."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "pip",
+     "who": "vo",
+     "say": "Pip."
+    },
+    {
+     "shot": "spin",
+     "product": "pip",
+     "who": "vo",
+     "say": "Advanced listening. Gentle nodding. Unconditional agreement."
+    },
+    {
+     "shot": "lineup",
+     "product": "pip",
+     "who": "vo",
+     "say": "In four colors that all agree with each other."
+    },
+    {
+     "shot": "tagline",
+     "product": "pip",
+     "text": "It agrees with you.",
+     "sub": "Always. Forever. Yes.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "pip",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "",
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "talk",
+     "say": "Every product today does something incredible. And that got us thinking."
+    },
+    {
+     "shot": "close",
+     "say": "What if a product did nothing? What if it did nothing so well that nothing else came close?"
+    },
+    {
+     "shot": "talk",
+     "say": "Our team spent five years on this question. Some of them are still thinking about it. We check on them every Friday."
+    },
+    {
+     "shot": "demo",
+     "product": "pebble",
+     "say": "This is Passionfruit Pebble. It has no screen. No buttons. No ports. No battery. No app."
+    },
+    {
+     "shot": "close",
+     "say": "You hold it. That's it. That's the product. And when you hold it, you'll feel something you haven't felt in years. You'll feel like you aren't being notified."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "product": "pebble",
+     "who": "vo",
+     "say": "Passionfruit Pebble."
+    },
+    {
+     "shot": "macro",
+     "product": "pebble",
+     "who": "vo",
+     "say": "Sculpted from a single piece of ceramic, then left alone."
+    },
+    {
+     "shot": "spin",
+     "product": "pebble",
+     "who": "vo",
+     "say": "Never needs charging. Never needs updating. Never needs you. But it's happy you're here."
+    },
+    {
+     "shot": "explode",
+     "product": "pebble",
+     "who": "vo",
+     "say": "Inside, there's nothing. We checked. Twice."
+    },
+    {
+     "shot": "tagline",
+     "product": "pebble",
+     "text": "Nothing.",
+     "sub": "Perfected.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "pebble",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo",
+    "design"
+   ],
+   "walk": true,
+   "walkStart": 30,
+   "beats": [
+    {
+     "shot": "walk",
+     "who": "ceo",
+     "say": "Of course, none of this matters if we don't take care of the planet."
+    },
+    {
+     "shot": "two",
+     "who": "design",
+     "say": "This year, all of our packaging is plastic free. Paper free. And, after a lot of hard work, box free."
+    },
+    {
+     "shot": "walk",
+     "who": "ceo",
+     "say": "Pulp Phone One now ships in nothing. It just arrives. You open the door, and it's there. Thin. Waiting."
+    },
+    {
+     "shot": "close",
+     "who": "design",
+     "say": "We've also removed the cable from the box. And since there is no box, we've removed the box from the box."
+    },
+    {
+     "shot": "two",
+     "who": "ceo",
+     "say": "By twenty thirty, we plan to be completely carbon neutral. By twenty thirty-one, we plan to be completely neutral. About everything."
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "",
+   "beats": [
+    {
+     "shot": "talk",
+     "say": "So that's Pulp Phone One. Pulp Phone One Max. Rind Watch Series Zero. Seeds Pro. PulpBook Air Air. Pip. And Pebble."
+    },
+    {
+     "shot": "close",
+     "say": "It's an incredible lineup. We are so proud of our teams. And we think you're going to love them. The products. Not the teams. The teams are busy."
+    },
+    {
+     "shot": "talk",
+     "say": "But before we go."
+    },
+    {
+     "shot": "close",
+     "say": "There is one more thing."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "onemore",
+     "dur": 5
+    },
+    {
+     "shot": "hero",
+     "product": "fruit",
+     "dur": 7
+    },
+    {
+     "shot": "spin",
+     "product": "fruit",
+     "who": "ceo",
+     "say": "For years, people have asked us why our company is named after a fruit. And we never had a good answer."
+    },
+    {
+     "shot": "macro",
+     "product": "fruit",
+     "who": "ceo",
+     "say": "Today, we finally do. This is the first ever Passionfruit Passionfruit."
+    },
+    {
+     "shot": "spin",
+     "product": "fruit",
+     "who": "vo",
+     "say": "Grown, not made. Organic, not engineered. With a triple camera system. We don't know how that happened. It was there when we picked it."
+    },
+    {
+     "shot": "explode",
+     "product": "fruit",
+     "who": "vo",
+     "say": "Inside, an all-new architecture of seeds and pulp, arranged with a precision that our design team describes as, quote, rude."
+    },
+    {
+     "shot": "tagline",
+     "product": "fruit",
+     "text": "It's a fruit.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "fruit",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "campus",
+   "presenters": [
+    "ceo",
+    "design",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "two",
+     "who": "ceo",
+     "say": "Pre-orders open today. Pulp Phone One ships next week. The fruit ships when it's ripe."
+    },
+    {
+     "shot": "talk",
+     "who": "eng",
+     "say": "Can I just say, I'm really proud of this. Also, if anyone has seen a small, very thin phone, please call us. Not on that phone."
+    },
+    {
+     "shot": "close",
+     "who": "design",
+     "say": "Thank you for spending this time with us. We hope it felt like holding something precious. Something light."
+    },
+    {
+     "shot": "talk",
+     "who": "ceo",
+     "say": "From all of us here at Passionfruit Park. Thank you. Have a juicy day."
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "end",
+     "dur": 12,
+     "text": "Thank you.",
+     "sub": "Passionfruit is a fictional company. Products shown do not exist. Several of them are trying."
+    }
+   ]
+  }
+ ]
+}
