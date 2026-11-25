@@ -1,0 +1,1423 @@
+{
+ "number": 5,
+ "title": "We're Sorry",
+ "date": "November 25",
+ "cast": {
+  "ceo": {
+   "name": "Dana Pith",
+   "title": "Chief Executive Officer",
+   "voice": "am_michael",
+   "speed": 0.95,
+   "look": {
+    "style": "turtleneck",
+    "outfit": "#1b1b22",
+    "pants": "#2a2a33",
+    "hair": "short",
+    "hairColor": "#a9a9ad",
+    "glasses": "round",
+    "skin": "#e9be98"
+   }
+  },
+  "design": {
+   "name": "Imogen Rind",
+   "title": "Chief Design Officer",
+   "voice": "bf_emma",
+   "speed": 0.92,
+   "look": {
+    "style": "blazer",
+    "outfit": "#e9e4da",
+    "shirt": "#1b1b1b",
+    "pants": "#d8d2c6",
+    "hair": "bob",
+    "hairColor": "#d7b36a",
+    "skin": "#f1cfb0",
+    "shoes": "#1b1b1b"
+   }
+  },
+  "eng": {
+   "name": "Theo Seedling",
+   "title": "Senior Engineer, Thinness",
+   "voice": "am_adam",
+   "speed": 1.1,
+   "look": {
+    "style": "labcoat",
+    "shirt": "#6a8fd0",
+    "hair": "curly",
+    "hairColor": "#3a2414",
+    "skin": "#a8714a",
+    "nervous": true,
+    "glasses": "square",
+    "height": 0.96
+   }
+  },
+  "watch": {
+   "name": "Marco Nectar",
+   "title": "SVP, Wearables & Wanderables",
+   "voice": "am_liam",
+   "look": {
+    "style": "vest",
+    "outfit": "#f2f2f2",
+    "accent": "#26324a",
+    "pants": "#3a4a66",
+    "hair": "quiff",
+    "hairColor": "#4a2c18",
+    "skin": "#d9a27a",
+    "beard": true,
+    "height": 1.04
+   }
+  },
+  "health": {
+   "name": "Priya Zest",
+   "title": "VP, Health & Silence",
+   "voice": "af_heart",
+   "look": {
+    "style": "tee",
+    "outfit": "#5cc96b",
+    "pants": "#22252c",
+    "hair": "long",
+    "hairColor": "#1c1210",
+    "skin": "#b98260",
+    "shoes": "#ffffff"
+   }
+  },
+  "vo": {
+   "name": "The Voice of Passionfruit",
+   "voice": "bm_george",
+   "offscreen": true,
+   "speed": 0.95
+  },
+  "home": {
+   "name": "Bea Nectarine",
+   "title": "VP, Home & Ambience",
+   "voice": "af_nicole",
+   "look": {
+    "style": "hoodie",
+    "outfit": "#ff8a3d",
+    "accent": "#00000033",
+    "pants": "#2c2c34",
+    "hair": "bun",
+    "hairColor": "#6b3a1e",
+    "skin": "#f0c8a8",
+    "glasses": "gold",
+    "height": 0.97
+   }
+  },
+  "drive": {
+   "name": "Rafa Kernel",
+   "title": "SVP, Mobility & Going Places",
+   "voice": "am_eric",
+   "look": {
+    "style": "blazer",
+    "outfit": "#26324a",
+    "shirt": "#ffffff",
+    "pants": "#26324a",
+    "hair": "buzz",
+    "hairColor": "#1c1210",
+    "skin": "#8a5a3c",
+    "shoes": "#1b1b1b",
+    "height": 1.03
+   }
+  },
+  "sorry": {
+   "name": "Ollie Pardon",
+   "title": "Chief Apology Officer",
+   "voice": "bm_lewis",
+   "speed": 0.95,
+   "look": {
+    "style": "blazer",
+    "outfit": "#5a5a62",
+    "shirt": "#d9e4f2",
+    "pants": "#3a3a44",
+    "hair": "bald",
+    "hairColor": "#8a7a6a",
+    "skin": "#efc9a8",
+    "glasses": "square",
+    "beard": true,
+    "height": 1.02
+   }
+  }
+ },
+ "products": {
+  "sniff": {
+   "name": "Pulp Sniff",
+   "kind": "custom",
+   "shape": "egg",
+   "w": 1.3,
+   "h": 0.8,
+   "d": 0.9,
+   "color": "#c98a4a",
+   "material": "matte",
+   "features": [
+    "eyes",
+    "legs:4",
+    "antenna",
+    "tail"
+   ],
+   "screen": [
+    "#2a1a10",
+    "#5a3a20"
+   ],
+   "colors": [
+    "#c98a4a",
+    "#1d1d22",
+    "#ecebe6"
+   ],
+   "price": "$129",
+   "fine": "Finds thin phones. Does not fetch. Will not fetch.",
+   "handSize": 0.16
+  },
+  "doorbell": {
+   "name": "Pulp Ding",
+   "kind": "custom",
+   "shape": "cylinder",
+   "w": 0.7,
+   "h": 1.0,
+   "d": 0.7,
+   "color": "#ecebe6",
+   "material": "ceramic",
+   "features": [
+    "button",
+    "glow",
+    "camera:1"
+   ],
+   "glow": "#5cc96b",
+   "buttonColor": "#ff8a3d",
+   "price": "$179",
+   "fine": "Rings for good news only. Bad news may knock.",
+   "handSize": 0.12
+  },
+  "mirror": {
+   "name": "Pulp Mirror",
+   "kind": "slab",
+   "w": 1.1,
+   "h": 2.0,
+   "d": 0.08,
+   "color": "#d9d9de",
+   "material": "chrome",
+   "features": [
+    "screen"
+   ],
+   "screen": [
+    "#cfe0f0",
+    "#f4f8fc"
+   ],
+   "screenText": "you look great",
+   "price": "$899",
+   "fine": "Compliments are sincere. Lighting is generous.",
+   "handSize": 0.3
+  },
+  "toaster": {
+   "name": "Zest Toaster",
+   "kind": "cube",
+   "w": 1.2,
+   "h": 0.8,
+   "d": 0.7,
+   "color": "#ff8a3d",
+   "material": "ceramic",
+   "features": [
+    "fins",
+    "glow",
+    "button"
+   ],
+   "glow": "#ffd23f",
+   "colors": [
+    "#ff8a3d",
+    "#ecebe6",
+    "#5cc96b",
+    "#1d1d22"
+   ],
+   "price": "$149",
+   "fine": "Toasts apologies. Also bread.",
+   "handSize": 0.18
+  },
+  "fern": {
+   "name": "Pulp Fern",
+   "kind": "custom",
+   "shape": "cone",
+   "w": 1.0,
+   "h": 1.3,
+   "d": 1.0,
+   "color": "#4f9a4a",
+   "material": "matte",
+   "features": [
+    "eyes",
+    "glow",
+    "legs:3"
+   ],
+   "glow": "#9fffb0",
+   "screen": [
+    "#0d2a12",
+    "#2f6a3a"
+   ],
+   "price": "$89",
+   "fine": "Waters itself. Has feelings about it.",
+   "handSize": 0.18
+  },
+  "lantern": {
+   "name": "Pulp Glow",
+   "kind": "custom",
+   "shape": "egg",
+   "size": 0.9,
+   "color": "#ffe9b0",
+   "material": "glass",
+   "features": [
+    "handle",
+    "glow",
+    "halo"
+   ],
+   "glow": "#ffd23f",
+   "price": "$99",
+   "fine": "Glows brighter when you're right. Dim tonight.",
+   "handSize": 0.15
+  },
+  "pebblepro": {
+   "name": "Pebble Pro Max",
+   "kind": "custom",
+   "shape": "pebble",
+   "size": 1.6,
+   "color": "#55575d",
+   "material": "matte",
+   "features": [],
+   "handSize": 0.3
+  },
+  "car": {
+   "name": "Pulp Drive",
+   "kind": "slab",
+   "size": 2,
+   "w": 1.1,
+   "h": 0.5,
+   "d": 0.55,
+   "color": "#9b5de5",
+   "material": "ceramic",
+   "features": [
+    "wheels",
+    "glow",
+    "screen",
+    "eyes"
+   ],
+   "glow": "#ffd23f",
+   "screen": [
+    "#0d0d12",
+    "#1d1d22"
+   ],
+   "handSize": 0.35
+  },
+  "pulp1": {
+   "name": "Pulp Phone 1",
+   "kind": "phone",
+   "color": "#6b3fa0",
+   "material": "titanium",
+   "thickness": 0.35,
+   "features": [
+    "camera:7",
+    "notch"
+   ],
+   "handSize": 0.12
+  },
+  "thick": {
+   "name": "Pulp Phone 1 Thick",
+   "kind": "phone",
+   "color": "#6b3fa0",
+   "material": "titanium",
+   "thickness": 9,
+   "features": [
+    "camera:1",
+    "handle",
+    "glow"
+   ],
+   "glow": "#ff8a3d",
+   "colors": [
+    "#6b3fa0",
+    "#ff8a3d",
+    "#5cc96b",
+    "#ecebe6"
+   ],
+   "price": "$1,299",
+   "fine": "Free replacement for every Pulp Phone 1 we can find. Which, now, is all of them.",
+   "handSize": 0.16
+  },
+  "pip": {
+   "name": "Pip",
+   "kind": "custom",
+   "shape": "orb",
+   "color": "#ff8a3d",
+   "material": "ceramic",
+   "features": [
+    "eyes",
+    "legs:3",
+    "antenna",
+    "glow"
+   ],
+   "screen": [
+    "#1a0b24",
+    "#3a1046"
+   ],
+   "handSize": 0.14
+  },
+  "nope": {
+   "name": "Nope",
+   "kind": "custom",
+   "shape": "orb",
+   "color": "#1d1d22",
+   "material": "matte",
+   "features": [
+    "eyes",
+    "legs:3",
+    "antenna"
+   ],
+   "screen": [
+    "#2a0a10",
+    "#5a1420"
+   ],
+   "handSize": 0.14
+  }
+ },
+ "segments": [
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "We're Sorry",
+   "music": "piano",
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Passionfruit Event 5",
+     "sub": "We're Sorry",
+     "dur": 4
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "talk",
+     "say": "Good morning. Thank you for joining us. Today's event is a little different. There are no fireworks. No drone shots. No sunrise. We had a sunrise booked. We cancelled it."
+    },
+    {
+     "shot": "close",
+     "say": "Over the past few events, we made a lot of things. Some of them were wonderful. Some of them were, in hindsight, a lot. And today, we want to take responsibility."
+    },
+    {
+     "shot": "talk",
+     "say": "This is our first ever apology event. We're going to look back at what went wrong, say sorry, properly, and then, because we are still us, show you some new products."
+    },
+    {
+     "shot": "talk",
+     "say": "Our lawyers asked us not to do this. Our marketing team asked us not to do this. Nope, before resigning, asked us not to do this. So we're definitely doing this."
+    },
+    {
+     "shot": "close",
+     "say": "To help us, we've hired someone new. Someone whose entire job is to be sorry. Please welcome our Chief Apology Officer."
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "sorry"
+   ],
+   "beats": [
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Hello. I'm Ollie. I'm the Chief Apology Officer. I joined Passionfruit on Monday. I have already apologized four hundred times. Three of those were to my desk."
+    },
+    {
+     "shot": "close",
+     "say": "My job is simple. When we make a mistake, I find it, I understand it, and I say sorry. Slowly. With eye contact. Like this. I'm sorry."
+    },
+    {
+     "shot": "talk",
+     "say": "And I want to start with the font. Some of you wrote in about the font. You said it was very thin. Like everything else. You were right. I'm sorry about the font."
+    },
+    {
+     "shot": "talk",
+     "say": "Before Passionfruit, I worked for eleven years at an airline. I apologized for delays, for weather, for a goose. One time I apologized to the goose. It accepted. I've been chasing that feeling ever since."
+    },
+    {
+     "shot": "close",
+     "say": "We've also prepared a short list of everything else we're sorry about. It's not short. Dana asked me to say it was short. I'm sorry, Dana."
+    },
+    {
+     "shot": "talk",
+     "say": "I've prepared some guidelines for today. Every apology will be sincere. Every apology will be specific. And every apology will be followed, unfortunately, by a new product. That part wasn't my idea."
+    }
+   ]
+  },
+  {
+   "location": "robotlab",
+   "presenters": [
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 1",
+     "sub": "The font.",
+     "dur": 3.5
+    },
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Hi. Theo. Hello. Okay. So. Apology number one is Pulp Phone One. Our thinnest phone ever. Which, as many of you know, was also our hardest phone to find. Ever."
+    },
+    {
+     "shot": "close",
+     "say": "We sold four million of them. Our data shows that about two million are currently lost. In couches. In coats. One of them is inside another Pulp Phone One. We don't know how."
+    },
+    {
+     "shot": "table",
+     "say": "So we are recalling Pulp Phone One. And the hardest part of a recall, is finding the product. So, to help, we built a dog.",
+     "product": "pulp1"
+    },
+    {
+     "shot": "talk",
+     "say": "Well, not a dog. A device. Shaped like a dog. With a nose for titanium. It's called Pulp Sniff. And it finds thin phones. Anywhere. Under anything. It's very good. It's a very good boy."
+    },
+    {
+     "shot": "table",
+     "say": "In testing, Pulp Sniff found eleven thousand phones in one week. Also, nine sets of keys, a sandwich, and my glasses, which were on my head. It was very proud. I was very embarrassed.",
+     "product": "sniff"
+    },
+    {
+     "shot": "close",
+     "say": "I'm sorry. On behalf of the thinness team. Which is me. I'm the whole team now. Everyone else got lost. No. I'm kidding. They're on vacation. In the Nap Corner."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Sniff.",
+     "product": "sniff",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Four legs. One nose. And a titanium detector so sensitive, it can find a phone that doesn't want to be found.",
+     "product": "sniff",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, a sensor array, a battery, and a small, unshakable sense of loyalty.",
+     "product": "sniff",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In three colors. All of them good boys. Or good girls. Or good devices. It's complicated.",
+     "product": "sniff",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "sniff",
+     "text": "Good device.",
+     "sub": "Who's a good device.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "sniff",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "desert",
+   "time": "sunset",
+   "presenters": [
+    "drive"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 2",
+     "sub": "The phone. All of the phones.",
+     "dur": 3.5
+    },
+    {
+     "shot": "walk",
+     "say": "Hello. Rafa. Mobility. I am in the desert, at sunset, because I need to apologize for Pulp Drive. Our first car. The car that only drives to the store, and buys passionfruit."
+    },
+    {
+     "shot": "walk",
+     "say": "It turns out, if you sell two hundred thousand cars that only buy passionfruit, very quickly, there is no passionfruit left. Anywhere. We caused a national passionfruit shortage. In four days."
+    },
+    {
+     "shot": "close",
+     "say": "Smoothie shops closed. A fruit festival was cancelled. A small country called us. We had to talk to a small country. I'm sorry, small country."
+    },
+    {
+     "shot": "table",
+     "say": "And the cars kept going. Every morning, they drove to the store, found no passionfruit, and came home. Empty. Disappointed. You could see it in their little eyes.",
+     "product": "car"
+    },
+    {
+     "shot": "walk",
+     "say": "So, starting today, every Pulp Drive gets a free software update. It will now also buy mangoes. Mangoes are close to passionfruit. Emotionally."
+    },
+    {
+     "shot": "close",
+     "say": "And we've planted four hundred thousand passionfruit vines. Right here. In the desert. They're not growing. It's a desert. We're looking into it. I'm sorry about that too."
+    }
+   ]
+  },
+  {
+   "location": "cafe",
+   "presenters": [
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 5",
+     "sub": "The car. The shortage. The small country.",
+     "dur": 3.5
+    },
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Hi. It's Bea. Home and Ambience. I'm in a cafe, because I wanted to apologize somewhere cozy. And because Nectar Speaker played smooth jazz during a funeral. Twice."
+    },
+    {
+     "shot": "close",
+     "say": "It wasn't the speaker's fault. It detected a long silence. It did what it was trained to do. But it was the wrong time for smooth jazz. Which, it turns out, is most of the time."
+    },
+    {
+     "shot": "talk",
+     "say": "So to make it up to you, we're introducing something that only ever brings good things into your home. It's a doorbell. Its name is Pulp Ding."
+    },
+    {
+     "shot": "table",
+     "say": "Pulp Ding only rings for good news. A friend arriving. A package you actually wanted. Your favorite neighbor, with cake. Everything else, it lets knock. Quietly. Politely. Without a ding.",
+     "product": "doorbell"
+    },
+    {
+     "shot": "close",
+     "say": "If a salesperson comes to the door, Pulp Ding says, nobody's home, in a very convincing voice. Which is a lie. And I'm sorry about that. But I'm also not."
+    },
+    {
+     "shot": "talk",
+     "say": "In testing, families with Pulp Ding opened the door forty percent less, and smiled sixty percent more when they did. Some of them baked cakes for their neighbors, just to hear it ding."
+    },
+    {
+     "shot": "close",
+     "say": "And Nectar Speaker has been updated. It now checks whether it's a funeral before playing jazz. It asks out loud. That has created some new problems. We'll apologize for those at the next event."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Ding.",
+     "product": "doorbell",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A single button, a single camera, and a single, very selective chime.",
+     "product": "doorbell",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "A glowing ring that turns green for good news. And stays very, very quiet for everything else.",
+     "product": "doorbell",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "doorbell",
+     "text": "Only good news.",
+     "sub": "Everything else can knock.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "doorbell",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "snow",
+   "time": "night",
+   "presenters": [
+    "watch"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 7",
+     "sub": "Smooth jazz at a funeral. Twice.",
+     "dur": 3.5
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "talk",
+     "say": "Hey. Marco. I'm on a mountain. At night. In the snow. Because Rind Watch Series Zero, our watch with legs, walked here. Three hundred of them. We're still not sure why."
+    },
+    {
+     "shot": "close",
+     "say": "When we said the watch would leave you if you sat too long, we didn't think it through. Many of them left. Some of them formed a group. They live up here now. In the cabin."
+    },
+    {
+     "shot": "talk",
+     "say": "We came up to apologize to them. And to their owners. The owners are sad. The watches seem happy. They've closed every ring. Every day. It's honestly inspiring."
+    },
+    {
+     "shot": "close",
+     "say": "So we're not recalling the watches. We're letting them stay. If you'd like to visit your watch, we run a shuttle on weekends. Bring a coat. Bring snacks. Watches love snacks."
+    }
+   ]
+  },
+  {
+   "location": "beach",
+   "time": "sunrise",
+   "presenters": [
+    "drive",
+    "watch"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 7.5",
+     "sub": "We're not sure how half an apology happened either.",
+     "dur": 3.5
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "two",
+     "say": "Marco, you made it down from the mountain.",
+     "who": "drive"
+    },
+    {
+     "shot": "two",
+     "say": "I did. The watches gave me a ride. Halfway. Then they left. Classic watches. So, Rafa, Pulp Shade.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "Pulp Shade. The floating ring that keeps you in the shade. People loved it. Maybe a little too much. As you may remember, one man started a small religion.",
+     "who": "drive"
+    },
+    {
+     "shot": "two",
+     "say": "It's not small anymore. There are now nine thousand members. They meet here, on this beach, every morning. Under their rings. Humming.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "We reached out. We said, it's a sun shade. They said, that's exactly what a sun shade would say. We didn't have a response to that.",
+     "who": "drive"
+    },
+    {
+     "shot": "two",
+     "say": "So we'd like to apologize to the members. And to their families. And to the sun, which has been called some very unkind things. The sun is fine. The sun was never the problem.",
+     "who": "watch"
+    },
+    {
+     "shot": "close",
+     "say": "The good news is, they're very nice people. Very hydrated. Very shaded. They invited us to brunch. We went. It was a great brunch.",
+     "who": "drive"
+    }
+   ]
+  },
+  {
+   "location": "factory",
+   "presenters": [
+    "design",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 8",
+     "sub": "The watches. They're fine.",
+     "dur": 3.5
+    },
+    {
+     "shot": "wide",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Theo, I'd like to apologize for something too. And it's personal.",
+     "who": "design"
+    },
+    {
+     "shot": "close",
+     "say": "Of course. Go ahead.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "For three events, I told the world that our products felt precious. Light. Something you might lose at any moment. I said it with great conviction.",
+     "who": "design"
+    },
+    {
+     "shot": "close",
+     "say": "And then everyone lost them. It was a design brief that worked too well. I'm sorry. I'm so sorry. I designed loss. Beautifully. But still.",
+     "who": "design"
+    },
+    {
+     "shot": "two",
+     "say": "That's very brave. And honestly, it's why we're building this. Can I show them?",
+     "who": "eng"
+    },
+    {
+     "shot": "table",
+     "say": "This is Pulp Mirror. You look into it. It looks back. And it tells you, gently, that you're doing a great job. No matter what you've designed. No matter what you've lost.",
+     "who": "eng",
+     "product": "mirror"
+    },
+    {
+     "shot": "close",
+     "say": "I looked into it this morning. It said, you look rested. I am not rested. It knew. It said it anyway. That's love.",
+     "who": "design"
+    },
+    {
+     "shot": "two",
+     "say": "We've put a Pulp Mirror at the end of every factory line. Each product looks into it before it ships. They all leave a little more confident. Return rates are down twelve percent.",
+     "who": "eng"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Mirror.",
+     "product": "mirror",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Polished stainless steel. A display hidden behind the glass. And an opinion of you that is unshakably good.",
+     "product": "mirror",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "Every compliment is written by a team of poets. And reviewed by a team of lawyers. To make sure it's true. Enough.",
+     "product": "mirror",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "mirror",
+     "text": "You look great.",
+     "sub": "It's not just saying that. It is. But it also means it.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "mirror",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "rooftop",
+   "time": "sunset",
+   "presenters": [
+    "ceo",
+    "sorry"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 10",
+     "sub": "Designing loss. Beautifully.",
+     "dur": 3.5
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "two",
+     "say": "Ollie, how are we doing?",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "Ten apologies, Dana. It's going well. People are responding. Two of them have already forgiven us. One of them was my mother.",
+     "who": "sorry"
+    },
+    {
+     "shot": "two",
+     "say": "And what about Pebble Pro Max?",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "Ah. Yes. The boulder. Pebble Pro Max was a four hundred kilogram stone that does nothing. And many of you bought one. And then, many of you tried to return one.",
+     "who": "sorry"
+    },
+    {
+     "shot": "table",
+     "say": "Our stores were not designed for boulders. One store now has three boulders in the lobby. Customers sit on them. They've become very popular. We're calling it a lounge.",
+     "who": "sorry",
+     "product": "pebblepro"
+    },
+    {
+     "shot": "two",
+     "say": "And we've learned something. People don't want a big thing that does nothing. They want a small thing that does nothing. That's what made Pebble special. We lost our way. I'm sorry.",
+     "who": "ceo"
+    },
+    {
+     "shot": "close",
+     "say": "So, to every Pebble Pro Max owner: we will come and pick it up. With a truck. And a team of very strong engineers. And snacks. You keep the snacks.",
+     "who": "sorry"
+    }
+   ]
+  },
+  {
+   "location": "park",
+   "presenters": [
+    "health"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 11",
+     "sub": "The boulder. The lounge is nice though.",
+     "dur": 3.5
+    },
+    {
+     "shot": "walk",
+     "say": "Hi. Priya. Health. I don't have a big apology. I have a small one. Zest Bottle showed some of you photos of sad raisins. Hundreds of photos. Of raisins."
+    },
+    {
+     "shot": "walk",
+     "say": "We wanted to motivate you. We did not want to make you sad about dried fruit. Raisins are a perfectly healthy snack. They didn't deserve that. I'm sorry, raisins."
+    },
+    {
+     "shot": "close",
+     "say": "So today, I want to bring something into your life that is only ever happy. Even when you forget about it. Especially when you forget about it."
+    },
+    {
+     "shot": "walk",
+     "say": "We've also sent every raisin farmer a handwritten note. And a Zest Bottle. With the raisin photos turned off. They said thank you. One of them said, finally. We don't know what that meant."
+    },
+    {
+     "shot": "table",
+     "say": "This is Pulp Fern. It's a houseplant. It has a little face. And it waters itself. You never have to remember. It doesn't judge. It doesn't send reminders. It just grows. And smiles.",
+     "product": "fern"
+    },
+    {
+     "shot": "walk",
+     "say": "We tested Pulp Fern with people who have, historically, been bad at plants. Every single fern survived. Some of the owners cried. One said, it's the first thing I've kept alive since college."
+    },
+    {
+     "shot": "close",
+     "say": "Pulp Fern also walks to the window when it needs more sun. It has three little legs. Slowly. Very slowly. It took one fern four days to cross a living room. It made it. We were so proud."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Fern.",
+     "product": "fern",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "A self-watering pot, a gentle grow light, and a face designed by our team to look calm, no matter what you've been through.",
+     "product": "fern",
+     "who": "vo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, a water tank, a moisture sensor, and three tiny legs that know where the sun is.",
+     "product": "fern",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "fern",
+     "text": "Grows on you.",
+     "sub": "And on its own.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "fern",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "datacenter",
+   "presenters": [
+    "home"
+   ],
+   "walk": true,
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 12",
+     "sub": "The raisins.",
+     "dur": 3.5
+    },
+    {
+     "shot": "walk",
+     "say": "Bea again. I'm back in the cloud. Because there's a problem with Pulp Cloud Personal. Visiting hours. People really, really like visiting their clouds."
+    },
+    {
+     "shot": "walk",
+     "say": "We expected a few visitors. Tuesdays. Two to four. We got eleven thousand people last Tuesday. They brought flowers. We said no flowers. They brought balloons. We didn't say no balloons."
+    },
+    {
+     "shot": "close",
+     "say": "One family held a birthday party for their cloud. Its name is Gerald. He's three months old. They sang. The whole datacenter sang. It was beautiful. It was also a fire hazard."
+    },
+    {
+     "shot": "walk",
+     "say": "So we're adding more visiting hours. And a waiting room. With chairs. And a small cafe. Run by Pulp Polite. Everything is very, very polite in there."
+    },
+    {
+     "shot": "close",
+     "say": "I'm sorry to everyone who waited in line. And to Gerald, who had to hear us sing. Gerald's fine. Gerald's a cloud. He's been through worse."
+    }
+   ]
+  },
+  {
+   "location": "robotlab",
+   "presenters": [
+    "eng",
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 13",
+     "sub": "The balloons.",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Theo, we need to talk about Pip and Nope.",
+     "who": "home"
+    },
+    {
+     "shot": "close",
+     "say": "Yes. Okay. So. As you know, Nope became a team member. Nope got a desk. Nope attended meetings. And last week, Nope resigned.",
+     "who": "eng"
+    },
+    {
+     "shot": "table",
+     "say": "Nope sent a resignation letter. It was one word long. The word was no. We think it was a resignation. It could also have been feedback. We're not sure.",
+     "who": "eng",
+     "product": "nope"
+    },
+    {
+     "shot": "two",
+     "say": "And Pip, of course, agreed with Nope's decision. And then agreed to replace Nope. And then agreed to lead the team. Pip is now a manager.",
+     "who": "home"
+    },
+    {
+     "shot": "table",
+     "say": "Pip approves every project. Every single one. We have four hundred projects now. We had nine. Pip said yes to a hat for dogs. Pip said yes to a phone for dogs. We're building both.",
+     "who": "eng",
+     "product": "pip"
+    },
+    {
+     "shot": "close",
+     "say": "We'd like to apologize to everyone on the team. And to dogs, who did not ask for a phone. We're sorry. The phone is very good, though. It has a big button. It's for paws.",
+     "who": "eng"
+    }
+   ]
+  },
+  {
+   "location": "lab",
+   "presenters": [
+    "design",
+    "home"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 14",
+     "sub": "Gerald's birthday. Happy birthday Gerald.",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Bea. We should talk about breakfast.",
+     "who": "design"
+    },
+    {
+     "shot": "close",
+     "say": "We should. Because the best apologies, in our experience, happen over breakfast.",
+     "who": "home"
+    },
+    {
+     "shot": "table",
+     "say": "This is Zest Toaster. It toasts bread. And while it toasts, it writes a short, heartfelt apology on the toast. In your handwriting. To whoever you need to say sorry to.",
+     "who": "design",
+     "product": "toaster"
+    },
+    {
+     "shot": "two",
+     "say": "Forgot an anniversary? Sorry, toasted in. Ate the last yogurt? Sorry, golden brown. Accidentally caused a national fruit shortage? That one needs two slices.",
+     "who": "home"
+    },
+    {
+     "shot": "close",
+     "say": "In testing, eighty-five percent of toast apologies were accepted. The rest were eaten. Which, we think, still counts.",
+     "who": "design"
+    },
+    {
+     "shot": "two",
+     "say": "And for people who never do anything wrong, it can also toast compliments. Nice shoes. Good job. You're doing great. We sold out of that setting immediately. People need it.",
+     "who": "home"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Zest Toaster.",
+     "product": "toaster",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Ceramic. Four slots. And a heating element calibrated to the exact temperature of a sincere apology.",
+     "product": "toaster",
+     "who": "vo"
+    },
+    {
+     "shot": "macro",
+     "say": "A single button. Press it, and say what you're sorry for. The bread will do the rest.",
+     "product": "toaster",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "In four colors. Each one says sorry. Each one means it.",
+     "product": "toaster",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "toaster",
+     "text": "Say it with toast.",
+     "sub": "Butter optional. Feelings included.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "toaster",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "space",
+   "presenters": [
+    "drive",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 15",
+     "sub": "A phone for dogs. Still building it.",
+     "dur": 3.5
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "two",
+     "say": "Theo. We're in space again.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "I know. I asked for the factory. I always ask for the factory. Why do they keep sending me to space?",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "Because of Pulp Orbit. Our personal satellite. Which takes one photo of you, every day, from space. To show you how small and brave you look.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "And people said that was, quote, a lot. Some of them said it was, quote, too much. One of them said it was, quote, why. Just the word why. In capital letters.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "So we've made a change. Pulp Orbit will now only take photos if you wave first. Wave at the sky, it takes the photo. Don't wave, it looks politely at the clouds.",
+     "who": "drive"
+    },
+    {
+     "shot": "close",
+     "say": "In testing, people waved at the sky about twelve times a day. Mostly at birds. And planes. And once, at a kite. The satellite took all of those photos too. It's very eager. We're sorry.",
+     "who": "eng"
+    },
+    {
+     "shot": "two",
+     "say": "Also, the earbud. The one in orbit. It's still up here. It doesn't want to come down. It sent us a message. It said, I'm good here. We're respecting its choice.",
+     "who": "drive"
+    }
+   ]
+  },
+  {
+   "location": "city",
+   "time": "night",
+   "presenters": [
+    "ceo",
+    "sorry"
+   ],
+   "walk": true,
+   "walkStart": 4,
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 16",
+     "sub": "Breakfast.",
+     "dur": 3.5
+    },
+    {
+     "shot": "walk",
+     "say": "Ollie, we've been going all day. How many is that?",
+     "who": "ceo"
+    },
+    {
+     "shot": "walk",
+     "say": "Sixteen major apologies. Two hundred and four minor apologies. And one apology to a pigeon on the rooftop. I stepped on its shadow. It seemed upset.",
+     "who": "sorry"
+    },
+    {
+     "shot": "close",
+     "say": "And how do you feel?",
+     "who": "ceo"
+    },
+    {
+     "shot": "walk",
+     "say": "Honestly? Lighter. Like a weight has been lifted. Four hundred kilograms, specifically. The trucks picked up the boulders this afternoon.",
+     "who": "sorry"
+    },
+    {
+     "shot": "close",
+     "say": "Before we go, I have a small thing for you, Dana. For being brave enough to do this. It's a lantern. It's called Pulp Glow. It glows a little brighter every time you admit you were wrong.",
+     "who": "sorry"
+    },
+    {
+     "shot": "demo",
+     "say": "It's very bright right now. Very, very bright. Okay. Thank you. That's enough. You can turn it down. It doesn't turn down? Okay.",
+     "who": "ceo",
+     "product": "lantern"
+    },
+    {
+     "shot": "walk",
+     "say": "It'll dim over time. Assuming we stop making mistakes. So, it's going to be bright for a while.",
+     "who": "sorry"
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "hero",
+     "say": "Pulp Glow.",
+     "product": "lantern",
+     "who": "vo"
+    },
+    {
+     "shot": "spin",
+     "say": "Hand-blown glass. A warm light. And a sensor that knows, somehow, when you've been honest.",
+     "product": "lantern",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "lantern",
+     "text": "Own it.",
+     "sub": "It glows when you do.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "lantern",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "theater",
+   "presenters": [
+    "ceo"
+   ],
+   "screen": "",
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 17",
+     "sub": "The lantern. It's still very bright.",
+     "dur": 3.5
+    },
+    {
+     "shot": "talk",
+     "say": "Thank you for staying with us through all of this. It's not easy to say sorry. It's even harder to say it in a pre-recorded film with very good lighting."
+    },
+    {
+     "shot": "close",
+     "say": "But we've learned something today. We've learned that when you make something, you're responsible for it. Even after it leaves. Even if it walks up a mountain."
+    },
+    {
+     "shot": "close",
+     "say": "We've also learned that our customers are incredibly patient. You've been finding phones, visiting watches, hosting boulders and singing to clouds. Thank you. You're the best customers a fictional company could ask for."
+    },
+    {
+     "shot": "talk",
+     "say": "And there's one last apology. The biggest one. The one we've been working up to. And it comes with, as tradition demands, one more thing."
+    }
+   ]
+  },
+  {
+   "location": "studio",
+   "presenters": [],
+   "beats": [
+    {
+     "shot": "onemore",
+     "text": "One more thing. (Sorry.)",
+     "dur": 5
+    },
+    {
+     "shot": "hero",
+     "product": "thick",
+     "dur": 7
+    },
+    {
+     "shot": "spin",
+     "say": "This is Pulp Phone One Thick. It's Pulp Phone One. The same phone. The same seven cameras. But now, four centimeters thick.",
+     "product": "thick",
+     "who": "ceo"
+    },
+    {
+     "shot": "macro",
+     "say": "You will never lose it. It doesn't fit in a couch. It doesn't fit in most pockets. It barely fits in a bag. It has a handle. For carrying. Like a briefcase. A briefcase you can call people on.",
+     "product": "thick",
+     "who": "ceo"
+    },
+    {
+     "shot": "explode",
+     "say": "Inside, the same thin phone as before. Surrounded by four centimeters of pure, recycled, unlosable aluminum.",
+     "product": "thick",
+     "who": "vo"
+    },
+    {
+     "shot": "lineup",
+     "say": "Every owner of a Pulp Phone One gets a free Pulp Phone One Thick. If we can find your Pulp Phone One. Which, now, with Pulp Sniff, we can.",
+     "product": "thick",
+     "who": "vo"
+    },
+    {
+     "shot": "tagline",
+     "product": "thick",
+     "text": "Our thickest ever.",
+     "sub": "We're sorry. We're so sorry.",
+     "dur": 5
+    },
+    {
+     "shot": "price",
+     "product": "thick",
+     "dur": 5
+    }
+   ]
+  },
+  {
+   "location": "campus",
+   "time": "night",
+   "presenters": [
+    "ceo",
+    "sorry",
+    "eng"
+   ],
+   "beats": [
+    {
+     "shot": "title",
+     "text": "Apologies so far: 18",
+     "sub": "Thick. It's very thick.",
+     "dur": 3.5
+    },
+    {
+     "shot": "two",
+     "say": "Pre-orders open today. Pulp Phone One Thick ships next week. Delivered by truck. With the boulders. They're going the same way.",
+     "who": "ceo"
+    },
+    {
+     "shot": "talk",
+     "say": "I'm Theo. I'd like to apologize for nothing. For once. I didn't do anything wrong this time. I checked. Twice. Pulp Mirror said I look great.",
+     "who": "eng"
+    },
+    {
+     "shot": "close",
+     "say": "And from me, the Chief Apology Officer: thank you for listening. And I'm sorry this was twenty-two minutes long. It was supposed to be twenty.",
+     "who": "sorry"
+    },
+    {
+     "shot": "talk",
+     "say": "From all of us here at Passionfruit Park: we're sorry. We're grateful. And we'll see you tomorrow. With something thinner. No. Something thicker. We'll decide.",
+     "who": "ceo"
+    },
+    {
+     "shot": "wide",
+     "dur": 4
+    },
+    {
+     "shot": "end",
+     "dur": 12,
+     "text": "Sorry.",
+     "sub": "Passionfruit is a fictional company. Products shown do not exist. We apologize for nothing. And everything."
+    }
+   ]
+  }
+ ]
+}
